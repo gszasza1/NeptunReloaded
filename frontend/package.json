@@ -7,7 +7,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc": "npx compodoc -p tsconfig.app.json src",
+    "format": "./node_modules/.bin/prettier --write \"src/**/*.{js,ts,html,md,scss,css}\"",
+    "format:check": "./node_modules/.bin/prettier --check \"src/**/*.{js,ts,html,md,scss,css}\""
   },
   "private": true,
   "dependencies": {
