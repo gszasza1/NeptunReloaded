@@ -6,7 +6,7 @@ namespace NeptunReloaded.DAL.Entities
 {
     public class User
     {
-    
+    [Key]
         public  int Id { get; set; }
 
         public string Username { get; set; }
@@ -22,7 +22,8 @@ namespace NeptunReloaded.DAL.Entities
         public bool IsTeacher { get; set; } = false;
 
         public virtual ICollection<UserCourse> UserCourses { get; set; }
-    
+        public virtual ICollection<Course> Courses { get; set; }
+
         public bool IsDeleted { get; set; } = false;
       
         public DateTime CreatedAt { get; set; } = new DateTime();
