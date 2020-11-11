@@ -73,6 +73,20 @@ namespace NeptunReloaded.DAL
             .IsRequired(false)
             .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<Course>()
+            .HasOne(s => s.Subject)
+            .WithMany(g => g.Courses)
+            .HasForeignKey(s => s.SubjectId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Course>()
+            .HasOne(s => s.Room)
+            .WithMany(g => g.Courses)
+            .HasForeignKey(s => s.RoomId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.NoAction);
+
 
             #endregion
 
@@ -96,6 +110,13 @@ namespace NeptunReloaded.DAL
             #region Room
 
             builder.Entity<Room>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
+            #endregion
+
+            #region Subject
+
+            builder.Entity<Subject>()
             .Property(f => f.Id)
             .ValueGeneratedOnAdd();
             #endregion

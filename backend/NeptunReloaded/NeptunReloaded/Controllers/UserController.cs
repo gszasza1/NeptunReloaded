@@ -24,7 +24,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost]
-        [Route("//")]
         public void Post()
         {
             //var rng = new Random();

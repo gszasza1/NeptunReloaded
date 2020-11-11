@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NeprunReloaded.DAL.Entities
 {
-    public class Room
+  public class Subject
     {
         [Key]
         public int Id { get; set; }

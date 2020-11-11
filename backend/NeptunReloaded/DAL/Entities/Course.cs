@@ -14,6 +14,10 @@ namespace NeprunReloaded.DAL.Entities
         public string Name { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
+        public int? SubjectId { get; set; }
+        public Subject Subject { get; set; }
+        public int? RoomId { get; set; }
+        public Room Room { get; set; }
 
         public virtual ICollection<UserCourse> UserCourses { get; set; }
         public virtual ICollection<Exam> Exams { get; set; }
