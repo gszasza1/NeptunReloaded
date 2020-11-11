@@ -77,37 +77,61 @@ namespace NeptunReloaded.DAL
             #endregion
 
             #region UserCourse
-
-
+            builder.Entity<UserCourse>()
+                  .HasKey(bc => new { bc.UserId, bc.CourseId });
 
             builder.Entity<UserCourse>()
-           .HasKey(bc => new { bc.CourseId, bc.UserId });
+                .HasOne(bc => bc.User)
+                .WithMany(b => b.UserCourses)
+                .HasForeignKey(bc => bc.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<UserCourse>()
+                .HasOne(bc => bc.Course)
+                .WithMany(c => c.UserCourses)
+                .HasForeignKey(bc => bc.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+            #endregion
+
+            #region Room
+
+            builder.Entity<Room>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
+            #endregion
+
+            #region Exam
+
+            builder.Entity<Exam>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
+
+            builder.Entity<Exam>()
+            .HasOne(p => p.Course)
+            .WithMany(b => b.Exams)
+            .HasForeignKey(p => p.CourseId)
+            .OnDelete(DeleteBehavior.NoAction);
 
             #endregion
-            builder.Entity<User>()
-            .HasMany(m => m.UserCourses)
-            .WithOne(m => m.User)
-            .HasForeignKey(k => k.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Entity<Course>()
-            .HasMany(m => m.UserCourses)
-            .WithOne(m => m.Course)
-            .HasForeignKey(k => k.CourseId)
-            .OnDelete(DeleteBehavior.NoAction);
+            #region ExamResult
 
-            builder.Entity<UserCourse>()
-            .HasOne(m => m.User)
-            .WithMany(m => m.UserCourses)
-            .HasForeignKey(k => k.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<ExamResult>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
 
-            builder.Entity<UserCourse>()
-            .HasOne(m => m.Course)
-            .WithMany(m => m.UserCourses)
-            .HasForeignKey(k => k.CourseId)
+            builder.Entity<ExamResult>()
+            .HasOne(p => p.Exam)
+            .WithMany(b => b.ExamResults)
+            .HasForeignKey(p => p.ExamId)
             .OnDelete(DeleteBehavior.NoAction);
+            
+            builder.Entity<ExamResult>()
+            .HasOne(p => p.User)
+            .WithMany(b => b.ExamResults)
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+            #endregion
 
 
             base.OnModelCreating(builder);

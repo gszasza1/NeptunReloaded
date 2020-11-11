@@ -10,8 +10,8 @@ using NeptunReloaded.DAL;
 namespace NeprunReloaded.DAL.Migrations
 {
     [DbContext(typeof(NeptunReloadedDatabaseContext))]
-    [Migration("20201105225412_asdkjnlknk")]
-    partial class asdkjnlknk
+    [Migration("20201111110323_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,15 +49,15 @@ namespace NeprunReloaded.DAL.Migrations
 
             modelBuilder.Entity("NeprunReloaded.DAL.Entities.UserCourse", b =>
                 {
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("CourseId", "UserId");
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId", "CourseId");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("UserCourses");
                 });

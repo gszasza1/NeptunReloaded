@@ -16,7 +16,8 @@ namespace NeprunReloaded.DAL.Entities
         public User User { get; set; }
 
         public virtual ICollection<UserCourse> UserCourses { get; set; }
-       
+        public virtual ICollection<Exam> Exams { get; set; }
+
         public bool IsDeleted { get; set; } = false;
       
         public DateTime CreatedAt { get; set; } = new DateTime();

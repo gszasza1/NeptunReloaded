@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NeprunReloaded.DAL.Migrations
 {
-    public partial class asdkjnlknk : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,7 +57,7 @@ namespace NeprunReloaded.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserCourses", x => new { x.CourseId, x.UserId });
+                    table.PrimaryKey("PK_UserCourses", x => new { x.UserId, x.CourseId });
                     table.ForeignKey(
                         name: "FK_UserCourses_Courses_CourseId",
                         column: x => x.CourseId,
@@ -76,9 +76,9 @@ namespace NeprunReloaded.DAL.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserCourses_UserId",
+                name: "IX_UserCourses_CourseId",
                 table: "UserCourses",
-                column: "UserId");
+                column: "CourseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
