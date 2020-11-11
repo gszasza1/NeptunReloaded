@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NeptunReloaded.BLL.Services.Classes;
+using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL;
 
 namespace NeptunReloaded.API
@@ -38,6 +40,8 @@ namespace NeptunReloaded.API
                         Description = "SzoftverArchitektúra házifeladat",
                     });
                 });
+            services.AddTransient<IUserService, UserService>();
+
 
         }
 

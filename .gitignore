@@ -119,3 +119,6 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+/backend/NeptunReloaded/.vs/NeptunReloaded/DesignTimeBuild/.dtbcache.v2
+/.vs/ProjectSettings.json
+/.vs/VSWorkspaceState.json

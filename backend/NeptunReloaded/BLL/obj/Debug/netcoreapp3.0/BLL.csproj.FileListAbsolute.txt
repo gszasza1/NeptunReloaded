@@ -9,3 +9,15 @@ C:\NeptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.Assembl
 C:\NeptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.csproj.CopyComplete
 C:\NeptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.dll
 C:\NeptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.pdb
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\bin\Debug\netcoreapp3.0\BLL.deps.json
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\bin\Debug\netcoreapp3.0\BLL.dll
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\bin\Debug\netcoreapp3.0\BLL.pdb
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\bin\Debug\netcoreapp3.0\DAL.dll
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\bin\Debug\netcoreapp3.0\DAL.pdb
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.csprojAssemblyReference.cache
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.AssemblyInfoInputs.cache
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.AssemblyInfo.cs
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.csproj.CoreCompileInputs.cache
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.csproj.CopyComplete
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.dll
+C:\Users\Heroleo\Desktop\Projects\neptunReloaded\backend\NeptunReloaded\BLL\obj\Debug\netcoreapp3.0\BLL.pdb
