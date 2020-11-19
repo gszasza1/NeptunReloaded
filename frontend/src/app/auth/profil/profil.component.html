@@ -1,0 +1,35 @@
+<mat-card *ngIf="!(isRequesting$ | async)">
+  <ng-container *ngIf="userProfile$ | async as user">
+    <mat-card-header>
+      <div></div>
+      <mat-card-title>Profil</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <mat-label>Felhasználónév</mat-label>
+        <input matInput disabled [value]="user.username" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width">
+        <mat-label>Neptun</mat-label>
+        <input matInput disabled [value]="user.neptun" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width">
+        <mat-label>Vezetéknév</mat-label>
+        <input matInput disabled [value]="user.lastName" />
+      </mat-form-field>
+      <br />
+      <mat-form-field class="example-full-width">
+        <mat-label>Keresztnév</mat-label>
+        <input matInput disabled [value]="user.firstName" />
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="changePass()">Jelszó változtatás</button>
+      <button mat-button (click)="changeuserName()">Felhasználónév változtatás</button>
+    </mat-card-actions>
+  </ng-container>
+</mat-card>
+<mat-spinner *ngIf="isRequesting$ | async"></mat-spinner>

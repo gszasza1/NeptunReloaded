@@ -1,0 +1,20 @@
+<div class="auth">
+  <mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>NeptunReloaded</span>
+    <span class="example-spacer"></span>
+    <button
+      mat-icon-button
+      [routerLink]="'/auth/profil'"
+      class="profil"
+      aria-label="Example icon-button with heart icon"
+    >
+      <mat-icon>person</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>
