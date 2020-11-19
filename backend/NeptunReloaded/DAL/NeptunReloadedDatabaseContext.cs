@@ -13,12 +13,20 @@ namespace NeptunReloaded.DAL
         public DbSet<User> Users { get; }
         public DbSet<Course> Courses { get; }
         public DbSet<UserCourse> UserCourses { get; }
+        public DbSet<Subject> Subjects { get; }
+        public DbSet<Room> Rooms { get; }
+        public DbSet<Exam> Exams { get; }
+        public DbSet<ExamResult> ExamResults { get; }
         public NeptunReloadedDatabaseContext(DbContextOptions<NeptunReloadedDatabaseContext> options)
            : base(options)
         {
             Users = Set<User>();
             Courses = Set<Course>();
             UserCourses = Set<UserCourse>();
+            Subjects = Set<Subject>();
+            Rooms = Set<Room>();
+            Exams = Set<Exam>();
+            ExamResults = Set<ExamResult>();
         }
         public override int SaveChanges()
         {

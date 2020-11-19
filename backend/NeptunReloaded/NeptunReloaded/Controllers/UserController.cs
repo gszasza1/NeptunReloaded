@@ -24,7 +24,7 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost]
-        public void Post()
+        public void Post([FromQuery] int asd)
         {
             //var rng = new Random();
             //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -34,6 +34,8 @@ namespace NeptunReloaded.API.Controllers
             //    Summary = Summaries[rng.Next(Summaries.Length)]
             //})
             //.ToArray();
+
+            return Ok();
         }
     }
 }

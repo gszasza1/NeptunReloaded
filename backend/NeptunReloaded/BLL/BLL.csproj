@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Send\" />
-    <Folder Include="Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>

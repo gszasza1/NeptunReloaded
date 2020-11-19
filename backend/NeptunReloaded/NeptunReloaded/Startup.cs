@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NeptunReloaded.API.Middlewares;
 using NeptunReloaded.DAL;
 
 namespace NeptunReloaded.API
@@ -60,6 +61,7 @@ namespace NeptunReloaded.API
             });
 
             app.UseHttpsRedirection();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseRouting();
 
@@ -69,8 +71,11 @@ namespace NeptunReloaded.API
             {
                 endpoints.MapControllers();
             });
-            app.UseCors();
-                
+            app.UseCors(x => x
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()
+                 .AllowCredentials());
+
         }
     }
 }
