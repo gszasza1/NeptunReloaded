@@ -2,21 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import {
-  catchError,
-  delay,
-  map,
-  mergeMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { PublicServiceService } from '../../public.service';
-import {
-  LoginFormActionTypes,
-  LoginFormError,
-  LoginFormResponse,
-} from './login.acions';
+import { LoginService } from '../login.service';
+import { LoginFormActionTypes, LoginFormError, LoginFormResponse } from './login.acions';
 import { LoginFormQuery } from './login.selector';
 
 @Injectable()
@@ -26,7 +15,6 @@ export class LoginFormEffects {
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
       this.service.login(LoginFormQuery.getLoginForm(storeState)).pipe(
-        delay(100),
         map((x) => new LoginFormResponse(x)),
         catchError(async () => new LoginFormError())
       )
@@ -38,7 +26,7 @@ export class LoginFormEffects {
   );
 
   constructor(
-    private service: PublicServiceService,
+    private service: LoginService,
     private router: Router,
     private store: Store<{}>,
     private actions$: Actions

@@ -1,4 +1,4 @@
-<div class="register">
+<div class="login">
   <div>
     <h1>NeptunReloaded</h1>
   </div>
@@ -19,7 +19,7 @@
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-          <button type="button" [routerLink]="'/login'" mat-button>Regisztráció</button>
+          <button type="button" [routerLink]="'/register'" mat-button>Regisztráció</button>
           <button type="submit" mat-raised-button color="primary">
             {{ (isRequesting$ | async) ? '' : 'Bejelentkezés' }}
             <ng-container *ngIf="isRequesting$ | async">
@@ -31,4 +31,3 @@
     </form>
   </div>
 </div>
-<div></div>

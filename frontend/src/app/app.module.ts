@@ -13,6 +13,7 @@ import { LoginFormEffects } from './login/+state/login.effects';
 import { LOGINFORM_FEATURE_KEY, loginFormInitialState, LoginFormReducer } from './login/+state/login.reducer';
 import { LoginComponent } from './login/login.component';
 import { LoginService } from './login/login.service';
+import { MainPageComponent } from './main-page/main-page.component';
 import { RegisterFormEffects } from './register/+state/register.effects';
 import { REGISTERFORM_FEATURE_KEY, registerFormInitialState, RegisterFormReducer } from './register/+state/register.reducer';
 import { RegisterComponent } from './register/register.component';
@@ -32,7 +33,7 @@ export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
 export const metaReducers: MetaReducer<{}, Action>[] = [stateSetter];
 
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, RegisterComponent, LoginComponent],
+  declarations: [AppComponent, RegisterComponent, RegisterComponent, LoginComponent, MainPageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
