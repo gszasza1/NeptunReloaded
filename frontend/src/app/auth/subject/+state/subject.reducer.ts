@@ -1,47 +1,80 @@
-import { LoginUser } from 'src/app/shared/backend.interface';
+import { Subject } from 'src/app/shared/backend.interface';
 
-import { LoginFormAction, LoginFormActionTypes } from './subject.actions';
+import { SubjectAction, SubjectActionTypes } from './subject.actions';
 
-export const LOGINFORM_FEATURE_KEY = 'LoginForm';
+export const SUBJECT_FEATURE_KEY = 'Subject';
 
-export interface LoginFormState {
-  form: LoginUser;
-  isRequeting: boolean;
+export interface SubjectState {
+  list: Subject[];
+  createForm: string;
+  isRequesting: boolean;
+  isPostRequesting: boolean;
+  filterForm: string;
 }
 
-export interface LoginFormPartialState {
-  readonly [LOGINFORM_FEATURE_KEY]: LoginFormState;
+export interface SubjectPartialState {
+  readonly [SUBJECT_FEATURE_KEY]: SubjectState;
 }
 
-export const loginFormInitialState: LoginFormState = {
-  form: { password: '', username: '' },
-  isRequeting: false,
+export const SubjectInitialState: SubjectState = {
+  list: [],
+  isRequesting: false,
+  createForm: '',
+  isPostRequesting: false,
+  filterForm: '',
 };
 
-export function LoginFormReducer(
-  state: LoginFormState = loginFormInitialState,
-  action: LoginFormAction
-): LoginFormState {
+export function SubjectReducer(state: SubjectState = SubjectInitialState, action: SubjectAction): SubjectState {
   switch (action.type) {
-    case LoginFormActionTypes.ChangeLoginForm: {
+    case SubjectActionTypes.GetSubjectRequest: {
       state = {
         ...state,
-        form: action.payload,
+        isRequesting: true,
       };
       break;
     }
-    case LoginFormActionTypes.LoginFormRequest: {
+    case SubjectActionTypes.GetSubjectResponse: {
       state = {
         ...state,
-        isRequeting: true,
+        isRequesting: false,
+        list: action.payload,
       };
       break;
     }
-    case LoginFormActionTypes.LoginFormResponse:
-    case LoginFormActionTypes.LoginFormError: {
+
+    case SubjectActionTypes.GetSubjectError: {
       state = {
         ...state,
-        isRequeting: false,
+        isRequesting: false,
+      };
+      break;
+    }
+    case SubjectActionTypes.CreateSubjectRequest: {
+      state = {
+        ...state,
+        isPostRequesting: true,
+      };
+      break;
+    }
+    case SubjectActionTypes.CreateSubjectResponse:
+    case SubjectActionTypes.CreateSubjectError: {
+      state = {
+        ...state,
+        isPostRequesting: false,
+      };
+      break;
+    }
+    case SubjectActionTypes.ChangeCreateSubject: {
+      state = {
+        ...state,
+        createForm: action.payload,
+      };
+      break;
+    }
+    case SubjectActionTypes.ChangeFilterSubject: {
+      state = {
+        ...state,
+        filterForm: action.payload,
       };
       break;
     }

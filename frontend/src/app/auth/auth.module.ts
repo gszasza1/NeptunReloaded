@@ -14,7 +14,10 @@ import { ChangePassDialogComponent } from './profil/change-pass-dialog/change-pa
 import { ChangeUsernameDialogComponent } from './profil/change-username-dialog/change-username-dialog.component';
 import { ProfilComponent } from './profil/profil.component';
 import { ProfilService } from './profil/profil.service';
+import { SubjectEffects } from './subject/+state/subject.effects';
+import { SUBJECT_FEATURE_KEY, SubjectInitialState, SubjectReducer } from './subject/+state/subject.reducer';
 import { SubjectComponent } from './subject/subject.component';
+import { SubjectService } from './subject/subject.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,11 @@ import { SubjectComponent } from './subject/subject.component';
     StoreModule.forFeature(PROFIL_FEATURE_KEY, ProfilReducer, {
       initialState: ProfilInitialState,
     }),
+    EffectsModule.forFeature([SubjectEffects]),
+    StoreModule.forFeature(SUBJECT_FEATURE_KEY, SubjectReducer, {
+      initialState: SubjectInitialState,
+    }),
   ],
-  providers: [ProfilService],
+  providers: [ProfilService, SubjectService],
 })
 export class AuthModule {}

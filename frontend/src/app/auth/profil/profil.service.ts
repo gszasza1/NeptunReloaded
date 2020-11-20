@@ -9,6 +9,7 @@ import { UserProfil } from 'src/app/shared/backend.interface';
 export class ProfilService {
   getUser() {
     return new BehaviorSubject<UserProfil>({
+      id: 1,
       createdAt: new Date(),
       firstName: 'Kis',
       lastName: 'Lajos',

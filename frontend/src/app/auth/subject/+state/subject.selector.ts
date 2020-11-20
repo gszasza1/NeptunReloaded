@@ -1,12 +1,22 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { LOGINFORM_FEATURE_KEY, LoginFormState } from './subject.reducer';
+import { SUBJECT_FEATURE_KEY, SubjectState } from './subject.reducer';
 
-const getLoginFormState = createFeatureSelector<LoginFormState>(LOGINFORM_FEATURE_KEY);
-const getLoginForm = createSelector(getLoginFormState, (state: LoginFormState) => state.form);
-const getLoginFormRequesting = createSelector(getLoginFormState, (state: LoginFormState) => state.isRequeting);
+const getSubjectState = createFeatureSelector<SubjectState>(SUBJECT_FEATURE_KEY);
 
-export const LoginFormQuery = {
-  getLoginForm,
-  getLoginFormRequesting,
+const getSubject = createSelector(getSubjectState, (state: SubjectState) =>
+  state.filterForm.length > 0 ? state.list.filter((x) => x.name.includes(state.filterForm)) : state.list
+);
+
+const getSubjectRequesting = createSelector(getSubjectState, (state: SubjectState) => state.isRequesting);
+
+const getCreateForm = createSelector(getSubjectState, (state: SubjectState) => state.createForm);
+
+const getFilterForm = createSelector(getSubjectState, (state: SubjectState) => state.filterForm);
+
+export const SubjectQuery = {
+  getSubjectList: getSubject,
+  getSubjectRequesting,
+  getCreateForm,
+  getFilterForm,
 };
