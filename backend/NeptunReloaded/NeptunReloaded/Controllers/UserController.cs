@@ -62,10 +62,6 @@ namespace NeptunReloaded.API.Controllers
 
             Room toch = _roomService.listRooms().Result.Find(r => r.Name.Contains("123435QQ"));
 
-            toch.Name = "Created Room QQ changed";
-
-            list.Add( _roomService.editRoom(userloggedIn, toch).Result ) ;
-
             return list;
         }
     }
