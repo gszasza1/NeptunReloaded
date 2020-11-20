@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace NeprunReloaded.DAL.Entities
 {
@@ -13,6 +14,7 @@ namespace NeprunReloaded.DAL.Entities
         [MinLength(2)]
         public string Name { get; set; } = "Default name";
 
+        [JsonIgnore]
         public virtual ICollection<Course> Courses { get; set; }
 
         public bool IsDeleted { get; set; } = false;

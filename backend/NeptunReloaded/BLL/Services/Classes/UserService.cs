@@ -79,7 +79,7 @@ namespace NeptunReloaded.BLL.Services.Classes
         {
             User dbUser = null;
 
-            List<User> users =_context.Users.ToList<User>().FindAll(u => u.Neptun == user.neptun);
+            List<User> users = _context.Users.ToList<User>().FindAll(u => u.Neptun == user.neptun);
             
             //Check if neptun is already in use
             if (users.Count > 0)

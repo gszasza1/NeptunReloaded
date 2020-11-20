@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace NeprunReloaded.DAL.Entities
 {
@@ -19,7 +20,9 @@ namespace NeprunReloaded.DAL.Entities
         public int? RoomId { get; set; }
         public Room Room { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<UserCourse> UserCourses { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Exam> Exams { get; set; }
 
         public bool IsDeleted { get; set; } = false;
