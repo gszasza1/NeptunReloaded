@@ -23,3 +23,26 @@ export interface Subject {
   id: number;
   name: string;
 }
+
+export interface Room {
+  id: number;
+  name: string;
+}
+
+export interface CreateCourse {
+  name: string;
+  subjectId: number;
+  roomId: string;
+}
+
+export interface Courses {
+  id: number;
+  subject: Subject;
+  name: string;
+  room: Room;
+  user: {
+    name: string;
+    id: number;
+  };
+  member: boolean;
+}

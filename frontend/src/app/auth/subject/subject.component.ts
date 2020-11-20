@@ -8,6 +8,7 @@ import { UnsubscribeOnDestroyBaseComponent } from 'src/app/shared/UnSubOnDestroy
 
 import { ChangeFilterSubject, GetSubjectRequest } from './+state/subject.actions';
 import { SubjectQuery } from './+state/subject.selector';
+import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import { CreateSubjectComponent } from './create-subject/create-subject.component';
 import { EditSubjectComponent } from './edit-subject/edit-subject.component';
 
@@ -42,5 +43,8 @@ export class SubjectComponent extends UnsubscribeOnDestroyBaseComponent implemen
   }
   editSubject(subject: { id: number; name: string }) {
     this.dialog.open(EditSubjectComponent, { data: { ...subject } });
+  }
+  lookCourseForSubject(subject: { id: number; name: string }) {
+    this.dialog.open(CourseDialogComponent, { data: { ...subject } });
   }
 }

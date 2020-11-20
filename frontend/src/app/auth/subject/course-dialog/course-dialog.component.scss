@@ -1,0 +1,54 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+  th:last-child {
+    width: 100px;
+  }
+  td > button {
+    margin-right: 10px;
+  }
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.course-list {
+  > div {
+    display: flex;
+    flex-direction: row;
+    button {
+      margin-top: 3px;
+      margin-bottom: 21px;
+      margin-left: 15px;
+    }
+  }
+}
+mat-spinner {
+  margin: auto;
+  margin-top: 20px;
+}
+.title {
+  display: flex;
+  justify-content: space-between;
+  mat-form-field {
+    max-width: 400px;
+  }
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  > div {
+    margin: 5px;
+  }
+}

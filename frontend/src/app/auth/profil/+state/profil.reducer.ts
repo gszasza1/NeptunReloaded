@@ -22,7 +22,7 @@ export const ProfilInitialState: ProfilState = {
   isRequesting: false,
   isChangeRequesting: false,
   profil: {
-    id: '',
+    id: 0,
     createdAt: null,
     firstName: '',
     lastName: '',

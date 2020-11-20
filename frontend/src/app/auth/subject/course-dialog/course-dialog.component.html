@@ -1,0 +1,70 @@
+<div class="title">
+  <h1 mat-dialog-title>{{ data.name }} kurzusai</h1>
+  <mat-form-field>
+    <mat-label>Név alapú szűrő</mat-label>
+    <input matInput [formControl]="filter" placeholder="Írja be a szűrni való szöveget" />
+  </mat-form-field>
+</div>
+<div mat-dialog-content class="course-list">
+  <table mat-table multiTemplateDataRows [dataSource]="courseList$" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Azonosító</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Név</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="operations">
+      <th mat-header-cell *matHeaderCellDef>Műveletek</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button (click)="joinCourse(element)">Jelentkezés</button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div>
+            Oktató
+            <strong>
+              {{ element.user.name }}
+            </strong>
+          </div>
+          <div>
+            Terem
+            <strong>
+              {{ element.room.name }}
+            </strong>
+          </div>
+          <div>
+            tárgy
+            <strong>
+              {{ element.subject.name }}
+            </strong>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      class="pointer"
+      mat-row
+      *matRowDef="let element; columns: displayedColumns"
+      [class.expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element"
+    ></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4" *ngIf="(courseList$ | async).length === 0">Nincs találat</td>
+    </tr>
+  </table>
+  <mat-spinner *ngIf="isRequesting$ | async"></mat-spinner>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Bezárás</button>
+</div>
