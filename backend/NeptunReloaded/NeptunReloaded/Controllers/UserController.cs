@@ -25,13 +25,15 @@ namespace NeptunReloaded.API.Controllers
         private readonly IUserService _userService;
         private readonly ISubjectService _subjectService;
         private readonly ICourseService _courseService;
+        private readonly IRoomService _roomService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService )
+        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService)
         {
             _logger = logger;
             _userService = userService;
             _subjectService = subjectService;
             _courseService = courseService;
+            _roomService = roomService;
         }
 
         [HttpPost]
@@ -47,27 +49,20 @@ namespace NeptunReloaded.API.Controllers
             //.ToArray();
         }
 
-        public List<Course> getUsers()
+        public List<Room> getUsers()
         {
-            List<Course> list = new List<Course>();
-            User u = new User { Neptun = "asdqw", IsTeacher = true };
+            List<Room> list = new List<Room>();
 
-            Subject matek =  _subjectService.listSubjects("Matek").Result.FirstOrDefault();
+            User userloggedIn = _userService.loginUser(new LoginUser { neptun = "DT8CE1", password = "0000" }).Result;
 
-            CreateCourse course = new CreateCourse
-            {
-                Name = "Matek kurzus fe67ffas",
-                Subject = matek,
-                User = u,
-                Room = new Room { Name = "Q1" }
-            };
+            //Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
 
-           list.Add(  _courseService.createCourse(u,course).Result ) ;
+            CreateRoom room = new CreateRoom { Name = "Created Room QQ" };
+            userloggedIn.IsTeacher = true;
 
+            Room toch = _roomService.listRooms().Result.Find(r => r.Name.Contains("123435QQ"));
 
-           // list.AddRange(_subjectService.listSubjects().Result);
-
-                return list;
+            return list;
         }
     }
 }

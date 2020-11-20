@@ -10,13 +10,14 @@ namespace NeptunReloaded.BLL.Services.Interfaces
 {
     public interface ICourseService
     {
-        public Task< List<Course> > listCourses(String filterName);
+        public Task< List<Course> > listCourses(String filterName = "");
 
         public Task<Course> createCourse(User user, CreateCourse course);
 
-        public Task<Course> editCourse(User user, CreateCourse course);
+        public Task<Course> editCourse(User user, Course course);
 
-        public Task<Course> joinCourse(User user);
+        public Task<UserCourse> joinCourse(User user, Course course);
 
+        public Task<List<Course>> listCoursesForUser(User user);
     }
 }
