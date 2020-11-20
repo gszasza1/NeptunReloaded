@@ -49,11 +49,14 @@ namespace NeptunReloaded.BLL.Services.Classes
 
         public async Task<List<Course>> listCourses(Subject subject)
         {
+
             List<Course> courses = new List<Course>();
 
-            if (subject.Courses != null) {
-                courses.AddRange(subject.Courses);
+            try { 
+                courses.AddRange( _context.Courses.ToList().FindAll( c => c.SubjectId == subject.Id));
             }
+            catch (ArgumentNullException){ }
+
 
             return await Task.FromResult(courses);
         }

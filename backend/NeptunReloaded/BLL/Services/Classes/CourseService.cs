@@ -21,6 +21,24 @@ namespace NeptunReloaded.BLL.Services.Classes
             _context = context;
         }
 
+        public async Task<List<Course>> listCoursesForUser(User user)
+        {
+            List<Course> courses = new List<Course>();
+            try
+            {
+                 _context.UserCourses.ToList().FindAll(uc => uc.UserId == user.Id).ForEach(
+                     a =>
+                     {
+                         Course foundCourse = _context.Courses.ToList().Find(course => course.Id == a.CourseId);
+                         if (foundCourse != null)
+                             courses.Add(foundCourse);
+                     });
+            }
+            catch (ArgumentNullException) { }
+
+            return await Task.FromResult(courses);
+        }
+
         async Task<Course> ICourseService.createCourse(User user ,CreateCourse course)
         {
             Course dbCourse = null;
@@ -49,14 +67,54 @@ namespace NeptunReloaded.BLL.Services.Classes
             return await Task.FromResult(dbCourse);
         }
 
-        Task<Course> ICourseService.editCourse(User user ,CreateCourse course)
+        async Task<Course> ICourseService.editCourse(User user ,Course course)
         {
-            throw new NotImplementedException();
+            Course dbCourse = null;
+            
+            if(!user.IsTeacher)
+                await Task.FromResult(dbCourse);
+
+            try
+            {
+                dbCourse = (Course)_context.Courses.ToList().Find(c => c.Id == course.Id);
+
+                if (dbCourse != null)
+                {
+                   
+                    dbCourse.Name = course.Name;
+                    
+                    dbCourse.RoomId = course.RoomId;
+
+                    _context.Update(dbCourse);
+                    _context.SaveChanges();
+                }
+            }
+            catch (ArgumentNullException) { }
+
+            return await Task.FromResult(dbCourse);
         }
 
-        Task<Course> ICourseService.joinCourse(User user)
+        async Task<UserCourse> ICourseService.joinCourse(User user, Course course)
         {
-            throw new NotImplementedException();
+            UserCourse userCourse = null;
+
+            try
+            {
+
+                UserCourse match = _context.UserCourses.ToList().Find(uc => uc.CourseId == course.Id && uc.UserId == user.Id);
+
+                if(match == null) {
+
+                    userCourse = new UserCourse { Course = course, CourseId = course.Id, User = user, UserId = user.Id };
+
+                    _context.UserCourses.Add(userCourse);
+                    _context.SaveChanges();
+                }
+
+            }
+            catch (ArgumentNullException) { }
+
+            return await Task.FromResult(userCourse);
         }
 
         async Task<List<Course>>  ICourseService.listCourses(string filterName)

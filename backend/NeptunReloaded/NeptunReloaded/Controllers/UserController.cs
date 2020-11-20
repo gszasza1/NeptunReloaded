@@ -50,24 +50,14 @@ namespace NeptunReloaded.API.Controllers
         public List<Course> getUsers()
         {
             List<Course> list = new List<Course>();
-            User u = new User { Neptun = "asdqw", IsTeacher = true };
 
-            Subject matek =  _subjectService.listSubjects("Matek").Result.FirstOrDefault();
+            User userloggedIn = _userService.loginUser(new LoginUser { neptun = "DT8CE1", password = "0000" }).Result;
 
-            CreateCourse course = new CreateCourse
-            {
-                Name = "Matek kurzus fe67ffas",
-                Subject = matek,
-                User = u,
-                Room = new Room { Name = "Q1" }
-            };
+            //Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
 
-           list.Add(  _courseService.createCourse(u,course).Result ) ;
+            list.AddRange ( _courseService.listCoursesForUser(userloggedIn).Result ) ;
 
-
-           // list.AddRange(_subjectService.listSubjects().Result);
-
-                return list;
+            return list;
         }
     }
 }
