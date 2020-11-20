@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
 using NeptunReloaded.BLL.Services.Classes;
 using NeptunReloaded.BLL.Services.Interfaces;
@@ -22,11 +23,15 @@ namespace NeptunReloaded.API.Controllers
 
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly ISubjectService _subjectService;
+        private readonly ICourseService _courseService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService )
         {
             _logger = logger;
             _userService = userService;
+            _subjectService = subjectService;
+            _courseService = courseService;
         }
 
         [HttpPost]
@@ -42,33 +47,27 @@ namespace NeptunReloaded.API.Controllers
             //.ToArray();
         }
 
-        public List<User> getUsers()
+        public List<Course> getUsers()
         {
+            List<Course> list = new List<Course>();
+            User u = new User { Neptun = "asdqw", IsTeacher = true };
 
-            List<User> results = new List<User>();
+            Subject matek =  _subjectService.listSubjects("Matek").Result.FirstOrDefault();
 
-            //MOCK register in user
-            RegisterUser user = new RegisterUser
+            CreateCourse course = new CreateCourse
             {
-                neptun = "DT8CE3",
-                password = "0000",
-                firstName = "asd",
-                lastName = "kgmdsfv",
-                username = "usernamesd"
+                Name = "Matek kurzus fe67ffas",
+                Subject = matek,
+                User = u,
+                Room = new Room { Name = "Q1" }
             };
 
-            //MOCK login user
-            LoginUser loginUser = new LoginUser
-            {
-                neptun = "DT8CE1",
-                password = "0000"
-            };
+           list.Add(  _courseService.createCourse(u,course).Result ) ;
 
-            results.Add( _userService.loginUser(loginUser).Result ) ;
 
-            return results;
+           // list.AddRange(_subjectService.listSubjects().Result);
+
+                return list;
         }
-
-        
     }
 }

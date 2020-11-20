@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
 namespace NeptunReloaded.DAL.Entities
 {
     public class User
@@ -21,8 +23,11 @@ namespace NeptunReloaded.DAL.Entities
 
         public bool IsTeacher { get; set; } = false;
 
+        [JsonIgnore]
         public virtual ICollection<UserCourse> UserCourses { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ExamResult> ExamResults { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Course> Courses { get; set; }
 
         public bool IsDeleted { get; set; } = false;
