@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-label>Terem</mat-label>
+  <input matInput [formControl]="roomName" placeholder="Adja meg a terem nevét" />
+</mat-form-field>
+<div>
+  <button mat-button mat-dialog-close>Mégse</button>
+  <button mat-raised-button (click)="save()">Mentés</button>
+</div>

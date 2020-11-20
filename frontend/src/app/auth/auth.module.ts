@@ -15,7 +15,12 @@ import { ChangePassDialogComponent } from './profil/change-pass-dialog/change-pa
 import { ChangeUsernameDialogComponent } from './profil/change-username-dialog/change-username-dialog.component';
 import { ProfilComponent } from './profil/profil.component';
 import { ProfilService } from './profil/profil.service';
-import { RoomComponent } from './room/room.component';
+import { RoomEffects } from './room/+state/rooms.effects';
+import { ROOM_FEATURE_KEY, RoomInitialState, RoomReducer } from './room/+state/rooms.reducer';
+import { CreateRoomComponent } from './room/create-room/create-room.component';
+import { EditRoomComponent } from './room/edit-room/edit-room.component';
+import { RoomComponent } from './room/rooms.component';
+import { RoomService } from './room/rooms.service';
 import { SubjectEffects } from './subject/+state/subject.effects';
 import { SUBJECT_FEATURE_KEY, SubjectInitialState, SubjectReducer } from './subject/+state/subject.reducer';
 import { SubjectCourseEffects } from './subject/course-dialog/+state/course-dialog.effects';
@@ -45,6 +50,8 @@ import { SubjectService } from './subject/subject.service';
     CourseComponent,
     RoomComponent,
     CourseDialogComponent,
+    CreateRoomComponent,
+    EditRoomComponent,
   ],
   imports: [
     CommonModule,
@@ -62,7 +69,11 @@ import { SubjectService } from './subject/subject.service';
     StoreModule.forFeature(SUBJECTCOURSE_FEATURE_KEY, SubjectCourseReducer, {
       initialState: SubjectCourseInitialState,
     }),
+    EffectsModule.forFeature([RoomEffects]),
+    StoreModule.forFeature(ROOM_FEATURE_KEY, RoomReducer, {
+      initialState: RoomInitialState,
+    }),
   ],
-  providers: [ProfilService, SubjectService, CourseDialogService],
+  providers: [ProfilService, SubjectService, CourseDialogService, RoomService],
 })
 export class AuthModule {}

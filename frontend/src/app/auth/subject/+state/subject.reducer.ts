@@ -73,6 +73,22 @@ export function SubjectReducer(state: SubjectState = SubjectInitialState, action
       };
       break;
     }
+    case SubjectActionTypes.EditSubjectResponse:
+    case SubjectActionTypes.EditSubjectError: {
+      state = {
+        ...state,
+        isPostRequesting: false,
+        editForm: '',
+      };
+      break;
+    }
+    case SubjectActionTypes.ChangeEditSubject: {
+      state = {
+        ...state,
+        editForm: action.payload,
+      };
+      break;
+    }
     case SubjectActionTypes.ChangeFilterSubject: {
       state = {
         ...state,

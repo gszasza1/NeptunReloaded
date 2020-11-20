@@ -6,7 +6,7 @@ import { CourseComponent } from './course/course.component';
 import { ExamResultComponent } from './exam-result/exam-result.component';
 import { ExamComponent } from './exam/exam.component';
 import { ProfilComponent } from './profil/profil.component';
-import { RoomComponent } from './room/room.component';
+import { RoomComponent } from './room/rooms.component';
 import { SubjectComponent } from './subject/subject.component';
 
 const routes: Routes = [

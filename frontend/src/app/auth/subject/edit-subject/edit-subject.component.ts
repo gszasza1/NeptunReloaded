@@ -24,7 +24,7 @@ export class EditSubjectComponent extends UnsubscribeOnDestroyBaseComponent impl
   ngOnInit(): void {
     this.subscriptions.push(
       this.store
-        .pipe(select(SubjectQuery.getCreateForm))
+        .pipe(select(SubjectQuery.getEditForm))
         .subscribe((x) => this.subjectName.patchValue(x, { emitEvent: false })),
       this.subjectName.valueChanges.subscribe((x) => this.store.dispatch(new ChangeEditSubject(x)))
     );
