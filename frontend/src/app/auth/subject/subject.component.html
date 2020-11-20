@@ -1,8 +1,11 @@
-<div>
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput [formControl]="filter" placeholder="Név alapú szűrő" />
-  </mat-form-field>
+<div class="subject">
+  <div>
+    <mat-form-field>
+      <mat-label>Név alapú szűrő</mat-label>
+      <input matInput [formControl]="filter" placeholder="Írja be a szűrni való szöveget" />
+    </mat-form-field>
+    <button mat-raised-button (click)="newSubject()">Új tantárgy</button>
+  </div>
 
   <table mat-table [dataSource]="subjectList$" class="mat-elevation-z8">
     <ng-container matColumnDef="id">

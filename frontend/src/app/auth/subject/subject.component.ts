@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'src/app/shared/backend.interface';
@@ -7,6 +8,7 @@ import { UnsubscribeOnDestroyBaseComponent } from 'src/app/shared/UnSubOnDestroy
 
 import { ChangeFilterSubject, GetSubjectRequest } from './+state/subject.actions';
 import { SubjectQuery } from './+state/subject.selector';
+import { CreateSubjectComponent } from './create-subject/create-subject.component';
 
 @Component({
   templateUrl: './subject.component.html',
@@ -14,7 +16,7 @@ import { SubjectQuery } from './+state/subject.selector';
 })
 export class SubjectComponent extends UnsubscribeOnDestroyBaseComponent implements OnInit {
   subjectList$: Observable<Subject[]>;
-  constructor(private store: Store) {
+  constructor(private store: Store, public dialog: MatDialog) {
     super();
   }
 
@@ -33,5 +35,8 @@ export class SubjectComponent extends UnsubscribeOnDestroyBaseComponent implemen
         .pipe(select(SubjectQuery.getFilterForm))
         .subscribe((x) => this.filter.patchValue(x, { emitEvent: false }))
     );
+  }
+  newSubject() {
+    this.dialog.open(CreateSubjectComponent);
   }
 }

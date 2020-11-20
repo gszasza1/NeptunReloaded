@@ -18,6 +18,7 @@ import { SubjectEffects } from './subject/+state/subject.effects';
 import { SUBJECT_FEATURE_KEY, SubjectInitialState, SubjectReducer } from './subject/+state/subject.reducer';
 import { SubjectComponent } from './subject/subject.component';
 import { SubjectService } from './subject/subject.service';
+import { CreateSubjectComponent } from './subject/create-subject/create-subject.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SubjectService } from './subject/subject.service';
     ExamResultComponent,
     ExamComponent,
     SubjectComponent,
+    CreateSubjectComponent,
   ],
   imports: [
     CommonModule,

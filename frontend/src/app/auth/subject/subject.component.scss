@@ -6,3 +6,14 @@ table {
   font-size: 14px;
   width: 100%;
 }
+.subject {
+  > div {
+    display: flex;
+    flex-direction: row;
+    button {
+      margin-top: 3px;
+      margin-bottom: 21px;
+      margin-left: 15px;
+    }
+  }
+}

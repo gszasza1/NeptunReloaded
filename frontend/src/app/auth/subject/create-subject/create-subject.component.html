@@ -1,0 +1,9 @@
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput [formControl]="subjectName" placeholder="Tantárgy" />
+  <mat-hint>Minimum 6 karakter</mat-hint>
+</mat-form-field>
+<div>
+  <button mat-button mat-dialog-close>Mégse</button>
+  <button mat-raised-button (click)="save()">Mentés</button>
+</div>
