@@ -1,0 +1,41 @@
+@import '../../variables.scss';
+
+.login {
+  display: flex;
+  min-height: 100%;
+  min-width: 100%;
+  > * {
+    flex: 1;
+  }
+  > div:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary;
+    h1 {
+      font-size: 70px;
+      color: $secondary-fade;
+      font-weight: 800;
+    }
+  }
+  > div:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $secondary-fade;
+    mat-card {
+      mat-card-title {
+        margin-top: 6px;
+        margin-bottom: 20px;
+      }
+      max-width: 300px;
+      mat-form-field {
+        width: 100%;
+      }
+      mat-card-actions {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

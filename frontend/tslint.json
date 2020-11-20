@@ -5,6 +5,8 @@
     "align": {
       "options": ["parameters", "statements"]
     },
+    "only-arrow-functions": false,
+    "no-trailing-whitespace": false,
     "array-type": false,
     "arrow-return-shorthand": true,
     "curly": true,
@@ -13,21 +15,19 @@
     },
     "eofline": true,
     "import-blacklist": [true, "rxjs/Rx"],
+    "import-spacing": true,
     "indent": {
       "options": ["spaces"]
     },
     "max-classes-per-file": false,
+    "max-line-length": [true, 140],
     "member-ordering": [
       true,
       {
-        "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
-        ]
+        "order": ["static-field", "instance-field", "static-method", "instance-method"]
       }
     ],
+    "no-any": true,
     "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
     "no-empty": false,
     "no-inferrable-types": [true, "ignore-params"],
@@ -49,20 +49,30 @@
         "named": "never"
       }
     },
-    "typedef": [true, "call-signature"],
-
+    "typedef": [false, "call-signature"],
+    "typedef-whitespace": {
+      "options": [
+        {
+          "call-signature": "nospace",
+          "index-signature": "nospace",
+          "parameter": "nospace",
+          "property-declaration": "nospace",
+          "variable-declaration": "nospace"
+        },
+        {
+          "call-signature": "onespace",
+          "index-signature": "onespace",
+          "parameter": "onespace",
+          "property-declaration": "onespace",
+          "variable-declaration": "onespace"
+        }
+      ]
+    },
     "variable-name": {
       "options": ["ban-keywords", "check-format", "allow-pascal-case"]
     },
     "whitespace": {
-      "options": [
-        "check-branch",
-        "check-decl",
-        "check-operator",
-        "check-separator",
-        "check-type",
-        "check-typecast"
-      ]
+      "options": ["check-branch", "check-decl", "check-operator", "check-separator", "check-type", "check-typecast"]
     },
     "component-class-suffix": true,
     "contextual-lifecycle": true,
@@ -79,7 +89,7 @@
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "directive-selector": [true, "attribute", "app", "camelCase"],
-    "component-selector": [true, "element", "app", "kebab-case"]
+    "directive-selector": [true, "attribute", "anomalia", "camelCase"],
+    "component-selector": [true, "element", "anomalia", "kebab-case"]
   }
 }

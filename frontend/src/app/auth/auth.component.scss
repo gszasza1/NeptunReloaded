@@ -1,0 +1,15 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  div {
+    flex: 1;
+    padding: 20px;
+  }
+  .profil {
+    margin-left: auto;
+  }
+}
+.auth-drawer {
+  height: 100%;
+}

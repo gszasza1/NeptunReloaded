@@ -122,3 +122,7 @@ _[Ss]cripts
 /backend/NeptunReloaded/.vs/NeptunReloaded/DesignTimeBuild/.dtbcache.v2
 /.vs/ProjectSettings.json
 /.vs/VSWorkspaceState.json
+backend/NeptunReloaded/.vs/NeptunReloaded/v16/Server/sqlite3/storage.ide
+backend/NeptunReloaded/.vs/NeptunReloaded/v16/Server/sqlite3/storage.ide-shm
+backend/NeptunReloaded/.vs/NeptunReloaded/v16/Server/sqlite3/storage.ide-wal
+backend/NeptunReloaded/BLL/obj/Debug/netcoreapp3.0/BLL.assets.cache

@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-label>Új felhasználónév</mat-label>
+  <input matInput disabled [formControl]="username" />
+</mat-form-field>
+<div>
+  <button mat-button mat-dialog-close>Bezárás</button>
+  <button mat-raised-button (click)="save()">Mentés</button>
+</div>
