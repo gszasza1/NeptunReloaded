@@ -1,0 +1,34 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+
+import { LoginService } from '../login.service';
+import { LoginFormActionTypes, LoginFormError, LoginFormResponse } from './subject.actions';
+import { LoginFormQuery } from './subject.selector';
+
+@Injectable()
+export class LoginFormEffects {
+  @Effect() Login$ = this.actions$.pipe(
+    ofType(LoginFormActionTypes.LoginFormRequest),
+    withLatestFrom(this.store),
+    mergeMap(([action, storeState]) =>
+      this.service.login(LoginFormQuery.getLoginForm(storeState)).pipe(
+        map((x) => new LoginFormResponse(x)),
+        catchError(async () => new LoginFormError())
+      )
+    )
+  );
+  @Effect({ dispatch: false }) LoggedIn$ = this.actions$.pipe(
+    ofType(LoginFormActionTypes.LoginFormResponse),
+    tap(() => this.router.navigateByUrl('auth/user'))
+  );
+
+  constructor(
+    private service: LoginService,
+    private router: Router,
+    private store: Store<{}>,
+    private actions$: Actions
+  ) {}
+}
