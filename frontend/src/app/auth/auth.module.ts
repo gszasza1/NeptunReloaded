@@ -19,6 +19,7 @@ import { SUBJECT_FEATURE_KEY, SubjectInitialState, SubjectReducer } from './subj
 import { SubjectComponent } from './subject/subject.component';
 import { SubjectService } from './subject/subject.service';
 import { CreateSubjectComponent } from './subject/create-subject/create-subject.component';
+import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CreateSubjectComponent } from './subject/create-subject/create-subject.
     ExamComponent,
     SubjectComponent,
     CreateSubjectComponent,
+    EditSubjectComponent,
   ],
   imports: [
     CommonModule,

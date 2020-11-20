@@ -7,7 +7,11 @@ import { SubjectService } from '../subject.service';
 import {
   CreateSubjectError,
   CreateSubjectResponse,
+  EditSubjectError,
+  EditSubjectRequest,
+  EditSubjectResponse,
   GetSubjectError,
+  GetSubjectRequest,
   GetSubjectResponse,
   SubjectActionTypes,
 } from './subject.actions';
@@ -34,6 +38,20 @@ export class SubjectEffects {
         catchError(async () => new CreateSubjectError())
       )
     )
+  );
+  @Effect() editSubject$ = this.actions$.pipe(
+    ofType(SubjectActionTypes.EditSubjectRequest),
+    withLatestFrom(this.store),
+    mergeMap(([action, storeState]) =>
+      this.service.editSubject((action as EditSubjectRequest).payload, SubjectQuery.getEditForm(storeState)).pipe(
+        map(() => new EditSubjectResponse()),
+        catchError(async () => new EditSubjectError())
+      )
+    )
+  );
+  @Effect() refreshList$ = this.actions$.pipe(
+    ofType(SubjectActionTypes.EditSubjectResponse, SubjectActionTypes.CreateSubjectResponse),
+    map(async () => this.store.dispatch(new GetSubjectRequest()))
   );
 
   constructor(private service: SubjectService, private actions$: Actions, private store: Store<{}>) {}

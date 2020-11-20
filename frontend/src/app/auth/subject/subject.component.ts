@@ -9,6 +9,7 @@ import { UnsubscribeOnDestroyBaseComponent } from 'src/app/shared/UnSubOnDestroy
 import { ChangeFilterSubject, GetSubjectRequest } from './+state/subject.actions';
 import { SubjectQuery } from './+state/subject.selector';
 import { CreateSubjectComponent } from './create-subject/create-subject.component';
+import { EditSubjectComponent } from './edit-subject/edit-subject.component';
 
 @Component({
   templateUrl: './subject.component.html',
@@ -21,7 +22,7 @@ export class SubjectComponent extends UnsubscribeOnDestroyBaseComponent implemen
   }
 
   filter = new FormControl('');
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['id', 'name', 'operations'];
   isRequesting$: Observable<boolean>;
   ngOnInit(): void {
     this.store.dispatch(new GetSubjectRequest());
@@ -38,5 +39,8 @@ export class SubjectComponent extends UnsubscribeOnDestroyBaseComponent implemen
   }
   newSubject() {
     this.dialog.open(CreateSubjectComponent);
+  }
+  editSubject(subject: { id: number; name: string }) {
+    this.dialog.open(EditSubjectComponent, { data: { ...subject } });
   }
 }

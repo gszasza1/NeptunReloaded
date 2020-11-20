@@ -10,6 +10,7 @@ export interface SubjectState {
   isRequesting: boolean;
   isPostRequesting: boolean;
   filterForm: string;
+  editForm: string;
 }
 
 export interface SubjectPartialState {
@@ -22,6 +23,7 @@ export const SubjectInitialState: SubjectState = {
   createForm: '',
   isPostRequesting: false,
   filterForm: '',
+  editForm: '',
 };
 
 export function SubjectReducer(state: SubjectState = SubjectInitialState, action: SubjectAction): SubjectState {

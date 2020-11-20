@@ -9,11 +9,30 @@ export enum SubjectActionTypes {
   CreateSubjectRequest = '[Subject] CreateSubject Request',
   CreateSubjectResponse = '[Subject] CreateSubject Response',
   CreateSubjectError = '[Subject] CreateSubject Error',
-
   ChangeCreateSubject = '[Subject] ChangeCreateSubject',
+
+  EditSubjectRequest = '[Subject] EditSubject Request',
+  EditSubjectResponse = '[Subject] EditSubject Response',
+  EditSubjectError = '[Subject] EditSubject Error',
+  ChangeEditSubject = '[Subject] ChangeEditSubject',
+
   ChangeFilterSubject = '[Subject] ChangeFilterSubject',
 }
 
+export class ChangeEditSubject implements Action {
+  readonly type = SubjectActionTypes.ChangeEditSubject;
+  constructor(public payload: string) {}
+}
+export class EditSubjectRequest implements Action {
+  readonly type = SubjectActionTypes.EditSubjectRequest;
+  constructor(public payload: number) {}
+}
+export class EditSubjectResponse implements Action {
+  readonly type = SubjectActionTypes.EditSubjectResponse;
+}
+export class EditSubjectError implements Action {
+  readonly type = SubjectActionTypes.EditSubjectError;
+}
 export class ChangeFilterSubject implements Action {
   readonly type = SubjectActionTypes.ChangeFilterSubject;
   constructor(public payload: string) {}
@@ -50,7 +69,11 @@ export type SubjectAction =
   | CreateSubjectResponse
   | CreateSubjectError
   | ChangeCreateSubject
-  | ChangeFilterSubject;
+  | ChangeFilterSubject
+  | EditSubjectRequest
+  | EditSubjectResponse
+  | EditSubjectError
+  | ChangeEditSubject;
 
 export const fromSubjectActions = {
   GetSubjectRequest,
@@ -61,4 +84,8 @@ export const fromSubjectActions = {
   CreateSubjectError,
   ChangeCreateSubject,
   ChangeFilterSubject,
+  EditSubjectRequest,
+  EditSubjectResponse,
+  EditSubjectError,
+  ChangeEditSubject,
 };

@@ -17,4 +17,7 @@ export class SubjectService {
   createSubject(name: string) {
     return new BehaviorSubject({}).asObservable().pipe(delay(300));
   }
+  editSubject(id: number, name: string) {
+    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  }
 }
