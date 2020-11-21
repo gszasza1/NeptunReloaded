@@ -8,6 +8,7 @@ import { RegisterUser } from '../shared/backend.interface';
 })
 export class RegisterService {
   constructor(private httpClient: HttpClient) {}
+
   register(form: RegisterUser) {
     return this.httpClient.post('https:localhost:44331/User/register', form, {
       headers: {
