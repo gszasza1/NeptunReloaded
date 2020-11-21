@@ -19,6 +19,7 @@ namespace NeptunReloaded.DAL.Entities
          
         public string Neptun { get; set; }
 
+        [JsonIgnore]
         public string Password { get; set; }
 
         public bool IsTeacher { get; set; } = false;

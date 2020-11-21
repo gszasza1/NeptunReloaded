@@ -79,7 +79,7 @@ namespace NeptunReloaded.BLL.Services.Classes
         {
             User dbUser = null;
 
-            List<User> users = _context.Users.ToList<User>().FindAll(u => u.Neptun == user.neptun);
+            List<User> users =await _context.Users.Where(u=>u.Neptun==user.neptun).ToListAsync();
             
             //Check if neptun is already in use
             if (users.Count > 0)
@@ -87,8 +87,8 @@ namespace NeptunReloaded.BLL.Services.Classes
 
              dbUser = user.mapToDBUser();
 
-            _context.Users.Add(dbUser);
-            _context.SaveChanges();
+           await _context.Users.AddAsync(dbUser);
+           await _context.SaveChangesAsync();
 
             return await Task.FromResult(dbUser);
         }

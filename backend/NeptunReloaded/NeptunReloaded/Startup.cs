@@ -15,6 +15,7 @@ namespace NeptunReloaded.API
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,11 +26,23 @@ namespace NeptunReloaded.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("localhost:4200", "http://localhost:4200", "https://localhost:4200",
+                                                          "*").AllowAnyHeader()
+                                                              .AllowAnyMethod()
+                                                              .AllowAnyOrigin();
+                                  });
+            });
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 options.JsonSerializerOptions.DictionaryKeyPolicy = null;
 
             });
+     
             services.AddDbContext<NeptunReloadedDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen(
                 c =>
@@ -48,21 +61,7 @@ namespace NeptunReloaded.API
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IExamResultService, ExamResultService>();
 
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                {
-                    var allowedOrigins = Configuration.GetSection("CorsOrigins")
-                        .GetChildren()
-                        .Select(x => x.Value)
-                        .ToArray();
-
-                    policy.WithOrigins(allowedOrigins)
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
-                });
-            });
+          
 
 
         }
@@ -89,14 +88,16 @@ namespace NeptunReloaded.API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCors(MyAllowSpecificOrigins);
+
+          //  app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-            app.UseCors();
-                
+           
+
         }
     }
 }
