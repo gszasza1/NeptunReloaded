@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using NeprunReloaded.DAL.Additional;
 
 namespace NeptunReloaded.BLL.Services.Classes
 {
@@ -29,7 +30,7 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                List<Room> matches =  _context.Rooms.ToList().FindAll(r => r.Name == room.Name);
 
-                if(matches.Count > 0 || !user.IsTeacher)
+                if(matches.Count > 0 || user.Role == Role.Student)
                     return await Task.FromResult(dbRoom);
 
                 dbRoom = room.mapToDBRoom();
@@ -50,7 +51,7 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
               Room match = _context.Rooms.ToList().Find(r => r.Id == room.Id);
 
-                if (match == null || !user.IsTeacher)
+                if (match == null || user.Role == Role.Student)
                     return await Task.FromResult(dbRoom);
 
                 dbRoom = match;

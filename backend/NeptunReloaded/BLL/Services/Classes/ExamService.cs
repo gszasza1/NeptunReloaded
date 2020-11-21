@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using NeprunReloaded.DAL.Additional;
 
 namespace NeptunReloaded.BLL.Services.Classes
 {
@@ -28,7 +29,7 @@ namespace NeptunReloaded.BLL.Services.Classes
             try
             {
                 //Check if user is teacher
-                if (!user.IsTeacher)
+                if (user.Role == Role.Student)
                     return await Task.FromResult(dbExam); 
                 
                 //return null if same 
@@ -53,7 +54,7 @@ namespace NeptunReloaded.BLL.Services.Classes
         {
             Exam dbExam = null;
 
-            if (!user.IsTeacher)
+            if (user.Role == Role.Student)
                 await Task.FromResult(dbExam);
 
             try
@@ -86,7 +87,7 @@ namespace NeptunReloaded.BLL.Services.Classes
         {
             Exam dbExam = null;
 
-            if (!user.IsTeacher)
+            if (user.Role == Role.Student)
                 await Task.FromResult(dbExam);
 
             try
@@ -116,7 +117,7 @@ namespace NeptunReloaded.BLL.Services.Classes
             try
             {
                 //Check if user is student
-                if (user.IsTeacher)
+                if (user.Role == Role.Teacher)
                     return await Task.FromResult(dbExamResult);
 
                 //return null if user is already applied for exam 

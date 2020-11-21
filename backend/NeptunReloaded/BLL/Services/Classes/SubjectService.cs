@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NeprunReloaded.DAL.Additional;
 using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
 using NeptunReloaded.BLL.Services.Interfaces;
@@ -27,7 +28,7 @@ namespace NeptunReloaded.BLL.Services.Classes
 
             try {
                 //Check if user is teacher
-                if (!user.IsTeacher)
+                if (user.Role == Role.Student)
                     return await Task.FromResult(dbSubject); //return null if same 
 
                 List<Subject> subjects = _context.Subjects.ToList().FindAll(s => s.Name == subject.Name);

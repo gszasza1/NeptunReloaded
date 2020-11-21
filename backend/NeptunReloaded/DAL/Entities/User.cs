@@ -1,4 +1,5 @@
-﻿using NeprunReloaded.DAL.Entities;
+﻿using NeprunReloaded.DAL.Additional;
+using NeprunReloaded.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace NeptunReloaded.DAL.Entities
         [JsonIgnore]
         public string Password { get; set; }
 
-        public bool IsTeacher { get; set; } = false;
+        public string Role { get; set; } ="Student";
 
         [JsonIgnore]
         public virtual ICollection<UserCourse> UserCourses { get; set; }

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NeprunReloaded.DAL.Additional;
 using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
 using NeptunReloaded.BLL.Services.Classes;
@@ -12,6 +16,7 @@ using NeptunReloaded.DAL.Entities;
 
 namespace NeptunReloaded.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -28,8 +33,9 @@ namespace NeptunReloaded.API.Controllers
         private readonly IRoomService _roomService;
         private readonly IExamService _examService;
         private readonly IExamResultService _examResultService;
+        private readonly IConfiguration _config;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService, IExamService examService, IExamResultService examResultService)
+        public UserController(IConfiguration config, ILogger<UserController> logger, IUserService userService, ISubjectService subjectService, ICourseService courseService, IRoomService roomService, IExamService examService, IExamResultService examResultService)
         {
             _logger = logger;
             _userService = userService;
@@ -37,15 +43,17 @@ namespace NeptunReloaded.API.Controllers
             _courseService = courseService;
             _roomService = roomService;
             _examService = examService;
-            _examResultService =  examResultService;
+            _examResultService = examResultService;
+            _config = config;
         }
-        
-        [HttpPost("register")]
-        public async Task<ActionResult> Register([FromBody] RegisterUser user) {
 
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<ActionResult> Register([FromBody] RegisterUser user)
+        {
             try
             {
-               var userResult=  await _userService.registerUser(user);
+                var userResult = await _userService.registerUser(user);
                 return Ok(userResult);
             }
             catch (InvalidOperationException e)
@@ -56,42 +64,71 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest("Hiba történt");
             }
-        
-        
-        }
 
-        [HttpPost]
-        public void Post()
+        }
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult> Login([FromBody] LoginUser user)
         {
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+            try
+            {
+                var userResult = await _userService.loginUser(user);
+                return Ok(userResult);
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
         }
 
-        [HttpGet]
-        public List<ExamResult> getUsers()
+
+        [HttpPost("username")]
+        [Authorize]
+        public async Task<ActionResult> ChangeUsername([FromBody] string newName)
         {
-            List<ExamResult> list = new List<ExamResult>();
-
-            User userloggedIn = _userService.loginUser(new LoginUser { neptun = "DT8CE1", password = "0000" }).Result;
-            userloggedIn.IsTeacher = false;
-
-            Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
-
-            Exam exam8 = _examService.listExams("4").Result.FirstOrDefault();
-
-            ExamResult ee = _examResultService.ListExamResults("DT8CE1").Result.FindAll(er => er.ExamId == exam8.Id).FirstOrDefault();
-
-            _examService.leaveExam(userloggedIn, exam8);
-
-            list.AddRange(_examResultService.ListExamResults().Result);
-
-            return list;
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.Sub)).Value);
+            try
+            {
+                await _userService.changeName(userId, newName);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
+
+
+
+        [HttpPost("password")]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword([FromBody] string newPassword)
+        {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.Sub)).Value);
+            try
+            {
+                await _userService.changeName(userId, newPassword);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+
     }
 }
