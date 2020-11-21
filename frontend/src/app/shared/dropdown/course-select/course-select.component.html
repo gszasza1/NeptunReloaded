@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>Favorite Food</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let course of courseList$ | async" [value]="course.id">
+      {{ course.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

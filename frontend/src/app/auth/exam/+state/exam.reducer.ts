@@ -1,4 +1,4 @@
-import { Exams } from 'src/app/shared/backend.interface';
+import { CreateExam, Exams } from 'src/app/shared/backend.interface';
 
 import { ExamAction, ExamActionTypes } from './exam.actions';
 
@@ -6,7 +6,7 @@ export const EXAM_FEATURE_KEY = 'Exams';
 
 export interface ExamsState {
   list: Exams[];
-  createForm: string;
+  createForm: CreateExam;
   isRequesting: boolean;
   isPostRequesting: boolean;
   filterForm: string;
@@ -20,7 +20,10 @@ export interface ExamsPartialState {
 export const ExamsInitialState: ExamsState = {
   list: [],
   isRequesting: false,
-  createForm: '',
+  createForm: {
+    courseId: null,
+    name: '',
+  },
   isPostRequesting: false,
   filterForm: '',
   editForm: '',
@@ -63,7 +66,7 @@ export function ExamsReducer(state: ExamsState = ExamsInitialState, action: Exam
       state = {
         ...state,
         isPostRequesting: false,
-        createForm: '',
+        createForm: ExamsInitialState.createForm,
       };
       break;
     }

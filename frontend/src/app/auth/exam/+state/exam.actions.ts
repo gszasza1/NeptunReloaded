@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Exams } from 'src/app/shared/backend.interface';
+import { CreateExam, Exams } from 'src/app/shared/backend.interface';
 
 export enum ExamActionTypes {
   GetExamRequest = '[Exam] GetExam Request',
@@ -39,7 +39,7 @@ export class ChangeFilterExam implements Action {
 }
 export class ChangeCreateExam implements Action {
   readonly type = ExamActionTypes.ChangeCreateExam;
-  constructor(public payload: string) {}
+  constructor(public payload: CreateExam) {}
 }
 export class CreateExamRequest implements Action {
   readonly type = ExamActionTypes.CreateExamRequest;

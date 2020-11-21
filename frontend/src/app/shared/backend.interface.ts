@@ -46,7 +46,15 @@ export interface Courses {
   };
   member: boolean;
 }
+export interface CourseSelect {
+  id: number;
+  name: string;
+}
 export interface Exams {
   id: number;
+  name: string;
+}
+export interface CreateExam {
+  courseId: number;
   name: string;
 }
