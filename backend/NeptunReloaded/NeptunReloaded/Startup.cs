@@ -45,6 +45,7 @@ namespace NeptunReloaded.API
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IExamService, ExamService>();
+            services.AddTransient<IExamResultService, ExamResultService>();
 
 
         }

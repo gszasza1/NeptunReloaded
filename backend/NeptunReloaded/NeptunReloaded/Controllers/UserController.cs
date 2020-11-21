@@ -27,8 +27,9 @@ namespace NeptunReloaded.API.Controllers
         private readonly ICourseService _courseService;
         private readonly IRoomService _roomService;
         private readonly IExamService _examService;
+        private readonly IExamResultService _examResultService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService, IExamService examService)
+        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService, IExamService examService, IExamResultService examResultService)
         {
             _logger = logger;
             _userService = userService;
@@ -36,6 +37,7 @@ namespace NeptunReloaded.API.Controllers
             _courseService = courseService;
             _roomService = roomService;
             _examService = examService;
+            _examResultService =  examResultService;
         }
 
         [HttpPost]
@@ -51,22 +53,22 @@ namespace NeptunReloaded.API.Controllers
             //.ToArray();
         }
 
-        public List<Exam> getUsers()
+        public List<ExamResult> getUsers()
         {
-            List<Exam> list = new List<Exam>();
+            List<ExamResult> list = new List<ExamResult>();
 
             User userloggedIn = _userService.loginUser(new LoginUser { neptun = "DT8CE1", password = "0000" }).Result;
-            userloggedIn.IsTeacher = true;
+            userloggedIn.IsTeacher = false;
 
             Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
 
-            Exam exam8 = _examService.listExams("8").Result.FirstOrDefault();
+            Exam exam8 = _examService.listExams("4").Result.FirstOrDefault();
 
-            exam8.Name = exam8.Name + " Chagnedsdasd";
+            ExamResult ee = _examResultService.ListExamResults("DT8CE1").Result.FindAll(er => er.ExamId == exam8.Id).FirstOrDefault();
 
-            _examService.editExam(userloggedIn,exam8);
+            _examService.leaveExam(userloggedIn, exam8);
 
-            list.AddRange(_examService.listExams().Result);
+            list.AddRange(_examResultService.ListExamResults().Result);
 
             return list;
         }
