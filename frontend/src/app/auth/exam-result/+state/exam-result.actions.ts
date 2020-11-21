@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
-import { LoginUser } from 'src/app/shared/backend.interface';
+import { CreateExamResult } from 'src/app/shared/backend.interface';
 
 export enum ExamResultActionTypes {
-  ChangeExamResult = '[ExamResult] Change ExamResult',
+  ChangeExamResultFilter = '[ExamResult] Change ExamResult Filter',
   GetExamResultRequest = '[ExamResult] ExamResult Request',
   GetExamResultResponse = '[ExamResult] ExamResult Response',
   GetExamResultError = '[ExamResult] ExamResult Error',
@@ -13,9 +13,13 @@ export enum ExamResultActionTypes {
   ChangeCreateExamResult = '[ExamResult] ChangeCreateExamResult',
 }
 
-export class ChangeExamResult implements Action {
-  readonly type = ExamResultActionTypes.ChangeExamResult;
-  constructor(public payload: LoginUser) {}
+export class ChangeCreateExamResult implements Action {
+  readonly type = ExamResultActionTypes.ChangeCreateExamResult;
+  constructor(public payload: CreateExamResult) {}
+}
+export class ChangeExamResultFilter implements Action {
+  readonly type = ExamResultActionTypes.ChangeExamResultFilter;
+  constructor(public payload: string) {}
 }
 export class GetExamResultRequest implements Action {
   readonly type = ExamResultActionTypes.GetExamResultRequest;
@@ -33,17 +37,28 @@ export class CreateExamResultRequest implements Action {
 }
 export class CreateExamResultResponse implements Action {
   readonly type = ExamResultActionTypes.CreateExamResultResponse;
-  constructor(public payload: any) {}
 }
 export class CreateExamResultError implements Action {
   readonly type = ExamResultActionTypes.CreateExamResultError;
 }
 
-export type ExamResultAction = ChangeExamResult | GetExamResultRequest | GetExamResultResponse | GetExamResultError;
+export type ExamResultAction =
+  | ChangeExamResultFilter
+  | GetExamResultRequest
+  | GetExamResultResponse
+  | GetExamResultError
+  | CreateExamResultRequest
+  | CreateExamResultResponse
+  | CreateExamResultError
+  | ChangeCreateExamResult;
 
 export const fromExamResultActions = {
-  ChangeExamResult,
+  ChangeExamResultFilter,
   GetExamResultRequest,
   GetExamResultResponse,
   GetExamResultError,
+  CreateExamResultRequest,
+  CreateExamResultResponse,
+  CreateExamResultError,
+  ChangeCreateExamResult,
 };

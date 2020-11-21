@@ -1,0 +1,19 @@
+<form [formGroup]="formGroup" (submit)="save()">
+  <div>
+    <app-exam-select [formControl]="formControls.examId"></app-exam-select>
+
+    <app-student-for-exam-select
+      *ngIf="formControls.examId.value"
+      [examId]="formControls.examId.value"
+      [formControl]="formControls.studentId"
+    ></app-student-for-exam-select>
+    <mat-form-field *ngIf="formControls.examId.value">
+      <mat-label>Név </mat-label>
+      <input matInput [formControl]="formControls.score" placeholder="Írja be a pontot" />
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-button mat-dialog-close type="button">Mégse</button>
+    <button mat-raised-button type="submit">Mentés</button>
+  </div>
+</form>

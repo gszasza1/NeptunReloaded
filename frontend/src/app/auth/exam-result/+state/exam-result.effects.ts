@@ -5,7 +5,14 @@ import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { ExamResultService } from '../exam-result.service';
-import { ExamResultActionTypes } from './exam-result.actions';
+import {
+  CreateExamResultError,
+  CreateExamResultResponse,
+  ExamResultActionTypes,
+  GetExamResultError,
+  GetExamResultRequest,
+  GetExamResultResponse,
+} from './exam-result.actions';
 import { ExamResultQuery } from './exam-result.selector';
 
 @Injectable()
@@ -32,7 +39,7 @@ export class ExamResultEffects {
   );
   @Effect() refreshList$ = this.actions$.pipe(
     ofType(ExamResultActionTypes.CreateExamResultResponse),
-    map(async () => new GetExamResultRequest())
+    map(() => new GetExamResultRequest())
   );
 
   constructor(

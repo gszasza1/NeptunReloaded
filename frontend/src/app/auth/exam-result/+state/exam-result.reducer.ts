@@ -1,12 +1,15 @@
-import { LoginUser } from 'src/app/shared/backend.interface';
+import { CreateExamResult, ExamResults } from 'src/app/shared/backend.interface';
 
 import { ExamResultAction, ExamResultActionTypes } from './exam-result.actions';
 
 export const EXAMRESULT_FEATURE_KEY = 'ExamResult';
 
 export interface ExamResultState {
-  form: LoginUser;
-  isRequeting: boolean;
+  list: ExamResults[];
+  createForm: CreateExamResult;
+  isRequesting: boolean;
+  isPostRequesting: boolean;
+  filterForm: string;
 }
 
 export interface ExamResultPartialState {
@@ -14,8 +17,15 @@ export interface ExamResultPartialState {
 }
 
 export const ExamResultInitialState: ExamResultState = {
-  form: { password: '', username: '' },
-  isRequeting: false,
+  list: [],
+  isRequesting: false,
+  createForm: {
+    examId: null,
+    score: 0,
+    studentId: null,
+  },
+  isPostRequesting: false,
+  filterForm: '',
 };
 
 export function ExamResultReducer(
@@ -23,25 +33,55 @@ export function ExamResultReducer(
   action: ExamResultAction
 ): ExamResultState {
   switch (action.type) {
-    case ExamResultActionTypes.ChangeExamResult: {
+    case ExamResultActionTypes.GetExamResultRequest: {
       state = {
         ...state,
-        form: action.payload,
+        isRequesting: true,
       };
       break;
     }
-    case ExamResultActionTypes.ExamResultRequest: {
+    case ExamResultActionTypes.ChangeExamResultFilter: {
       state = {
         ...state,
-        isRequeting: true,
+        filterForm: action.payload,
       };
       break;
     }
-    case ExamResultActionTypes.ExamResultResponse:
-    case ExamResultActionTypes.ExamResultError: {
+    case ExamResultActionTypes.GetExamResultResponse: {
       state = {
         ...state,
-        isRequeting: false,
+        isRequesting: false,
+        list: action.payload,
+      };
+      break;
+    }
+
+    case ExamResultActionTypes.GetExamResultError: {
+      state = {
+        ...state,
+        isRequesting: false,
+      };
+      break;
+    }
+    case ExamResultActionTypes.CreateExamResultRequest: {
+      state = {
+        ...state,
+        isPostRequesting: true,
+      };
+      break;
+    }
+    case ExamResultActionTypes.CreateExamResultResponse:
+    case ExamResultActionTypes.CreateExamResultError: {
+      state = {
+        ...state,
+        isPostRequesting: false,
+      };
+      break;
+    }
+    case ExamResultActionTypes.ChangeCreateExamResult: {
+      state = {
+        ...state,
+        createForm: action.payload,
       };
       break;
     }
