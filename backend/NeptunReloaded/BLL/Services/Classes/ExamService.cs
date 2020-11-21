@@ -7,6 +7,7 @@ using NeptunReloaded.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NeptunReloaded.BLL.Services.Classes
@@ -20,19 +21,84 @@ namespace NeptunReloaded.BLL.Services.Classes
             _context = context;
         }
 
-        public Task<Exam> createExam(User user, CreateExam exam)
+        public async Task<Exam> createExam(User user, CreateExam exam)
         {
-            throw new NotImplementedException();
+            Exam dbExam = null;
+
+            try
+            {
+                //Check if user is teacher
+                if (!user.IsTeacher)
+                    return await Task.FromResult(dbExam); 
+                
+                //return null if same 
+                List<Exam> exams = getExams().FindAll(s => s.Name == exam.Name);
+
+                //Check if name is already in use
+                if (exams.Count > 0)
+                    return await Task.FromResult(dbExam); //return null if same task 
+
+                dbExam = exam.mapToDBExam();
+
+                _context.Exams.Add(dbExam);
+                _context.SaveChanges();
+            }
+            catch (ArgumentNullException) { }
+
+
+            return await Task.FromResult(dbExam);
         }
 
-        public Task<Exam> deleteExam(User user, Exam exam)
+        public async Task<Exam> deleteExam(User user, Exam exam)
         {
-            throw new NotImplementedException();
+            Exam dbExam = null;
+
+            if (!user.IsTeacher)
+                await Task.FromResult(dbExam);
+
+            try
+            {
+                dbExam = getExams().Find(e => e.Id == exam.Id);
+
+                if (dbExam != null)
+                {
+
+                    dbExam.IsDeleted = true;
+
+                    _context.Update(dbExam);
+                    _context.SaveChanges();
+                }
+            }
+            catch (ArgumentNullException ) { }
+
+            return await Task.FromResult(dbExam);
         }
 
-        public Task<Exam> editExam(User user, Exam exam)
+        public async Task<Exam> editExam(User user, Exam exam)
         {
-            throw new NotImplementedException();
+            Exam dbExam = null;
+
+            if (!user.IsTeacher)
+                await Task.FromResult(dbExam);
+
+            try
+            {
+                dbExam = getExams().Find(e => e.Id == exam.Id);
+
+                if (dbExam != null)
+                {
+
+                    dbExam.Name = exam.Name;
+
+                   
+
+                    _context.Update(dbExam);
+                    _context.SaveChanges();
+                }
+            }
+            catch (ArgumentNullException) { }
+
+            return await Task.FromResult(dbExam);
         }
 
         public Task<ExamResult> joinExam(User user, Exam exam)
@@ -45,9 +111,30 @@ namespace NeptunReloaded.BLL.Services.Classes
             throw new NotImplementedException();
         }
 
-        public Task<List<Exam>> listExams(string filtername = "")
+        public async Task<List<Exam>> listExams(string filterName = "")
         {
-            throw new NotImplementedException();
+            List<Exam> exams = new List<Exam>();
+            try
+            {
+                if (filterName.Length == 0)
+                {
+                    exams.AddRange(getExams());
+                }
+                else
+                {
+                    exams.AddRange(getExams().FindAll(e => e.Name.Contains(filterName)));
+                }
+
+            }
+            catch (ArgumentNullException) { }
+
+            return await Task.FromResult(exams);
+        }
+
+        //Return only non-deleted exams
+        private List<Exam> getExams() {
+
+            return _context.Exams.ToList().FindAll(e => e.IsDeleted == false);
         }
     }
 }

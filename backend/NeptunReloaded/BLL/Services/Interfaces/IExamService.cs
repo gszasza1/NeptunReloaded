@@ -11,7 +11,7 @@ namespace NeptunReloaded.BLL.Services.Interfaces
     public interface IExamService
     {
         public Task<Exam> createExam(User user, CreateExam exam);
-        public Task<List<Exam>> listExams(String filtername = "");
+        public Task<List<Exam>> listExams(String filterName = "");
         public Task<Exam> editExam(User user, Exam exam);
         public Task<Exam> deleteExam(User user, Exam exam);
         public Task<ExamResult> joinExam(User user, Exam exam);

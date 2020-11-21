@@ -12,8 +12,6 @@ namespace NeptunReloaded.BLL.Services.Classes
         private readonly NeptunReloadedDatabaseContext _context;
         private readonly IMapper _mapper;
 
-
-
         public ExamResultService(NeptunReloadedDatabaseContext context, IMapper mapper)
         {
             _context = context;

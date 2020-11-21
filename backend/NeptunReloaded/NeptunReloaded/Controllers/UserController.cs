@@ -26,14 +26,16 @@ namespace NeptunReloaded.API.Controllers
         private readonly ISubjectService _subjectService;
         private readonly ICourseService _courseService;
         private readonly IRoomService _roomService;
+        private readonly IExamService _examService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService)
+        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService, IExamService examService)
         {
             _logger = logger;
             _userService = userService;
             _subjectService = subjectService;
             _courseService = courseService;
             _roomService = roomService;
+            _examService = examService;
         }
 
         [HttpPost]
@@ -49,18 +51,22 @@ namespace NeptunReloaded.API.Controllers
             //.ToArray();
         }
 
-        public List<Room> getUsers()
+        public List<Exam> getUsers()
         {
-            List<Room> list = new List<Room>();
+            List<Exam> list = new List<Exam>();
 
             User userloggedIn = _userService.loginUser(new LoginUser { neptun = "DT8CE1", password = "0000" }).Result;
-
-            //Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
-
-            CreateRoom room = new CreateRoom { Name = "Created Room QQ" };
             userloggedIn.IsTeacher = true;
 
-            Room toch = _roomService.listRooms().Result.Find(r => r.Name.Contains("123435QQ"));
+            Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
+
+            Exam exam8 = _examService.listExams("8").Result.FirstOrDefault();
+
+            exam8.Name = exam8.Name + " Chagnedsdasd";
+
+            _examService.editExam(userloggedIn,exam8);
+
+            list.AddRange(_examService.listExams().Result);
 
             return list;
         }
