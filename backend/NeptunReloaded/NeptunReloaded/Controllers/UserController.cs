@@ -45,12 +45,16 @@ namespace NeptunReloaded.API.Controllers
 
             try
             {
-               var userResult=  _userService.registerUser(user).Result;
+               var userResult=  await _userService.registerUser(user);
                 return Ok(userResult);
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
             }
             catch
             {
-                return BadRequest("sikertelen shit");
+                return BadRequest("Hiba történt");
             }
         
         

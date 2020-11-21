@@ -77,20 +77,26 @@ namespace NeptunReloaded.BLL.Services.Classes
 
         public async Task<User> registerUser(RegisterUser user)
         {
-            User dbUser = null;
+            if (user.firstName == null || user.lastName == null || user.username == null || user.neptun == null || user.password == null)
+            {
+                throw new InvalidOperationException("Hibás bemenet");
+            }
+            User dbUser;
 
             List<User> users =await _context.Users.Where(u=>u.Neptun==user.neptun).ToListAsync();
             
             //Check if neptun is already in use
             if (users.Count > 0)
-                return await Task.FromResult(dbUser); //return null as user if registration was unsuccessful, else return registered user
+            {
+              throw new InvalidOperationException("Létező felhasználó");  //return null as user if registration was unsuccessful, else return registered user
+            }
 
-             dbUser = user.mapToDBUser();
+           dbUser = user.mapToDBUser();
 
            await _context.Users.AddAsync(dbUser);
            await _context.SaveChangesAsync();
 
-            return await Task.FromResult(dbUser);
+           return dbUser;
         }
 
         public async Task<User> viewProfile(LoginUser user)
