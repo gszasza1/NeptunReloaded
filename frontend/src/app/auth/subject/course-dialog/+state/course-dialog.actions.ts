@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Courses } from 'src/app/shared/backend.interface';
+import { CoursesPopUp } from 'src/app/shared/backend.interface';
 
 export enum SubjectCourseActionTypes {
   GetSubjectCourseRequest = '[SubjectCourse] GetSubjectCourse Request',
@@ -23,7 +23,7 @@ export class GetSubjectCourseRequest implements Action {
 }
 export class GetSubjectCourseResponse implements Action {
   readonly type = SubjectCourseActionTypes.GetSubjectCourseResponse;
-  constructor(public payload: Courses[]) {}
+  constructor(public payload: CoursesPopUp[]) {}
 }
 export class GetSubjectCourseError implements Action {
   readonly type = SubjectCourseActionTypes.GetSubjectCourseError;

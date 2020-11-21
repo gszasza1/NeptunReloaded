@@ -16,6 +16,7 @@ import { DropdownService } from './dropdown.service';
 import { ExamSelectEffects } from './exam-select/+state/exam-select.effects';
 import { EXAMSELECT_FEATURE_KEY, ExamSelectInitialState, ExamSelectReducer } from './exam-select/+state/exam-select.reducer';
 import { ExamSelectComponent } from './exam-select/exam-select.component';
+import { RoomSelectComponent } from './room-select/room-select.component';
 import {
   STUDENT_FOR_EXAM_SELECT_FEATURE_KEY,
   StudentForExamSelectInitialState,
@@ -25,7 +26,7 @@ import { StudentForExamSelectEffects } from './student-for-exam-select/+state/st
 import { StudentForExamSelectComponent } from './student-for-exam-select/student-for-exam-selectcomponent';
 
 @NgModule({
-  declarations: [CourseSelectComponent, ExamSelectComponent, StudentForExamSelectComponent],
+  declarations: [CourseSelectComponent, ExamSelectComponent, StudentForExamSelectComponent, RoomSelectComponent],
   imports: [
     CommonModule,
     SharedUiModule,
@@ -43,7 +44,7 @@ import { StudentForExamSelectComponent } from './student-for-exam-select/student
       initialState: StudentForExamSelectInitialState,
     }),
   ],
-  exports: [CourseSelectComponent, ExamSelectComponent, StudentForExamSelectComponent],
+  exports: [CourseSelectComponent, ExamSelectComponent, StudentForExamSelectComponent, RoomSelectComponent],
   providers: [DropdownService],
 })
 export class DropdownModule {}

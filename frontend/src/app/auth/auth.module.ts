@@ -8,7 +8,11 @@ import { DropdownModule } from '../shared/dropdown/dropdown.module';
 import { SharedUiModule } from '../shared/shared-ui/shared-ui.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
+import { CourseEffects } from './course/+state/course.effects';
+import { COURSE_FEATURE_KEY, CourseInitialState, CourseReducer } from './course/+state/course.reducer';
 import { CourseComponent } from './course/course.component';
+import { CourseService } from './course/course.service';
+import { EditCourseComponent } from './course/edit-course/edit-course.component';
 import { ExamResultEffects } from './exam-result/+state/exam-result.effects';
 import { EXAMRESULT_FEATURE_KEY, ExamResultInitialState, ExamResultReducer } from './exam-result/+state/exam-result.reducer';
 import { CreateExamResultComponent } from './exam-result/create-exam-result/create-exam-result.component';
@@ -48,6 +52,7 @@ import { SubjectService } from './subject/subject.service';
 
 @NgModule({
   declarations: [
+    EditCourseComponent,
     AuthComponent,
     ProfilComponent,
     ChangePassDialogComponent,
@@ -92,11 +97,15 @@ import { SubjectService } from './subject/subject.service';
     StoreModule.forFeature(EXAM_FEATURE_KEY, ExamsReducer, {
       initialState: ExamsInitialState,
     }),
+    EffectsModule.forFeature([CourseEffects]),
+    StoreModule.forFeature(COURSE_FEATURE_KEY, CourseReducer, {
+      initialState: CourseInitialState,
+    }),
     EffectsModule.forFeature([ExamResultEffects]),
     StoreModule.forFeature(EXAMRESULT_FEATURE_KEY, ExamResultReducer, {
       initialState: ExamResultInitialState,
     }),
   ],
-  providers: [ProfilService, SubjectService, CourseDialogService, RoomService, ExamService],
+  providers: [ProfilService, SubjectService, CourseDialogService, RoomService, ExamService, CourseService],
 })
 export class AuthModule {}

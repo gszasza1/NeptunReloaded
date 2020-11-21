@@ -1,11 +1,11 @@
-import { Courses } from 'src/app/shared/backend.interface';
+import { CoursesPopUp } from 'src/app/shared/backend.interface';
 
 import { SubjectCourseAction, SubjectCourseActionTypes } from './course-dialog.actions';
 
 export const SUBJECTCOURSE_FEATURE_KEY = 'SubjectCourse';
 
 export interface SubjectCourseState {
-  list: Courses[];
+  list: CoursesPopUp[];
   createForm: string;
   isRequesting: boolean;
   isPostRequesting: boolean;

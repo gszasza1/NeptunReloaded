@@ -4,13 +4,13 @@ import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Courses } from 'src/app/shared/backend.interface';
+import { CoursesPopUp } from 'src/app/shared/backend.interface';
 import { UnsubscribeOnDestroyBaseComponent } from 'src/app/shared/UnSubOnDestroy';
 
 import {
-    ChangeFilterSubjectCourse,
-    GetSubjectCourseRequest,
-    JoinSubjectCourseRequest,
+  ChangeFilterSubjectCourse,
+  GetSubjectCourseRequest,
+  JoinSubjectCourseRequest,
 } from './+state/course-dialog.actions';
 import { SubjectCourseQuery } from './+state/course-dialog.selector';
 
@@ -29,8 +29,8 @@ export class CourseDialogComponent extends UnsubscribeOnDestroyBaseComponent imp
   constructor(private store: Store, @Inject(MAT_DIALOG_DATA) public data: { id: number; name: string }) {
     super();
   }
-  courseList$: Observable<Courses[]>;
-  expandedElement: Courses | null;
+  courseList$: Observable<CoursesPopUp[]>;
+  expandedElement: CoursesPopUp | null;
   filter = new FormControl('');
   displayedColumns = ['id', 'name', 'operations'];
   isRequesting$: Observable<boolean>;

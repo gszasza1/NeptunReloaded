@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { Courses } from 'src/app/shared/backend.interface';
+import { CoursesPopUp } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseDialogService {
   getCoursesForSubject() {
-    return new BehaviorSubject<Courses[]>(
+    return new BehaviorSubject<CoursesPopUp[]>(
       [...Array(20)].map((_, i) => ({
         id: i,
         member: i % 2 === 0,

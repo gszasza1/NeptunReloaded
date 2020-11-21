@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>Terem</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let room of RoomList$ | async" [value]="room.id">
+      {{ room.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

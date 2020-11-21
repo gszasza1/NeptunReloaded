@@ -35,7 +35,7 @@ export interface CreateCourse {
   roomId: string;
 }
 
-export interface Courses {
+export interface CoursesPopUp {
   id: number;
   subject: Subject;
   name: string;
@@ -79,4 +79,13 @@ export interface CreateExamResult {
   studentId: number;
   examId: number;
   score: number;
+}
+
+export interface CourseList {
+  id: number;
+  name: string;
+}
+export interface RoomSelect {
+  id: number;
+  name: string;
 }
