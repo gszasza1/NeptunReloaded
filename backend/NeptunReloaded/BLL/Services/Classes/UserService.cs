@@ -67,7 +67,7 @@ namespace NeptunReloaded.BLL.Services.Classes
 
             try
             {
-                dbUser = (User)_context.Users.ToList<User>().Find(u => u.Neptun == user.neptun && u.Password == user.password);
+                dbUser = _context.Users.ToList<User>().Find(u => u.Neptun == user.neptun && u.Password == user.password);
 
             }
             catch (ArgumentNullException) { }

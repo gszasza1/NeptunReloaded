@@ -8,6 +8,7 @@ import { Subject } from 'src/app/shared/backend.interface';
 })
 export class SubjectService {
   getSubjects() {
+    //GET
     // tslint:disable-next-line: variable-name
     return new BehaviorSubject<Subject[]>([...Array(20)].map((_, i) => ({ id: i, name: 'Tantárgy ' + i })))
       .asObservable()

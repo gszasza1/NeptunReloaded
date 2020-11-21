@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using NeptunReloaded.BLL.Services.Classes;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL;
+using System.Linq;
 
 namespace NeptunReloaded.API
 {
@@ -46,6 +47,22 @@ namespace NeptunReloaded.API
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IExamResultService, ExamResultService>();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    var allowedOrigins = Configuration.GetSection("CorsOrigins")
+                        .GetChildren()
+                        .Select(x => x.Value)
+                        .ToArray();
+
+                    policy.WithOrigins(allowedOrigins)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+            });
 
 
         }

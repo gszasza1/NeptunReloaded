@@ -39,6 +39,22 @@ namespace NeptunReloaded.API.Controllers
             _examService = examService;
             _examResultService =  examResultService;
         }
+        
+        [HttpPost("register")]
+        public async Task<ActionResult> Register([FromBody] RegisterUser user) {
+
+            try
+            {
+               var userResult=  _userService.registerUser(user).Result;
+                return Ok(userResult);
+            }
+            catch
+            {
+                return BadRequest("sikertelen shit");
+            }
+        
+        
+        }
 
         [HttpPost]
         public void Post()
@@ -53,6 +69,7 @@ namespace NeptunReloaded.API.Controllers
             //.ToArray();
         }
 
+        [HttpGet]
         public List<ExamResult> getUsers()
         {
             List<ExamResult> list = new List<ExamResult>();

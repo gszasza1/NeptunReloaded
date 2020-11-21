@@ -51,7 +51,7 @@ export class SubjectEffects {
   );
   @Effect() refreshList$ = this.actions$.pipe(
     ofType(SubjectActionTypes.EditSubjectResponse, SubjectActionTypes.CreateSubjectResponse),
-    map(async () => new GetSubjectRequest())
+    map(() => new GetSubjectRequest())
   );
 
   constructor(private service: SubjectService, private actions$: Actions, private store: Store<{}>) {}
