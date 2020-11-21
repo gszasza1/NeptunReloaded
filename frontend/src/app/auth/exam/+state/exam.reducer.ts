@@ -1,47 +1,99 @@
-import { LoginUser } from 'src/app/shared/backend.interface';
+import { Exams } from 'src/app/shared/backend.interface';
 
-import { LoginFormAction, LoginFormActionTypes } from './exam.actions';
+import { ExamAction, ExamActionTypes } from './exam.actions';
 
-export const LOGINFORM_FEATURE_KEY = 'LoginForm';
+export const EXAM_FEATURE_KEY = 'Exams';
 
-export interface LoginFormState {
-  form: LoginUser;
-  isRequeting: boolean;
+export interface ExamsState {
+  list: Exams[];
+  createForm: string;
+  isRequesting: boolean;
+  isPostRequesting: boolean;
+  filterForm: string;
+  editForm: string;
 }
 
-export interface LoginFormPartialState {
-  readonly [LOGINFORM_FEATURE_KEY]: LoginFormState;
+export interface ExamsPartialState {
+  readonly [EXAM_FEATURE_KEY]: ExamsState;
 }
 
-export const loginFormInitialState: LoginFormState = {
-  form: { password: '', username: '' },
-  isRequeting: false,
+export const ExamsInitialState: ExamsState = {
+  list: [],
+  isRequesting: false,
+  createForm: '',
+  isPostRequesting: false,
+  filterForm: '',
+  editForm: '',
 };
 
-export function LoginFormReducer(
-  state: LoginFormState = loginFormInitialState,
-  action: LoginFormAction
-): LoginFormState {
+export function ExamsReducer(state: ExamsState = ExamsInitialState, action: ExamAction): ExamsState {
   switch (action.type) {
-    case LoginFormActionTypes.ChangeLoginForm: {
+    case ExamActionTypes.GetExamRequest: {
       state = {
         ...state,
-        form: action.payload,
+        isRequesting: true,
       };
       break;
     }
-    case LoginFormActionTypes.LoginFormRequest: {
+    case ExamActionTypes.GetExamResponse: {
       state = {
         ...state,
-        isRequeting: true,
+        isRequesting: false,
+        list: action.payload,
       };
       break;
     }
-    case LoginFormActionTypes.LoginFormResponse:
-    case LoginFormActionTypes.LoginFormError: {
+
+    case ExamActionTypes.GetExamError: {
       state = {
         ...state,
-        isRequeting: false,
+        isRequesting: false,
+      };
+      break;
+    }
+    case ExamActionTypes.CreateExamRequest: {
+      state = {
+        ...state,
+        isPostRequesting: true,
+      };
+      break;
+    }
+    case ExamActionTypes.CreateExamResponse:
+    case ExamActionTypes.CreateExamError: {
+      state = {
+        ...state,
+        isPostRequesting: false,
+        createForm: '',
+      };
+      break;
+    }
+    case ExamActionTypes.EditExamResponse:
+    case ExamActionTypes.EditExamError: {
+      state = {
+        ...state,
+        isPostRequesting: false,
+        editForm: '',
+      };
+      break;
+    }
+    case ExamActionTypes.ChangeCreateExam: {
+      state = {
+        ...state,
+        createForm: action.payload,
+      };
+      break;
+    }
+    case ExamActionTypes.ChangeEditExam: {
+      state = {
+        ...state,
+        editForm: action.payload,
+      };
+      break;
+    }
+    case ExamActionTypes.ChangeFilterExam: {
+      state = {
+        ...state,
+        filterForm: action.payload,
       };
       break;
     }

@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+  th:last-child {
+    width: 100px;
+  }
+  td > button {
+    margin-right: 10px;
+  }
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.room {
+  > div {
+    display: flex;
+    flex-direction: row;
+    button {
+      margin-top: 3px;
+      margin-bottom: 21px;
+      margin-left: 15px;
+    }
+  }
+}
+mat-spinner {
+  margin: auto;
+  margin-top: 20px;
+}

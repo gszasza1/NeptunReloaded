@@ -8,7 +8,10 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { CourseComponent } from './course/course.component';
 import { ExamResultComponent } from './exam-result/exam-result.component';
+import { ExamsEffects } from './exam/+state/exam.effects';
+import { EXAM_FEATURE_KEY, ExamsInitialState, ExamsReducer } from './exam/+state/exam.reducer';
 import { ExamComponent } from './exam/exam.component';
+import { ExamService } from './exam/exam.service';
 import { ProfilEffects } from './profil/+state/profil.effects';
 import { PROFIL_FEATURE_KEY, ProfilInitialState, ProfilReducer } from './profil/+state/profil.reducer';
 import { ChangePassDialogComponent } from './profil/change-pass-dialog/change-pass-dialog.component';
@@ -73,7 +76,11 @@ import { SubjectService } from './subject/subject.service';
     StoreModule.forFeature(ROOM_FEATURE_KEY, RoomReducer, {
       initialState: RoomInitialState,
     }),
+    EffectsModule.forFeature([ExamsEffects]),
+    StoreModule.forFeature(EXAM_FEATURE_KEY, ExamsReducer, {
+      initialState: ExamsInitialState,
+    }),
   ],
-  providers: [ProfilService, SubjectService, CourseDialogService, RoomService],
+  providers: [ProfilService, SubjectService, CourseDialogService, RoomService, ExamService],
 })
 export class AuthModule {}

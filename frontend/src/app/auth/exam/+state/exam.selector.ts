@@ -1,12 +1,24 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { LOGINFORM_FEATURE_KEY, LoginFormState } from './exam.reducer';
+import { EXAM_FEATURE_KEY, ExamsState } from './exam.reducer';
 
-const getLoginFormState = createFeatureSelector<LoginFormState>(LOGINFORM_FEATURE_KEY);
-const getLoginForm = createSelector(getLoginFormState, (state: LoginFormState) => state.form);
-const getLoginFormRequesting = createSelector(getLoginFormState, (state: LoginFormState) => state.isRequeting);
+const getExamState = createFeatureSelector<ExamsState>(EXAM_FEATURE_KEY);
 
-export const LoginFormQuery = {
-  getLoginForm,
-  getLoginFormRequesting,
+const getExam = createSelector(getExamState, (state: ExamsState) =>
+  state.filterForm.length > 0 ? state.list.filter((x) => x.name.includes(state.filterForm)) : state.list
+);
+
+const getExamRequesting = createSelector(getExamState, (state: ExamsState) => state.isRequesting);
+
+const getCreateForm = createSelector(getExamState, (state: ExamsState) => state.createForm);
+const getEditForm = createSelector(getExamState, (state: ExamsState) => state.editForm);
+
+const getFilterForm = createSelector(getExamState, (state: ExamsState) => state.filterForm);
+
+export const ExamQuery = {
+  getExamList: getExam,
+  getExamRequesting,
+  getCreateForm,
+  getFilterForm,
+  getEditForm,
 };
