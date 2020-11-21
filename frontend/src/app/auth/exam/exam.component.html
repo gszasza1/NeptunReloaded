@@ -21,6 +21,9 @@
         <button mat-icon-button (click)="editExams(element)">
           <mat-icon>edit</mat-icon>
         </button>
+        <button mat-icon-button (click)="joinExam(element.id)">
+          <mat-icon>add</mat-icon>
+        </button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

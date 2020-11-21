@@ -17,8 +17,22 @@ export enum ExamActionTypes {
   ChangeEditExam = '[Exam] ChangeEditExam',
 
   ChangeFilterExam = '[Exam] ChangeFilterExam',
+
+  JoinExamRequest = '[Exam] JoinExam Request',
+  JoinExamResponse = '[Exam] JoinExam Response',
+  JoinExamError = '[Exam] JoinExam Error',
 }
 
+export class JoinExamRequest implements Action {
+  readonly type = ExamActionTypes.JoinExamRequest;
+  constructor(public payload: number) {}
+}
+export class JoinExamResponse implements Action {
+  readonly type = ExamActionTypes.JoinExamResponse;
+}
+export class JoinExamError implements Action {
+  readonly type = ExamActionTypes.JoinExamError;
+}
 export class ChangeEditExam implements Action {
   readonly type = ExamActionTypes.ChangeEditExam;
   constructor(public payload: string) {}
@@ -73,7 +87,10 @@ export type ExamAction =
   | EditExamRequest
   | EditExamResponse
   | EditExamError
-  | ChangeEditExam;
+  | ChangeEditExam
+  | JoinExamRequest
+  | JoinExamResponse
+  | JoinExamError;
 
 export const fromExamActions = {
   GetExamRequest,
@@ -88,4 +105,7 @@ export const fromExamActions = {
   EditExamResponse,
   EditExamError,
   ChangeEditExam,
+  JoinExamRequest,
+  JoinExamResponse,
+  JoinExamError,
 };

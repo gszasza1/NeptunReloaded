@@ -26,9 +26,7 @@ export class ExamComponent extends UnsubscribeOnDestroyBaseComponent implements 
   isRequesting$: Observable<boolean>;
   ngOnInit(): void {
     this.store.dispatch(new GetExamRequest());
-
     this.ExamsList$ = this.store.pipe(select(ExamQuery.getExamList));
-
     this.isRequesting$ = this.store.pipe(select(ExamQuery.getExamRequesting));
     this.subscriptions.push(
       this.filter.valueChanges.subscribe((x) => this.store.dispatch(new ChangeFilterExam(x))),
@@ -40,5 +38,8 @@ export class ExamComponent extends UnsubscribeOnDestroyBaseComponent implements 
   }
   editExams(exam: { id: number; name: string }) {
     this.dialog.open(EditExamComponent, { data: { ...exam } });
+  }
+  joinExam(examId: number) {
+    this.store.dispatch(new GetExamRequest());
   }
 }

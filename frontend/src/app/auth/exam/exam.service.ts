@@ -20,4 +20,7 @@ export class ExamService {
   editExams(id: number, name: string) {
     return new BehaviorSubject({}).asObservable().pipe(delay(300));
   }
+  joinExam(examId: number) {
+    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  }
 }

@@ -14,6 +14,7 @@ import {
   GetExamError,
   GetExamRequest,
   GetExamResponse,
+  JoinExamRequest,
 } from './exam.actions';
 import { ExamQuery } from './exam.selector';
 
@@ -49,8 +50,18 @@ export class ExamsEffects {
       )
     )
   );
+
+  @Effect() joinExam$ = this.actions$.pipe(
+    ofType(ExamActionTypes.JoinExamRequest),
+    mergeMap((action) =>
+      this.service.joinExam((action as JoinExamRequest).payload).pipe(
+        map(() => new EditExamResponse()),
+        catchError(async () => new EditExamError())
+      )
+    )
+  );
   @Effect() refreshList$ = this.actions$.pipe(
-    ofType(ExamActionTypes.EditExamResponse, ExamActionTypes.CreateExamResponse),
+    ofType(ExamActionTypes.EditExamResponse, ExamActionTypes.CreateExamResponse, ExamActionTypes.JoinExamResponse),
     map(() => new GetExamRequest())
   );
 
