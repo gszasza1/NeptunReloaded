@@ -56,6 +56,11 @@ const routes: Routes = [
           title: 'Kurzusok',
         },
       },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'profil',
+      },
     ],
   },
 ];

@@ -17,7 +17,7 @@ export class LoginFormRequest implements Action {
 }
 export class LoginFormResponse implements Action {
   readonly type = LoginFormActionTypes.LoginFormResponse;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 export class LoginFormError implements Action {
   readonly type = LoginFormActionTypes.LoginFormError;

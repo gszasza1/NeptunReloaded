@@ -1,3 +1,4 @@
+import jwt_decode from 'jwt-decode';
 import { LoginUser } from 'src/app/shared/backend.interface';
 
 import { LoginFormAction, LoginFormActionTypes } from './login.acions';
@@ -6,7 +7,9 @@ export const LOGINFORM_FEATURE_KEY = 'LoginForm';
 
 export interface LoginFormState {
   form: LoginUser;
-  isRequeting: boolean;
+  isRequesting: boolean;
+  token: string;
+  decodedToken: any;
 }
 
 export interface LoginFormPartialState {
@@ -15,7 +18,9 @@ export interface LoginFormPartialState {
 
 export const loginFormInitialState: LoginFormState = {
   form: { password: '', username: '' },
-  isRequeting: false,
+  isRequesting: false,
+  decodedToken: {},
+  token: null,
 };
 
 export function LoginFormReducer(
@@ -33,15 +38,24 @@ export function LoginFormReducer(
     case LoginFormActionTypes.LoginFormRequest: {
       state = {
         ...state,
-        isRequeting: true,
+        isRequesting: true,
       };
       break;
     }
-    case LoginFormActionTypes.LoginFormResponse:
+    case LoginFormActionTypes.LoginFormResponse: {
+      localStorage.setItem('token', action.payload);
+      state = {
+        ...state,
+        isRequesting: false,
+        token: action.payload,
+        decodedToken: jwt_decode(action.payload),
+      };
+      break;
+    }
     case LoginFormActionTypes.LoginFormError: {
       state = {
         ...state,
-        isRequeting: false,
+        isRequesting: false,
       };
       break;
     }

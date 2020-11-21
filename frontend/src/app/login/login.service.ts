@@ -9,13 +9,8 @@ import { LoginUser } from '../shared/backend.interface';
 export class LoginService {
   constructor(private httpClient: HttpClient) {}
   login(form: LoginUser) {
-    return this.httpClient.post('https:localhost:44331/User/login', form, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-        'Content-Type': 'application/json',
-      },
+    return this.httpClient.post('User/login?skipResponseSnackbar=true', form, {
+      responseType: 'text',
     });
-    // return new BehaviorSubject({}).asObservable().pipe(delay(200));
   }
 }
