@@ -1,1 +1,12 @@
-<p>edit-exam works!</p>
+<p>
+  Mostani név: <strong>{{ data.name }}</strong>
+</p>
+<mat-form-field>
+  <mat-label>Vizsga</mat-label>
+  <input matInput [formControl]="examName" placeholder="Viszga neve" />
+  <mat-hint>Minimum 2 karakter</mat-hint>
+</mat-form-field>
+<div>
+  <button mat-button mat-dialog-close>Mégse</button>
+  <button mat-raised-button (click)="save()">Mentés</button>
+</div>
