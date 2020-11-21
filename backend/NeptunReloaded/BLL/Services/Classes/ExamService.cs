@@ -65,6 +65,14 @@ namespace NeptunReloaded.BLL.Services.Classes
 
                     dbExam.IsDeleted = true;
 
+                    //delete ExamResults for deleted exam
+                    List<ExamResult> toBeDeletedERs = _context.ExamResults.ToList().FindAll(er => er.ExamId == dbExam.Id);
+
+                    foreach(ExamResult er in toBeDeletedERs) {
+                        er.IsDeleted = true;
+                        _context.Update(er);
+                    }
+
                     _context.Update(dbExam);
                     _context.SaveChanges();
                 }
