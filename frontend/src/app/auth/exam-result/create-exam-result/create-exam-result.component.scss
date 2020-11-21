@@ -1,0 +1,9 @@
+form {
+  div:first-child > *:not(:last-child) {
+    margin-right: 20px;
+  }
+  div:last-child {
+    display: flex;
+    justify-content: space-between;
+  }
+}
