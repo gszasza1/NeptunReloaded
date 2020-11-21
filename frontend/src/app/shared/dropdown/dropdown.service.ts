@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-import { CourseSelect } from '../backend.interface';
+import { CourseSelect, StudentForExamSelect } from '../backend.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +10,19 @@ import { CourseSelect } from '../backend.interface';
 export class DropdownService {
   getCourses() {
     return new BehaviorSubject<CourseSelect[]>([...Array(20)].map((_, i) => ({ id: i, name: 'Tantárgy ' + i })))
+      .asObservable()
+      .pipe(delay(300));
+  }
+  getExams() {
+    return new BehaviorSubject<CourseSelect[]>([...Array(20)].map((_, i) => ({ id: i, name: 'Vizsga ' + i })))
+      .asObservable()
+      .pipe(delay(300));
+  }
+
+  getStudentForExams() {
+    return new BehaviorSubject<StudentForExamSelect[]>(
+      [...Array(20)].map((_, i) => ({ id: i, name: 'Béla ' + i, neptun: 'NEPTUN ' + i }))
+    )
       .asObservable()
       .pipe(delay(300));
   }

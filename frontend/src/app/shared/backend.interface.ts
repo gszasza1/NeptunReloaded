@@ -50,6 +50,15 @@ export interface CourseSelect {
   id: number;
   name: string;
 }
+export interface ExamSelect {
+  id: number;
+  name: string;
+}
+export interface StudentForExamSelect {
+  id: number;
+  name: string;
+  neptun: string;
+}
 export interface Exams {
   id: number;
   name: string;
@@ -57,4 +66,17 @@ export interface Exams {
 export interface CreateExam {
   courseId: number;
   name: string;
+}
+
+export interface ExamResults {
+  id: number;
+  score: number;
+  examName: string;
+  neptun: string;
+}
+
+export interface CreateExamResult {
+  studentId: number;
+  examId: number;
+  score: number;
 }

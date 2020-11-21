@@ -13,9 +13,19 @@ import {
 } from './course-select/+state/course-select.reducer';
 import { CourseSelectComponent } from './course-select/course-select.component';
 import { DropdownService } from './dropdown.service';
+import { ExamSelectEffects } from './exam-select/+state/exam-select.effects';
+import { EXAMSELECT_FEATURE_KEY, ExamSelectInitialState, ExamSelectReducer } from './exam-select/+state/exam-select.reducer';
+import { ExamSelectComponent } from './exam-select/exam-select.component';
+import {
+  STUDENT_FOR_EXAM_SELECT_FEATURE_KEY,
+  StudentForExamSelectInitialState,
+  StudentForExamSelectReducer,
+} from './student-for-exam-select/+state/student-for-exam-select.reducer';
+import { StudentForExamSelectEffects } from './student-for-exam-select/+state/student-for-exam-selecteffects';
+import { StudentForExamSelectComponent } from './student-for-exam-select/student-for-exam-selectcomponent';
 
 @NgModule({
-  declarations: [CourseSelectComponent],
+  declarations: [CourseSelectComponent, ExamSelectComponent, StudentForExamSelectComponent],
   imports: [
     CommonModule,
     SharedUiModule,
@@ -24,8 +34,16 @@ import { DropdownService } from './dropdown.service';
     StoreModule.forFeature(COURSESELECT_FEATURE_KEY, CourseSelectReducer, {
       initialState: CourseSelectInitialState,
     }),
+    EffectsModule.forFeature([ExamSelectEffects]),
+    StoreModule.forFeature(EXAMSELECT_FEATURE_KEY, ExamSelectReducer, {
+      initialState: ExamSelectInitialState,
+    }),
+    EffectsModule.forFeature([StudentForExamSelectEffects]),
+    StoreModule.forFeature(STUDENT_FOR_EXAM_SELECT_FEATURE_KEY, StudentForExamSelectReducer, {
+      initialState: StudentForExamSelectInitialState,
+    }),
   ],
-  exports: [CourseSelectComponent],
+  exports: [CourseSelectComponent, ExamSelectComponent, StudentForExamSelectComponent],
   providers: [DropdownService],
 })
 export class DropdownModule {}

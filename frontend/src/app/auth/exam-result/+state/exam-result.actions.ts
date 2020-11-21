@@ -1,33 +1,49 @@
 import { Action } from '@ngrx/store';
 import { LoginUser } from 'src/app/shared/backend.interface';
 
-export enum LoginFormActionTypes {
-  ChangeLoginForm = '[LoginForm] Change LoginForm',
-  LoginFormRequest = '[LoginForm] LoginForm Request',
-  LoginFormResponse = '[LoginForm] LoginForm Response',
-  LoginFormError = '[LoginForm] LoginForm Error',
+export enum ExamResultActionTypes {
+  ChangeExamResult = '[ExamResult] Change ExamResult',
+  GetExamResultRequest = '[ExamResult] ExamResult Request',
+  GetExamResultResponse = '[ExamResult] ExamResult Response',
+  GetExamResultError = '[ExamResult] ExamResult Error',
+
+  CreateExamResultRequest = '[ExamResult] CreateExamResult Request',
+  CreateExamResultResponse = '[ExamResult] CreateExamResult Response',
+  CreateExamResultError = '[ExamResult] CreateExamResult Error',
+  ChangeCreateExamResult = '[ExamResult] ChangeCreateExamResult',
 }
 
-export class ChangeLoginForm implements Action {
-  readonly type = LoginFormActionTypes.ChangeLoginForm;
+export class ChangeExamResult implements Action {
+  readonly type = ExamResultActionTypes.ChangeExamResult;
   constructor(public payload: LoginUser) {}
 }
-export class LoginFormRequest implements Action {
-  readonly type = LoginFormActionTypes.LoginFormRequest;
+export class GetExamResultRequest implements Action {
+  readonly type = ExamResultActionTypes.GetExamResultRequest;
 }
-export class LoginFormResponse implements Action {
-  readonly type = LoginFormActionTypes.LoginFormResponse;
+export class GetExamResultResponse implements Action {
+  readonly type = ExamResultActionTypes.GetExamResultResponse;
   constructor(public payload: any) {}
 }
-export class LoginFormError implements Action {
-  readonly type = LoginFormActionTypes.LoginFormError;
+export class GetExamResultError implements Action {
+  readonly type = ExamResultActionTypes.GetExamResultError;
 }
 
-export type LoginFormAction = ChangeLoginForm | LoginFormRequest | LoginFormResponse | LoginFormError;
+export class CreateExamResultRequest implements Action {
+  readonly type = ExamResultActionTypes.CreateExamResultRequest;
+}
+export class CreateExamResultResponse implements Action {
+  readonly type = ExamResultActionTypes.CreateExamResultResponse;
+  constructor(public payload: any) {}
+}
+export class CreateExamResultError implements Action {
+  readonly type = ExamResultActionTypes.CreateExamResultError;
+}
 
-export const fromLoginFormActions = {
-  ChangeLoginForm,
-  LoginFormRequest,
-  LoginFormResponse,
-  LoginFormError,
+export type ExamResultAction = ChangeExamResult | GetExamResultRequest | GetExamResultResponse | GetExamResultError;
+
+export const fromExamResultActions = {
+  ChangeExamResult,
+  GetExamResultRequest,
+  GetExamResultResponse,
+  GetExamResultError,
 };

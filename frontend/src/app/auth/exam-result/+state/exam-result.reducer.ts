@@ -1,44 +1,44 @@
 import { LoginUser } from 'src/app/shared/backend.interface';
 
-import { LoginFormAction, LoginFormActionTypes } from './exam-result.actions';
+import { ExamResultAction, ExamResultActionTypes } from './exam-result.actions';
 
-export const LOGINFORM_FEATURE_KEY = 'LoginForm';
+export const EXAMRESULT_FEATURE_KEY = 'ExamResult';
 
-export interface LoginFormState {
+export interface ExamResultState {
   form: LoginUser;
   isRequeting: boolean;
 }
 
-export interface LoginFormPartialState {
-  readonly [LOGINFORM_FEATURE_KEY]: LoginFormState;
+export interface ExamResultPartialState {
+  readonly [EXAMRESULT_FEATURE_KEY]: ExamResultState;
 }
 
-export const loginFormInitialState: LoginFormState = {
+export const ExamResultInitialState: ExamResultState = {
   form: { password: '', username: '' },
   isRequeting: false,
 };
 
-export function LoginFormReducer(
-  state: LoginFormState = loginFormInitialState,
-  action: LoginFormAction
-): LoginFormState {
+export function ExamResultReducer(
+  state: ExamResultState = ExamResultInitialState,
+  action: ExamResultAction
+): ExamResultState {
   switch (action.type) {
-    case LoginFormActionTypes.ChangeLoginForm: {
+    case ExamResultActionTypes.ChangeExamResult: {
       state = {
         ...state,
         form: action.payload,
       };
       break;
     }
-    case LoginFormActionTypes.LoginFormRequest: {
+    case ExamResultActionTypes.ExamResultRequest: {
       state = {
         ...state,
         isRequeting: true,
       };
       break;
     }
-    case LoginFormActionTypes.LoginFormResponse:
-    case LoginFormActionTypes.LoginFormError: {
+    case ExamResultActionTypes.ExamResultResponse:
+    case ExamResultActionTypes.ExamResultError: {
       state = {
         ...state,
         isRequeting: false,

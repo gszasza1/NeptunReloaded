@@ -2,31 +2,41 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
-import { LoginService } from '../login.service';
-import { LoginFormActionTypes, LoginFormError, LoginFormResponse } from './exam-result.actions';
-import { LoginFormQuery } from './exam-result.selector';
+import { ExamResultService } from '../exam-result.service';
+import { ExamResultActionTypes } from './exam-result.actions';
+import { ExamResultQuery } from './exam-result.selector';
 
 @Injectable()
-export class LoginFormEffects {
-  @Effect() Login$ = this.actions$.pipe(
-    ofType(LoginFormActionTypes.LoginFormRequest),
-    withLatestFrom(this.store),
-    mergeMap(([action, storeState]) =>
-      this.service.login(LoginFormQuery.getLoginForm(storeState)).pipe(
-        map((x) => new LoginFormResponse(x)),
-        catchError(async () => new LoginFormError())
+export class ExamResultEffects {
+  @Effect() GetExamResult$ = this.actions$.pipe(
+    ofType(ExamResultActionTypes.GetExamResultRequest),
+    mergeMap(() =>
+      this.service.getExamResults().pipe(
+        map((x) => new GetExamResultResponse(x)),
+        catchError(async () => new GetExamResultError())
       )
     )
   );
-  @Effect({ dispatch: false }) LoggedIn$ = this.actions$.pipe(
-    ofType(LoginFormActionTypes.LoginFormResponse),
-    tap(() => this.router.navigateByUrl('auth/user'))
+
+  @Effect() createExamResult$ = this.actions$.pipe(
+    ofType(ExamResultActionTypes.CreateExamResultRequest),
+    withLatestFrom(this.store),
+    mergeMap(([action, storeState]) =>
+      this.service.createExamResult(ExamResultQuery.getCreateForm(storeState)).pipe(
+        map(() => new CreateExamResultResponse()),
+        catchError(async () => new CreateExamResultError())
+      )
+    )
+  );
+  @Effect() refreshList$ = this.actions$.pipe(
+    ofType(ExamResultActionTypes.CreateExamResultResponse),
+    map(async () => new GetExamResultRequest())
   );
 
   constructor(
-    private service: LoginService,
+    private service: ExamResultService,
     private router: Router,
     private store: Store<{}>,
     private actions$: Actions
