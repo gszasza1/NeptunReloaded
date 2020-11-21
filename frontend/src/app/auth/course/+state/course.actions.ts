@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CourseList } from 'src/app/shared/backend.interface';
+import { CourseList, CreateCourse } from 'src/app/shared/backend.interface';
 
 export enum CourseActionTypes {
   GetCourseRequest = '[Course] GetCourse Request',
@@ -39,7 +39,7 @@ export class ChangeFilterCourse implements Action {
 }
 export class ChangeCreateCourse implements Action {
   readonly type = CourseActionTypes.ChangeCreateCourse;
-  constructor(public payload: string) {}
+  constructor(public payload: CreateCourse) {}
 }
 export class CreateCourseRequest implements Action {
   readonly type = CourseActionTypes.CreateCourseRequest;

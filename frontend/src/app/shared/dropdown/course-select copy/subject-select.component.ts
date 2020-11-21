@@ -4,24 +4,24 @@ import { MatSelect } from '@angular/material/select';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { RoomSelect } from '../../backend.interface';
+import { SubjectSelect } from '../../backend.interface';
 import { UnsubscribeOnDestroyBaseComponent } from '../../UnSubOnDestroy';
-import { RoomSelectRequest } from './+state/room-select.actions';
-import { RoomSelectQuery } from './+state/room-select.selector';
+import { SubjectSelectRequest } from './+state/Subject-select.actions';
+import { SubjectSelectQuery } from './+state/subject-select.selector';
 
 @Component({
-  selector: 'app-room-select',
-  templateUrl: './room-select.component.html',
-  styleUrls: ['./room-select.component.scss'],
+  selector: 'app-subject-select',
+  templateUrl: './subject-select.component.html',
+  styleUrls: ['./subject-select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RoomSelectComponent),
+      useExisting: forwardRef(() => SubjectSelectComponent),
       multi: true,
     },
   ],
 })
-export class RoomSelectComponent extends UnsubscribeOnDestroyBaseComponent implements OnInit, ControlValueAccessor {
+export class SubjectSelectComponent extends UnsubscribeOnDestroyBaseComponent implements OnInit, ControlValueAccessor {
   constructor(private store: Store) {
     super();
   }
@@ -31,14 +31,14 @@ export class RoomSelectComponent extends UnsubscribeOnDestroyBaseComponent imple
   }
   @ViewChild(MatSelect, { static: true })
   input: MatSelect;
-  roomList$: Observable<RoomSelect[]>;
+  subjectList$: Observable<SubjectSelect[]>;
   @Input() disabled = false;
   ngOnInit() {
-    this.store.dispatch(new RoomSelectRequest());
-    this.roomList$ = this.store.pipe(select(RoomSelectQuery.getRoomSelectList));
+    this.store.dispatch(new SubjectSelectRequest());
+    this.subjectList$ = this.store.pipe(select(SubjectSelectQuery.getSubjectSelectList));
     this.subscriptions.push(this.input.valueChange.subscribe((x) => this.onChange(x)));
   }
-  onChange = (RoomId: number) => {};
+  onChange = (subjectId: number) => {};
   onTouched = () => {};
   writeValue(obj: number): void {
     this.input.writeValue(obj);

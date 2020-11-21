@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { CourseList } from 'src/app/shared/backend.interface';
+import { CourseList, CreateCourse } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class CourseService {
       .pipe(delay(300));
   }
 
-  createCourse(name: string) {
+  createCourse(course: CreateCourse) {
     return new BehaviorSubject({}).asObservable().pipe(delay(300));
   }
   editCourse(id: number, name: string) {

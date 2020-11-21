@@ -51,7 +51,7 @@ export class CourseEffects {
   );
   @Effect() refreshList$ = this.actions$.pipe(
     ofType(CourseActionTypes.EditCourseResponse, CourseActionTypes.CreateCourseResponse),
-    map(async () => new GetCourseRequest())
+    map(() => new GetCourseRequest())
   );
 
   constructor(private service: CourseService, private actions$: Actions, private store: Store<{}>) {}

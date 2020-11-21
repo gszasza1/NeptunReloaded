@@ -33,7 +33,7 @@ export class StudentForExamSelectComponent
   }
   @ViewChild(MatSelect, { static: true })
   input: MatSelect;
-  courseList$: Observable<StudentForExamSelect[]>;
+  studentList$: Observable<StudentForExamSelect[]>;
   @Input() disabled = false;
   @Input() examId: number;
   ngOnInit() {
@@ -42,10 +42,10 @@ export class StudentForExamSelectComponent
     } else {
       console.error('Nincs examId megadva');
     }
-    this.courseList$ = this.store.pipe(select(StudentForExamSelectQuery.getStudentForExamSelectList));
+    this.studentList$ = this.store.pipe(select(StudentForExamSelectQuery.getStudentForExamSelectList));
     this.subscriptions.push(this.input.valueChange.subscribe((x) => this.onChange(x)));
   }
-  onChange = (courseId: number) => {};
+  onChange = (studentId: number) => {};
   onTouched = () => {};
   writeValue(obj: number): void {
     this.input.writeValue(obj);

@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>Kurzus</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let subject of subjectList$ | async" [value]="subject.id">
+      {{ subject.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

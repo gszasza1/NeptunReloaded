@@ -12,6 +12,7 @@ import { CourseEffects } from './course/+state/course.effects';
 import { COURSE_FEATURE_KEY, CourseInitialState, CourseReducer } from './course/+state/course.reducer';
 import { CourseComponent } from './course/course.component';
 import { CourseService } from './course/course.service';
+import { CreateCourseComponent } from './course/create-course/create-course.component';
 import { EditCourseComponent } from './course/edit-course/edit-course.component';
 import { ExamResultEffects } from './exam-result/+state/exam-result.effects';
 import { EXAMRESULT_FEATURE_KEY, ExamResultInitialState, ExamResultReducer } from './exam-result/+state/exam-result.reducer';
@@ -70,6 +71,7 @@ import { SubjectService } from './subject/subject.service';
     CreateExamComponent,
     EditExamComponent,
     CreateExamResultComponent,
+    CreateCourseComponent,
   ],
   imports: [
     CommonModule,

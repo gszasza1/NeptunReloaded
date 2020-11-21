@@ -1,4 +1,4 @@
-import { CourseList } from 'src/app/shared/backend.interface';
+import { CourseList, CreateCourse } from 'src/app/shared/backend.interface';
 
 import { CourseAction, CourseActionTypes } from './course.actions';
 
@@ -6,7 +6,7 @@ export const COURSE_FEATURE_KEY = 'Course';
 
 export interface CourseState {
   list: CourseList[];
-  createForm: string;
+  createForm: CreateCourse;
   isRequesting: boolean;
   isPostRequesting: boolean;
   filterForm: string;
@@ -20,7 +20,11 @@ export interface CoursePartialState {
 export const CourseInitialState: CourseState = {
   list: [],
   isRequesting: false,
-  createForm: '',
+  createForm: {
+    name: '',
+    roomId: null,
+    subjectId: null,
+  },
   isPostRequesting: false,
   filterForm: '',
   editForm: '',

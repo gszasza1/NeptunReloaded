@@ -12,7 +12,7 @@ import { CourseQuery } from '../+state/course.selector';
   styleUrls: ['./edit-course.component.scss'],
 })
 export class EditCourseComponent extends UnsubscribeOnDestroyBaseComponent implements OnInit {
-  CourseName = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  courseName = new FormControl('', [Validators.required]);
   constructor(
     private store: Store,
     public dialogRef: MatDialogRef<EditCourseComponent>,
@@ -25,16 +25,16 @@ export class EditCourseComponent extends UnsubscribeOnDestroyBaseComponent imple
     this.subscriptions.push(
       this.store
         .pipe(select(CourseQuery.getEditForm))
-        .subscribe((x) => this.CourseName.patchValue(x, { emitEvent: false })),
-      this.CourseName.valueChanges.subscribe((x) => this.store.dispatch(new ChangeEditCourse(x)))
+        .subscribe((x) => this.courseName.patchValue(x, { emitEvent: false })),
+      this.courseName.valueChanges.subscribe((x) => this.store.dispatch(new ChangeEditCourse(x)))
     );
   }
   save() {
-    if (this.CourseName.valid) {
+    if (this.courseName.valid) {
       this.store.dispatch(new EditCourseRequest(this.data.id));
       this.dialogRef.close();
     } else {
-      this.CourseName.markAllAsTouched();
+      this.courseName.markAllAsTouched();
     }
   }
 }

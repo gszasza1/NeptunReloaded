@@ -1,9 +1,14 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput [formControl]="subjectName" placeholder="Tantárgy" />
-  <mat-hint>Minimum 6 karakter</mat-hint>
-</mat-form-field>
-<div>
-  <button mat-button mat-dialog-close>Mégse</button>
-  <button mat-raised-button (click)="save()">Mentés</button>
-</div>
+<form [formGroup]="formGroup" (submit)="save()">
+  <div>
+    <app-subject-select [formControl]="formControls.subjectId"></app-subject-select>
+    <app-room-select [formControl]="formControls.roomId"></app-room-select>
+    <mat-form-field>
+      <mat-label>Név </mat-label>
+      <input matInput [formControl]="formControls.name" placeholder="Írja be a nevet" />
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-button mat-dialog-close type="button">Mégse</button>
+    <button mat-raised-button type="submit">Mentés</button>
+  </div>
+</form>

@@ -89,3 +89,8 @@ export interface RoomSelect {
   id: number;
   name: string;
 }
+
+export interface SubjectSelect {
+  id: number;
+  name: string;
+}
