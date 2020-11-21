@@ -26,14 +26,18 @@ namespace NeptunReloaded.API.Controllers
         private readonly ISubjectService _subjectService;
         private readonly ICourseService _courseService;
         private readonly IRoomService _roomService;
+        private readonly IExamService _examService;
+        private readonly IExamResultService _examResultService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService)
+        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService, IExamService examService, IExamResultService examResultService)
         {
             _logger = logger;
             _userService = userService;
             _subjectService = subjectService;
             _courseService = courseService;
             _roomService = roomService;
+            _examService = examService;
+            _examResultService =  examResultService;
         }
 
         [HttpPost]
@@ -49,18 +53,22 @@ namespace NeptunReloaded.API.Controllers
             //.ToArray();
         }
 
-        public List<Room> getUsers()
+        public List<ExamResult> getUsers()
         {
-            List<Room> list = new List<Room>();
+            List<ExamResult> list = new List<ExamResult>();
 
             User userloggedIn = _userService.loginUser(new LoginUser { neptun = "DT8CE1", password = "0000" }).Result;
+            userloggedIn.IsTeacher = false;
 
-            //Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
+            Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
 
-            CreateRoom room = new CreateRoom { Name = "Created Room QQ" };
-            userloggedIn.IsTeacher = true;
+            Exam exam8 = _examService.listExams("4").Result.FirstOrDefault();
 
-            Room toch = _roomService.listRooms().Result.Find(r => r.Name.Contains("123435QQ"));
+            ExamResult ee = _examResultService.ListExamResults("DT8CE1").Result.FindAll(er => er.ExamId == exam8.Id).FirstOrDefault();
+
+            _examService.leaveExam(userloggedIn, exam8);
+
+            list.AddRange(_examResultService.ListExamResults().Result);
 
             return list;
         }

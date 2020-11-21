@@ -15,7 +15,7 @@ namespace NeprunReloaded.DAL.Entities
         public User User { get; set; }
         [Required]
         [Min(0)]
-        public int Score { get; set; } = 0;
+        public int Score { get; set; } = -1;
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = new DateTime();
     }
