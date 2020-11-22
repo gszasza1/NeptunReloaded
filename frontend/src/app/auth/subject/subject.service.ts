@@ -1,24 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { Subject } from 'src/app/shared/backend.interface';
+import { CreateSubject, EditSubject, Subject } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubjectService {
+  constructor(private httpClient: HttpClient) {}
   getSubjects() {
-    //GET
-    // tslint:disable-next-line: variable-name
-    return new BehaviorSubject<Subject[]>([...Array(20)].map((_, i) => ({ id: i, name: 'Tantárgy ' + i })))
-      .asObservable()
-      .pipe(delay(300));
+    return this.httpClient.get<Subject[]>('Subject');
   }
 
-  createSubject(name: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  createSubject(subject: CreateSubject) {
+    return this.httpClient.post('Subject', subject);
   }
-  editSubject(id: number, name: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  editSubject(subject: EditSubject) {
+    return this.httpClient.put('Subject', subject);
   }
 }

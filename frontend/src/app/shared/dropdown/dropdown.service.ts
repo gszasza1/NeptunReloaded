@@ -32,8 +32,6 @@ export class DropdownService {
     return this.httpClient.get<RoomSelect[]>('Room/available');
   }
   getSubjects() {
-    return new BehaviorSubject<SubjectSelect[]>([...Array(20)].map((_, i) => ({ id: i, name: 'Tárgy ' + i })))
-      .asObservable()
-      .pipe(delay(300));
+    return this.httpClient.get<SubjectSelect[]>('Subject/select');
   }
 }

@@ -7,16 +7,8 @@ namespace NeptunReloaded.BLL.Models.Received
 {
     public class CreateSubject
     {
-        public string Name { get; set; } = "Default name";
+        public string Name { get; set; }
 
-        public Subject mapToDBSubject() {
-
-            return new Subject
-            {
-                Name = this.Name,
-                IsDeleted = false,
-                CreatedAt = DateTime.UtcNow
-            };
-        }
+       
     }
 }

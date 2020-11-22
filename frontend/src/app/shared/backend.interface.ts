@@ -114,3 +114,10 @@ export interface EditRoom {
 export interface CreateRoom {
   name: string;
 }
+export interface EditSubject {
+  id: number;
+  newName: string;
+}
+export interface CreateSubject {
+  name: string;
+}
