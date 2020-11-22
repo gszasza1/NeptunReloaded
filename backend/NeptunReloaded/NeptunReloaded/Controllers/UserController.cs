@@ -1,51 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NeprunReloaded.DAL.Entities;
+using NeprunReloaded.DAL.Additional;
 using NeptunReloaded.BLL.Models.Received;
-using NeptunReloaded.BLL.Services.Classes;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL.Entities;
 
 namespace NeptunReloaded.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
-        private readonly ISubjectService _subjectService;
-        private readonly ICourseService _courseService;
-        private readonly IRoomService _roomService;
-        private readonly IExamService _examService;
-        private readonly IExamResultService _examResultService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, ISubjectService subjectService , ICourseService courseService, IRoomService roomService, IExamService examService, IExamResultService examResultService)
+        public UserController(IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
-            _subjectService = subjectService;
-            _courseService = courseService;
-            _roomService = roomService;
-            _examService = examService;
-            _examResultService =  examResultService;
         }
-        
-        [HttpPost("register")]
-        public async Task<ActionResult> Register([FromBody] RegisterUser user) {
 
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<ActionResult> Register([FromBody] RegisterUser user)
+        {
             try
             {
-               var userResult=  await _userService.registerUser(user);
+                var userResult = await _userService.registerUser(user);
                 return Ok(userResult);
             }
             catch (InvalidOperationException e)
@@ -56,42 +39,136 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest("Hiba történt");
             }
-        
-        
+
         }
 
-        [HttpPost]
-        public void Post()
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult> Login([FromBody] LoginUser user)
         {
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+            try
+            {
+                var userResult = await _userService.loginUser(user);
+                return Ok(userResult);
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
+        }
+
+        [HttpPost("username")]
+        [Authorize]
+        public async Task<ActionResult> ChangeUsername([FromBody] ChangeUsername newName)
+        {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
+            try
+            {
+                await _userService.changeName(userId, newName.value);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpPost("password")]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePassword newPassword)
+        {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
+            try
+            {
+                await _userService.changePassword(userId, newPassword.value);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpPost("role")]
+        [Authorize(Roles = Role.Teacher)]
+        public async Task<ActionResult> ChangeUserRole([FromBody] ChangeUserRole changeUser)
+        {
+            try
+            {
+                await _userService.changeUserRole(changeUser.userId, changeUser.newRole);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+        [HttpGet("profil")]
+        [Authorize]
+        public async Task<IActionResult> GetUser()
+        {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
+            try
+            {
+                var user = await _userService.viewProfile(userId);
+                return Ok(new User()
+                {
+                    Id = user.Id,
+                    Role = user.Role,
+                    Neptun = user.Neptun,
+                    CreatedAt = user.CreatedAt,
+                    LastName = user.LastName,
+                    FirstName = user.FirstName,
+                    Username = user.Username
+                });
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
         }
 
         [HttpGet]
-        public List<ExamResult> getUsers()
+        [Authorize(Roles = Role.Teacher)]
+        public async Task<IActionResult> GetUsers()
         {
-            List<ExamResult> list = new List<ExamResult>();
 
-            User userloggedIn = _userService.loginUser(new LoginUser { neptun = "DT8CE1", password = "0000" }).Result;
-            userloggedIn.IsTeacher = false;
-
-            Course matek = _courseService.listCourses("3").Result.FirstOrDefault();
-
-            Exam exam8 = _examService.listExams("4").Result.FirstOrDefault();
-
-            ExamResult ee = _examResultService.ListExamResults("DT8CE1").Result.FindAll(er => er.ExamId == exam8.Id).FirstOrDefault();
-
-            _examService.leaveExam(userloggedIn, exam8);
-
-            list.AddRange(_examResultService.ListExamResults().Result);
-
-            return list;
+            try
+            {
+                return Ok(await _userService.GetAllUser());
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
+
+
     }
 }

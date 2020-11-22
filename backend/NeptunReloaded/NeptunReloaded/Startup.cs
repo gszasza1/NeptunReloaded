@@ -1,15 +1,19 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NeptunReloaded.BLL.Services.Classes;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL;
+using System;
 using System.Linq;
+using System.Text;
 
 namespace NeptunReloaded.API
 {
@@ -29,14 +33,38 @@ namespace NeptunReloaded.API
             services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("localhost:4200", "http://localhost:4200", "https://localhost:4200",
-                                                          "*").AllowAnyHeader()
-                                                              .AllowAnyMethod()
-                                                              .AllowAnyOrigin();
-                                  });
+                    builder =>
+                     {
+                       builder.WithOrigins(
+                           "localhost:4200",
+                           "http://localhost:4200",
+                           "https://localhost:4200",
+                           "*")
+                         .AllowAnyHeader()
+                         .AllowAnyMethod()
+                         .AllowAnyOrigin();
+                    });
             });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = false,
+                    ValidIssuer = Configuration.GetSection("Jwt").GetSection("Issuer").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt").GetSection("SecretKey").Value)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 options.JsonSerializerOptions.DictionaryKeyPolicy = null;
@@ -61,7 +89,11 @@ namespace NeptunReloaded.API
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IExamResultService, ExamResultService>();
 
-          
+            services.AddControllersWithViews()
+             .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
 
 
         }
@@ -84,13 +116,16 @@ namespace NeptunReloaded.API
                 c.RoutePrefix = "swagger";
             });
 
+          
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseAuthentication();
 
-          //  app.UseAuthorization();
+            app.UseAuthorization();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

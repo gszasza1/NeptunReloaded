@@ -1,23 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { Room } from 'src/app/shared/backend.interface';
+import { CreateRoom, EditRoom, Room } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoomService {
+  constructor(private httpClient: HttpClient) {}
   getRooms() {
-    // tslint:disable-next-line: variable-name
-    return new BehaviorSubject<Room[]>([...Array(20)].map((_, i) => ({ id: i, name: 'Szoba ' + i })))
-      .asObservable()
-      .pipe(delay(300));
+    return this.httpClient.get<Room[]>('Room');
   }
 
-  createRoom(name: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  createRoom(room: CreateRoom) {
+    return this.httpClient.post('Room', room);
   }
-  editRoom(id: number, name: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  editRoom(room: EditRoom) {
+    return this.httpClient.put('Room', room);
   }
 }

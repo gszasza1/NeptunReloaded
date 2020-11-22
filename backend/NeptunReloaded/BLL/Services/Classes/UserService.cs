@@ -1,12 +1,16 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using NeptunReloaded.BLL.Models.Received;
+using NeptunReloaded.BLL.Models.Send;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL;
 using NeptunReloaded.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,64 +19,72 @@ namespace NeptunReloaded.BLL.Services.Classes
     public class UserService : IUserService
     {
         private readonly NeptunReloadedDatabaseContext _context;
-       
-        public UserService(NeptunReloadedDatabaseContext context)
+        private readonly IConfiguration _config;
+
+        public UserService(NeptunReloadedDatabaseContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
-        public async Task<User> changeName(LoginUser user, string newName)
+        public async Task changeName(int? userId, string newName)
         {
-            User dbUser = null;
-
-            try
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (userId == null || currentUser == null)
             {
-                dbUser = (User)_context.Users.ToList<User>().Find(u => u.Neptun == user.neptun);
-
-                if (dbUser != null)
-                {
-                    dbUser.FirstName = newName;
-                    _context.Update(dbUser);
-                    _context.SaveChanges();
-                }
+                throw new InvalidOperationException("Nem létezik a felhasználó");
             }
-            catch (ArgumentNullException) { }
-         
-            return await Task.FromResult(dbUser);
+
+            currentUser.Username = newName;
+            _context.Update(currentUser);
+            await _context.SaveChangesAsync();
+            return;
         }
 
-        public async Task<User> changePassword(LoginUser user, string newPassword)
+        public async Task changePassword(int? userId, string newPassword)
         {
-            User dbUser = null;
-
-            try
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (userId == null || currentUser == null)
             {
-                dbUser = (User)_context.Users.ToList<User>().Find(u => u.Neptun == user.neptun);
-
-                if (dbUser != null)
-                {
-                    dbUser.Password = newPassword;
-                    _context.Update(dbUser);
-                    _context.SaveChanges();
-                }
+                throw new InvalidOperationException("Nem létezik a felhasználó");
             }
-            catch (ArgumentNullException) { }
-
-            return await Task.FromResult(dbUser);
+            currentUser.Password = newPassword;
+            _context.Update(currentUser);
+            await _context.SaveChangesAsync();
+            return;
+        }
+        public async Task changeUserRole(int? userId, string role)
+        {
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (userId == null || currentUser == null)
+            {
+                throw new InvalidOperationException("Nem létezik a felhasználó");
+            }
+            currentUser.Role = role;
+            _context.Update(currentUser);
+            await _context.SaveChangesAsync();
+            return;
         }
 
-        public async Task<User> loginUser(LoginUser user)
+        public async Task<IEnumerable<MinimalUser>> GetAllUser()
         {
-            User dbUser = null;
+            return await _context.Users.Select(x => new MinimalUser() { Id = x.Id, Username = x.Username,Role=x.Role }).ToListAsync();
+        }
 
-            try
+        public async Task<string> loginUser(LoginUser loginCredentials)
+        {
+            if (loginCredentials.Username == null || loginCredentials.Password == null)
             {
-                dbUser = _context.Users.ToList<User>().Find(u => u.Neptun == user.neptun && u.Password == user.password);
-
+                throw new InvalidOperationException("Hibás bemenet");
             }
-            catch (ArgumentNullException) { }
+            User auth = await _context.Users.SingleOrDefaultAsync(x => x.Username == loginCredentials.Username && x.Password == loginCredentials.Password);
+            if (auth == null)
+            {
+                throw new InvalidOperationException("Nincs ilyen felhasználó");
+            }
 
-            return await Task.FromResult(dbUser);
+            return GenerateJWTToken(auth);
+
         }
 
         public async Task<User> registerUser(RegisterUser user)
@@ -81,34 +93,49 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                 throw new InvalidOperationException("Hibás bemenet");
             }
-            User dbUser;
+            List<User> users = await _context.Users.Where(u => u.Neptun == user.neptun || user.username==u.Username).ToListAsync();
 
-            List<User> users =await _context.Users.Where(u=>u.Neptun==user.neptun).ToListAsync();
-            
-            //Check if neptun is already in use
+            //Check if neptun or username is already in use
             if (users.Count > 0)
             {
-              throw new InvalidOperationException("Létező felhasználó");  //return null as user if registration was unsuccessful, else return registered user
+                throw new InvalidOperationException("Létező felhasználó");  
             }
 
-           dbUser = user.mapToDBUser();
+            var  dbUser = user.mapToDBUser();
 
-           await _context.Users.AddAsync(dbUser);
-           await _context.SaveChangesAsync();
+            await _context.Users.AddAsync(dbUser);
+            await _context.SaveChangesAsync();
 
-           return dbUser;
+            return dbUser;
         }
 
-        public async Task<User> viewProfile(LoginUser user)
+        public async Task<User> viewProfile(int? userId)
         {
-            User dbUser = null;
-            try
-            {
-                dbUser = (User)_context.Users.ToList<User>().Find(u => u.Neptun == user.neptun);
-            }
-            catch (ArgumentNullException) { }
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId));
+        }
+       private string GenerateJWTToken(User userInfo)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt").GetSection("SecretKey").Value));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[] {
+        new Claim(JwtRegisteredClaimNames.Sub, userInfo.Id.ToString()),
+        new Claim(ClaimTypes.Name, userInfo.Username),
+        new Claim(ClaimTypes.Role, userInfo.Role),
+        new Claim("id",  userInfo.Id.ToString()),
+        new Claim("createdAt", userInfo.CreatedAt.ToString()),
+        new Claim("firstName", userInfo.FirstName),
+        new Claim("lastName", userInfo.LastName),
+        new Claim("valid", DateTime.Now.ToString()),
+      };
+            var token = new JwtSecurityToken(
+                issuer: _config.GetSection("Jwt").GetSection("Issuer").Value,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(60),
+                signingCredentials: credentials
+                );
 
-            return await Task.FromResult(dbUser);
+            var tokenHandler = new JwtSecurityTokenHandler().WriteToken(token);
+            return tokenHandler;
         }
     }
 }

@@ -15,7 +15,11 @@ import { CourseService } from './course/course.service';
 import { CreateCourseComponent } from './course/create-course/create-course.component';
 import { EditCourseComponent } from './course/edit-course/edit-course.component';
 import { ExamResultEffects } from './exam-result/+state/exam-result.effects';
-import { EXAMRESULT_FEATURE_KEY, ExamResultInitialState, ExamResultReducer } from './exam-result/+state/exam-result.reducer';
+import {
+  EXAMRESULT_FEATURE_KEY,
+  ExamResultInitialState,
+  ExamResultReducer,
+} from './exam-result/+state/exam-result.reducer';
 import { CreateExamResultComponent } from './exam-result/create-exam-result/create-exam-result.component';
 import { ExamResultComponent } from './exam-result/exam-result.component';
 import { ExamsEffects } from './exam/+state/exam.effects';
@@ -50,6 +54,10 @@ import { CreateSubjectComponent } from './subject/create-subject/create-subject.
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { SubjectComponent } from './subject/subject.component';
 import { SubjectService } from './subject/subject.service';
+import { UserEffects } from './users/+state/users.effects';
+import { USER_FEATURE_KEY, UserInitialState, UserReducer } from './users/+state/users.reducer';
+import { UsersComponent } from './users/users.component';
+import { UserService } from './users/users.service';
 
 @NgModule({
   declarations: [
@@ -72,6 +80,7 @@ import { SubjectService } from './subject/subject.service';
     EditExamComponent,
     CreateExamResultComponent,
     CreateCourseComponent,
+    UsersComponent,
   ],
   imports: [
     CommonModule,
@@ -107,7 +116,11 @@ import { SubjectService } from './subject/subject.service';
     StoreModule.forFeature(EXAMRESULT_FEATURE_KEY, ExamResultReducer, {
       initialState: ExamResultInitialState,
     }),
+    EffectsModule.forFeature([UserEffects]),
+    StoreModule.forFeature(USER_FEATURE_KEY, UserReducer, {
+      initialState: UserInitialState,
+    }),
   ],
-  providers: [ProfilService, SubjectService, CourseDialogService, RoomService, ExamService, CourseService],
+  providers: [ProfilService, SubjectService, CourseDialogService, RoomService, ExamService, CourseService, UserService],
 })
 export class AuthModule {}

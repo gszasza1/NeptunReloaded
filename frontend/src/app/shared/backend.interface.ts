@@ -5,7 +5,12 @@ export interface RegisterUser {
   neptun: string;
   password: string;
 }
-
+export interface ChangePassword {
+  value: string;
+}
+export interface ChangeUsername {
+  value: string;
+}
 export interface LoginUser {
   username: string;
   password: string;
@@ -34,7 +39,15 @@ export interface CreateCourse {
   subjectId: number;
   roomId: string;
 }
-
+export interface MinimalUser {
+  id: number;
+  role: string;
+  username: string;
+}
+export interface ChangeUserRole {
+  userId: number;
+  newRole: string;
+}
 export interface CoursesPopUp {
   id: number;
   subject: Subject;
@@ -92,5 +105,19 @@ export interface RoomSelect {
 
 export interface SubjectSelect {
   id: number;
+  name: string;
+}
+export interface EditRoom {
+  id: number;
+  newName: string;
+}
+export interface CreateRoom {
+  name: string;
+}
+export interface EditSubject {
+  id: number;
+  newName: string;
+}
+export interface CreateSubject {
   name: string;
 }

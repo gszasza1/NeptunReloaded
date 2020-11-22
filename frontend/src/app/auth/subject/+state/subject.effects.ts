@@ -33,7 +33,7 @@ export class SubjectEffects {
     ofType(SubjectActionTypes.CreateSubjectRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.createSubject(SubjectQuery.getCreateForm(storeState)).pipe(
+      this.service.createSubject({ name: SubjectQuery.getCreateForm(storeState) }).pipe(
         map(() => new CreateSubjectResponse()),
         catchError(async () => new CreateSubjectError())
       )
@@ -43,10 +43,12 @@ export class SubjectEffects {
     ofType(SubjectActionTypes.EditSubjectRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.editSubject((action as EditSubjectRequest).payload, SubjectQuery.getEditForm(storeState)).pipe(
-        map(() => new EditSubjectResponse()),
-        catchError(async () => new EditSubjectError())
-      )
+      this.service
+        .editSubject({ id: (action as EditSubjectRequest).payload, newName: SubjectQuery.getEditForm(storeState) })
+        .pipe(
+          map(() => new EditSubjectResponse()),
+          catchError(async () => new EditSubjectError())
+        )
     )
   );
   @Effect() refreshList$ = this.actions$.pipe(

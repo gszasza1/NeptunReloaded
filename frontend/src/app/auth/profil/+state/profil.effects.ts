@@ -21,7 +21,7 @@ export class ProfilEffects {
     ofType(ProfilActionTypes.UserNameChangeRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.changeUserName(ProfilQuery.getUserName(storeState)).pipe(
+      this.service.changeUserName({ value: ProfilQuery.getUserName(storeState) }).pipe(
         map((x) => new UserNameChangeResponse()),
         catchError(async () => new UserNameChangeError())
       )
@@ -31,7 +31,7 @@ export class ProfilEffects {
     ofType(ProfilActionTypes.PasswordChangeRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.changePass(ProfilQuery.getPassword(storeState)).pipe(
+      this.service.changePass({ value: ProfilQuery.getPassword(storeState) }).pipe(
         map((x) => new PasswordChangeResponse()),
         catchError(async () => new PasswordChangeError())
       )

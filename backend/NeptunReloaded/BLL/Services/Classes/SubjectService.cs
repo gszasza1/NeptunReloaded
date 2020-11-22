@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using NeprunReloaded.DAL.Additional;
 using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
 using NeptunReloaded.BLL.Services.Interfaces;
@@ -16,68 +18,60 @@ namespace NeptunReloaded.BLL.Services.Classes
     {
         private readonly NeptunReloadedDatabaseContext _context;
 
+        public SubjectService()
+        {
+        }
+
         public SubjectService(NeptunReloadedDatabaseContext context)
         {
             _context = context;        
         }
 
-        public async Task<Subject> createSubject(User user, CreateSubject subject)
+        public async Task createSubject( CreateSubject subject)
         {
-            Subject dbSubject = null;
-
-            try {
-                //Check if user is teacher
-                if (!user.IsTeacher)
-                    return await Task.FromResult(dbSubject); //return null if same 
-
-                List<Subject> subjects = _context.Subjects.ToList().FindAll(s => s.Name == subject.Name);
-
-                //Check if name is already in use
-                if (subjects.Count > 0)
-                    return await Task.FromResult(dbSubject); //return null if same task 
-
-                dbSubject = subject.mapToDBSubject();
-
-                _context.Subjects.Add(dbSubject);
-                _context.SaveChanges();
-            }
-            catch (ArgumentNullException) { }
-
-
-            return await Task.FromResult(dbSubject);
-        }
-
-        public async Task<List<Course>> listCourses(Subject subject)
-        {
-
-            List<Course> courses = new List<Course>();
-
-            try { 
-                courses.AddRange( _context.Courses.ToList().FindAll( c => c.SubjectId == subject.Id));
-            }
-            catch (ArgumentNullException){ }
-
-
-            return await Task.FromResult(courses);
-        }
-
-        public async Task<List<Subject>> listSubjects(string filterName = "")
-        {
-            List<Subject> subjects = new List<Subject>();
-            try
+            if (subject.Name == null)
             {
-                if (filterName.Length == 0)
-                {
-                    subjects.AddRange(_context.Subjects.ToList());
-                }
-                else {
-                    subjects.AddRange(_context.Subjects.ToList().FindAll(s => s.Name.Contains(filterName)));
-                }
-
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var dbSubject = new Subject()
+            {
+                Name = subject.Name
+            };
 
-            return await Task.FromResult(subjects);
+            _context.Subjects.Add(dbSubject);
+
+            await _context.SaveChangesAsync();
+
+            return;
+        }
+
+        public async Task editSubject(EditSubject subject)
+        {
+            if (subject.newName == null || subject.Id==null)
+            {
+                throw new InvalidOperationException("Hibás adatok");
+            }
+            var editSubject = _context.Subjects.FirstOrDefault(x => x.Id == subject.Id);
+
+            if (editSubject == null)
+            {
+                throw new InvalidOperationException("Nem létező szoba");
+            }
+            editSubject.Name = subject.newName;
+
+            _context.Subjects.Update(editSubject);
+            await _context.SaveChangesAsync();
+
+            return;
+        }
+        public async Task<IEnumerable<Subject>> listSubjects()
+        {
+            return await _context.Subjects.ToListAsync();
+        }
+
+        public async Task<IEnumerable<SubjectSelect>> listSubjectSelect()
+        {
+            return await _context.Subjects.Where(c=>!c.IsDeleted).Select(y=> new SubjectSelect() { Id=y.Id,Name=y.Name}).ToListAsync();
         }
     }
 }

@@ -1,30 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { UserProfil } from 'src/app/shared/backend.interface';
+import { ChangePassword, ChangeUsername, UserProfil } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfilService {
+  constructor(private httpClient: HttpClient) {}
   getUser() {
-    return new BehaviorSubject<UserProfil>({
-      id: 1,
-      createdAt: new Date(),
-      firstName: 'Kis',
-      lastName: 'Lajos',
-      neptun: 'BATEKA',
-      username: 'kisLajos',
-    })
-      .asObservable()
-      .pipe(delay(200));
+    return this.httpClient.get<UserProfil>('User/profil');
   }
 
-  changePass(password: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(200));
+  changePass(password: ChangePassword) {
+    return this.httpClient.post('User/password', password);
   }
 
-  changeUserName(userName: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(200));
+  changeUserName(userName: ChangeUsername) {
+    return this.httpClient.post('User/username', userName);
   }
 }

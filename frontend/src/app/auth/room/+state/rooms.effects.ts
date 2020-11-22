@@ -33,7 +33,7 @@ export class RoomEffects {
     ofType(RoomActionTypes.CreateRoomRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.createRoom(RoomQuery.getCreateForm(storeState)).pipe(
+      this.service.createRoom({ name: RoomQuery.getCreateForm(storeState) }).pipe(
         map(() => new CreateRoomResponse()),
         catchError(async () => new CreateRoomError())
       )
@@ -43,10 +43,12 @@ export class RoomEffects {
     ofType(RoomActionTypes.EditRoomRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.editRoom((action as EditRoomRequest).payload, RoomQuery.getEditForm(storeState)).pipe(
-        map(() => new EditRoomResponse()),
-        catchError(async () => new EditRoomError())
-      )
+      this.service
+        .editRoom({ id: (action as EditRoomRequest).payload, newName: RoomQuery.getEditForm(storeState) })
+        .pipe(
+          map(() => new EditRoomResponse()),
+          catchError(async () => new EditRoomError())
+        )
     )
   );
   @Effect() refreshList$ = this.actions$.pipe(

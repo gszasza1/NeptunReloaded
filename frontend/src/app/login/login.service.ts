@@ -1,6 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
 
 import { LoginUser } from '../shared/backend.interface';
 
@@ -8,8 +7,13 @@ import { LoginUser } from '../shared/backend.interface';
   providedIn: 'root',
 })
 export class LoginService {
+  constructor(private httpClient: HttpClient) {}
   login(form: LoginUser) {
-    //   return this.httpClient.post('/user/register', form);
-    return new BehaviorSubject({}).asObservable().pipe(delay(200));
+    return this.httpClient.post('User/login', form, {
+      responseType: 'text',
+      params: {
+        skipResponseSnackbar: 'true',
+      },
+    });
   }
 }
