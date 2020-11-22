@@ -43,9 +43,10 @@ export function LoginFormReducer(
       break;
     }
     case LoginFormActionTypes.LoginFormResponse: {
-      localStorage.setItem('token', action.payload);
+      localStorage.setItem('token', action.payload + '');
       state = {
         ...state,
+        form: loginFormInitialState.form,
         isRequesting: false,
         token: action.payload,
         decodedToken: jwt_decode(action.payload),

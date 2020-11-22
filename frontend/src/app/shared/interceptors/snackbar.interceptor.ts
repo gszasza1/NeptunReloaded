@@ -15,7 +15,7 @@ export class SnackbarInterceptor implements HttpInterceptor {
           this.snackbar.open('Hiba történt', '', { duration: 2000 });
         }
         if (error.status >= 400) {
-          this.snackbar.open(JSON.stringify(error.error), '', { duration: 2000 });
+          this.snackbar.open(JSON.stringify(error.error), '', { duration: 2000, panelClass: 'error-snackbar' });
         }
         return throwError(error);
       })

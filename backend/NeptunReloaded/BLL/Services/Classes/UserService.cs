@@ -94,7 +94,7 @@ namespace NeptunReloaded.BLL.Services.Classes
 
         public async Task<User> viewProfile(int? userId)
         {
-              return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId));
         }
        private string GenerateJWTToken(User userInfo)
         {
@@ -104,6 +104,7 @@ namespace NeptunReloaded.BLL.Services.Classes
         new Claim(JwtRegisteredClaimNames.Sub, userInfo.Id.ToString()),
         new Claim(ClaimTypes.Name, userInfo.Username),
         new Claim(ClaimTypes.Role, userInfo.Role),
+        new Claim("id",  userInfo.Id.ToString()),
         new Claim("createdAt", userInfo.CreatedAt.ToString()),
         new Claim("firstName", userInfo.FirstName),
         new Claim("lastName", userInfo.LastName),

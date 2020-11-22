@@ -25,7 +25,6 @@ export class CreateExamComponent extends UnsubscribeOnDestroyBaseComponent imple
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this.formControls.courseId.valueChanges.subscribe((x) => console.log(x)),
       this.store
         .pipe(select(ExamQuery.getCreateForm))
         .subscribe((x) => this.formGroup.patchValue(x, { emitEvent: false })),

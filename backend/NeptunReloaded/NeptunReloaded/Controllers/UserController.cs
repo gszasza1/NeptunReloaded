@@ -89,12 +89,12 @@ namespace NeptunReloaded.API.Controllers
 
         [HttpPost("username")]
         [Authorize]
-        public async Task<ActionResult> ChangeUsername([FromBody] string newName)
+        public async Task<ActionResult> ChangeUsername([FromBody] ChangeUsername newName)
         {
-            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.Sub)).Value);
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-                await _userService.changeName(userId, newName);
+                await _userService.changeName(userId, newName.value);
                 return Ok();
             }
             catch (InvalidOperationException e)
@@ -111,13 +111,40 @@ namespace NeptunReloaded.API.Controllers
 
         [HttpPost("password")]
         [Authorize]
-        public async Task<ActionResult> ChangePassword([FromBody] string newPassword)
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePassword newPassword)
         {
-            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals(JwtRegisteredClaimNames.Sub)).Value);
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-                await _userService.changeName(userId, newPassword);
+                await _userService.changePassword(userId, newPassword.value);
                 return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetUser()
+        {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
+            try
+            {
+               var user = await _userService.viewProfile(userId);
+                return Ok(new User() {
+                    Id = user.Id,
+                Role = user.Role,
+                Neptun = user.Neptun,
+                CreatedAt = user.CreatedAt,
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                Username = user.Username
+                }) ;
             }
             catch (InvalidOperationException e)
             {

@@ -54,12 +54,19 @@ export function ProfilReducer(state: ProfilState = ProfilInitialState, action: P
       };
       break;
     }
-    case ProfilActionTypes.UserNameChangeResponse:
+    case ProfilActionTypes.UserNameChangeResponse: {
+      state = {
+        ...state,
+        isChangeRequesting: false,
+        username: ProfilInitialState.username,
+        profil: { ...state.profil, username: state.username },
+      };
+      break;
+    }
     case ProfilActionTypes.UserNameChangeError: {
       state = {
         ...state,
         isChangeRequesting: false,
-        profil: { ...state.profil, username: state.username },
       };
       break;
     }
@@ -70,7 +77,14 @@ export function ProfilReducer(state: ProfilState = ProfilInitialState, action: P
       };
       break;
     }
-    case ProfilActionTypes.PasswordChangeResponse:
+    case ProfilActionTypes.PasswordChangeResponse: {
+      state = {
+        ...state,
+        password: ProfilInitialState.password,
+        isChangeRequesting: false,
+      };
+      break;
+    }
     case ProfilActionTypes.PasswordChangeError: {
       state = {
         ...state,

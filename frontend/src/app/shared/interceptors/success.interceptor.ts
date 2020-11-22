@@ -15,10 +15,11 @@ export class SuccessInterceptor implements HttpInterceptor {
           if (
             evt.status <= 400 &&
             ['PUT', 'PATCH', 'DELETE', 'POST'].includes(req.method) &&
-            !req.params.get('skipResponseSnackbar')
+            req.params.get('skipResponseSnackbar') !== 'true'
           ) {
             this.snackbar.open(req.method === 'POST' ? 'Sikeres felvétel' : 'Sikeres módosítás', '', {
               duration: 2000,
+              panelClass: 'success-snackbar',
             });
           }
         }

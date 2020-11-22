@@ -11,6 +11,5 @@ export class RegisterService {
 
   register(form: RegisterUser) {
     return this.httpClient.post('User/register', form);
-    // return new BehaviorSubject({}).asObservable().pipe(delay(200));
   }
 }

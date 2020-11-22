@@ -9,8 +9,11 @@ import { LoginUser } from '../shared/backend.interface';
 export class LoginService {
   constructor(private httpClient: HttpClient) {}
   login(form: LoginUser) {
-    return this.httpClient.post('User/login?skipResponseSnackbar=true', form, {
+    return this.httpClient.post('User/login', form, {
       responseType: 'text',
+      params: {
+        skipResponseSnackbar: 'true',
+      },
     });
   }
 }

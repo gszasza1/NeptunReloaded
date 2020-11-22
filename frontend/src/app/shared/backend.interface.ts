@@ -5,7 +5,12 @@ export interface RegisterUser {
   neptun: string;
   password: string;
 }
-
+export interface ChangePassword {
+  value: string;
+}
+export interface ChangeUsername {
+  value: string;
+}
 export interface LoginUser {
   username: string;
   password: string;

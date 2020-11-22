@@ -51,8 +51,4 @@ export class CourseDialogComponent extends UnsubscribeOnDestroyBaseComponent imp
   joinCourse(courseId: number) {
     this.store.dispatch(new JoinSubjectCourseRequest(courseId));
   }
-  anyad(element) {
-    console.log(element === this.expandedElement, element);
-    return element === this.expandedElement;
-  }
 }

@@ -6,15 +6,16 @@ import { Observable } from 'rxjs';
 export class DefaultSendInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = localStorage.getItem('token');
-    let newRequest;
+    let newRequest = request.clone();
+    console.log(token);
     if (token) {
-      newRequest = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${token}`),
+      newRequest = newRequest.clone({
+        headers: newRequest.headers.append('Authorization', `Bearer ${token}`),
       });
     }
-    newRequest = request.clone({
-      headers: request.headers.set('Access-Control-Allow-Origin', '*'),
-      url: 'https:localhost:44331/' + request.url,
+    newRequest = newRequest.clone({
+      headers: newRequest.headers.append('Access-Control-Allow-Origin', '*'),
+      url: 'https:localhost:44331/' + newRequest.url,
     });
     return next.handle(newRequest);
   }

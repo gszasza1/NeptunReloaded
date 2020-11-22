@@ -36,6 +36,8 @@ namespace NeptunReloaded.DAL.Entities
       
         public DateTime CreatedAt { get; set; } = new DateTime();
 
+       
+
     }
    
 }
