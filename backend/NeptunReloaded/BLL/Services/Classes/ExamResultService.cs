@@ -10,6 +10,7 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using NeprunReloaded.DAL.Additional;
+using Microsoft.EntityFrameworkCore;
 
 namespace NeptunReloaded.BLL.Services.Classes
 {
@@ -22,82 +23,50 @@ namespace NeptunReloaded.BLL.Services.Classes
             _context = context;
         }
 
-        public async Task<ExamResult> createExamResult(User user, CreateExamResult examResult)
+        public async Task createExamResult(CreateExamResult result)
         {
-            ExamResult dbExamResult = null;
-
-            try
+            if (result.ExamId == null || result.Score == null || result.UserId == null)
             {
-                //Check if user is teacher
-                if (user.Role == Role.Student)
-                    return await Task.FromResult(dbExamResult);
-
-                //return null if user for exam is already applied
-                List<ExamResult> examResults = getExamResults().FindAll(er => er.UserId == examResult.User.Id && er.ExamId == examResult.Exam.Id);
-
-                //Check if name is already in use
-                if (examResults.Count > 0)
-                    return await Task.FromResult(dbExamResult); //return null if same task 
-
-                dbExamResult = examResult.mapToDBExamResult();
-
-                _context.ExamResults.Add(dbExamResult);
-                _context.SaveChanges();
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var dbExamResult = new ExamResult()
+            {
+                UserId = result.UserId,
+                Score=result.Score,
+                ExamId=result.ExamId
+            };
 
+            _context.ExamResults.Add(dbExamResult);
+            await _context.SaveChangesAsync();
 
-            return await Task.FromResult(dbExamResult);
+            return;
         }
 
-        public async Task<List<ExamResult>> ListExamResults(string filterNeptun = "")
+        public async Task editExamResult(EditExamResult examResult)
         {
-            List<ExamResult> examResults = new List<ExamResult>();
-            try
+            if (examResult.NewScore == null || examResult.ExamResultId == null)
             {
-                if (filterNeptun.Length == 0)
-                {
-                    examResults.AddRange(getExamResults());
-                }
-                else
-                {
-                    examResults.AddRange(getExamResults().FindAll(e => e.User.Neptun == filterNeptun));
-                }
-
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var editExamResult = _context.ExamResults.FirstOrDefault(x => x.Id == examResult.ExamResultId);
 
-            return await Task.FromResult(examResults);
-        }
-
-        public async Task<ExamResult> scoreExam(User user, ExamResult examResult, int score)
-        {
-            ExamResult dbExamResult = null;
-
-            if (user.Role==Role.Student)
-                await Task.FromResult(dbExamResult);
-
-            try
+            if (editExamResult == null)
             {
-                dbExamResult = getExamResults().Find(er => er.Id == examResult.Id);
-
-                if (dbExamResult != null)
-                {
-
-                    dbExamResult.Score = score;
-
-                    _context.Update(dbExamResult);
-                    _context.SaveChanges();
-                }
+                throw new InvalidOperationException("Nem létező szoba");
             }
-            catch (ArgumentNullException) { }
+            editExamResult.Score = examResult.NewScore;
 
-            return await Task.FromResult(dbExamResult);
+            _context.ExamResults.Update(editExamResult);
+            await _context.SaveChangesAsync();
+
+            return;
         }
-
-        private List<ExamResult> getExamResults()
+        public async Task<IEnumerable<ExamResult>> ListExamResults()
         {
-            return _context.ExamResults.ToList().FindAll(er => er.IsDeleted == false);
+            return await _context.ExamResults.ToListAsync();
         }
     }
+
+       
+    
 }

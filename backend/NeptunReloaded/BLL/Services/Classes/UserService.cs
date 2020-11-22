@@ -71,6 +71,12 @@ namespace NeptunReloaded.BLL.Services.Classes
             return await _context.Users.Select(x => new MinimalUser() { Id = x.Id, Username = x.Username,Role=x.Role }).ToListAsync();
         }
 
+        public Task<IEnumerable<MinimalUser>> GetAllUserInCourse(int courseId)
+        {
+            //TODO:
+            throw new NotImplementedException();
+        }
+
         public async Task<string> loginUser(LoginUser loginCredentials)
         {
             if (loginCredentials.Username == null || loginCredentials.Password == null)

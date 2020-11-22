@@ -84,9 +84,10 @@ namespace NeptunReloaded.API.Controllers
         [Authorize]
         public async Task<ActionResult> GetAllCourseBySubject([FromBody] CoursesBySubject subject)
         {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-                var userResult = await _courseService.listCoursesBySubject(subject);
+                var userResult = await _courseService.listCoursesBySubject(userId,subject);
                 return Ok(userResult);
             }
             catch (InvalidOperationException e)

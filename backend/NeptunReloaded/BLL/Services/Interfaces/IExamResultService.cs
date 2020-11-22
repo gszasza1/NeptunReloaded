@@ -14,7 +14,7 @@ namespace NeptunReloaded.BLL.Services.Interfaces
 
         public Task createExamResult(CreateExamResult result);
 
-        public Task editExamResult(ExamResult examResult);
+        public Task editExamResult(EditExamResult examResult);
 
     }
 }
