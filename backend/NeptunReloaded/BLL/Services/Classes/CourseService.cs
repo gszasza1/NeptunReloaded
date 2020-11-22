@@ -10,6 +10,8 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using NeprunReloaded.DAL.Additional;
+using NeptunReloaded.BLL.Models.Send;
+using Microsoft.EntityFrameworkCore;
 
 namespace NeptunReloaded.BLL.Services.Classes
 {
@@ -22,120 +24,94 @@ namespace NeptunReloaded.BLL.Services.Classes
             _context = context;
         }
 
-        public async Task<List<Course>> listCoursesForUser(User user)
+        public async Task createCourse(int userId, CreateCourse course)
         {
-            List<Course> courses = new List<Course>();
-            try
+            if (course.Name == null || course.SubjectId == null || course.RoomId == null)
             {
-                 _context.UserCourses.ToList().FindAll(uc => uc.UserId == user.Id).ForEach(
-                     a =>
-                     {
-                         Course foundCourse = _context.Courses.ToList().Find(course => course.Id == a.CourseId);
-                         if (foundCourse != null)
-                             courses.Add(foundCourse);
-                     });
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var dbCourse = new Course()
+            {
+                Name = course.Name,
+                SubjectId = course.SubjectId,
+                RoomId = course.RoomId
+            };
 
-            return await Task.FromResult(courses);
+            _context.Courses.Add(dbCourse);
+
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
-        async Task<Course> ICourseService.createCourse(User user ,CreateCourse course)
+        public async Task editCourse(EditCourse course)
         {
-            Course dbCourse = null;
-
-            try
+            if (course.newName == null || course.Id == null)
             {
-                //Check if user is teacher
-                if (user.Role==Role.Student)
-                    return await Task.FromResult(dbCourse); //return null if same 
-
-                List<Course> courses = _context.Courses.ToList().FindAll(s => s.Name == course.Name);
-
-                //Check if name is already in use
-                if (courses.Count > 0)
-                    
-                    return await Task.FromResult(dbCourse); //return null if same task 
-
-                dbCourse = course.mapToDBCourse();
-
-                _context.Courses.Add(dbCourse);
-                _context.SaveChanges();
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var editCourse = _context.Courses.FirstOrDefault(x => x.Id == course.Id);
 
+            if (editCourse == null)
+            {
+                throw new InvalidOperationException("Nem létező szoba");
+            }
+            editCourse.Name = course.newName;
 
-            return await Task.FromResult(dbCourse);
+            _context.Courses.Update(editCourse);
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
-        async Task<Course> ICourseService.editCourse(User user ,Course course)
+        public async Task joinCourse(int userId, JoinCourse course)
         {
-            Course dbCourse = null;
-            
-            if(user.Role==Role.Student)
-                await Task.FromResult(dbCourse);
-
-            try
+            if (course.CourseId == null || userId == null)
             {
-                dbCourse = (Course)_context.Courses.ToList().Find(c => c.Id == course.Id);
-
-                if (dbCourse != null)
-                {
-                   
-                    dbCourse.Name = course.Name;
-                    
-                    dbCourse.RoomId = course.RoomId;
-
-                    _context.Update(dbCourse);
-                    _context.SaveChanges();
-                }
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var alreadyExist = _context.UserCourses.FirstOrDefaultAsync(x => x.UserId == userId && x.CourseId == course.CourseId);
 
-            return await Task.FromResult(dbCourse);
+            if (alreadyExist != null)
+            {
+                throw new InvalidOperationException("Már jelentkezett a kurzusra");
+            }
+            var dbUserCourse = new UserCourse()
+            {
+                CourseId = course.CourseId,
+                UserId = userId
+            };
+
+           await _context.UserCourses.AddAsync(dbUserCourse);
+           await _context.SaveChangesAsync();
+
+            return;
         }
 
-        async Task<UserCourse> ICourseService.joinCourse(User user, Course course)
+        public async Task<IEnumerable<Course>> listCourses()
         {
-            UserCourse userCourse = null;
-
-            try
-            {
-
-                UserCourse match = _context.UserCourses.ToList().Find(uc => uc.CourseId == course.Id && uc.UserId == user.Id);
-
-                if(match == null) {
-
-                    userCourse = new UserCourse { Course = course, CourseId = course.Id, User = user, UserId = user.Id };
-
-                    _context.UserCourses.Add(userCourse);
-                    _context.SaveChanges();
-                }
-
-            }
-            catch (ArgumentNullException) { }
-
-            return await Task.FromResult(userCourse);
+            return await _context.Courses.ToListAsync();
         }
 
-        async Task<List<Course>>  ICourseService.listCourses(string filterName)
+        public async Task<IEnumerable<CoursesPopUp>> listCoursesBySubject(int userId,CoursesBySubject subject)
         {
-            List<Course> courses = new List<Course>();
-            try
-            {
-                if (filterName.Length == 0)
-                {
-                    courses.AddRange(_context.Courses.ToList());
-                }
-                else
-                {
-                    courses.AddRange(_context.Courses.ToList().FindAll(s => s.Name.Contains(filterName)));
-                }
+           return await _context.Courses.Where(x=>x.SubjectId==subject.SubjectId)
+                .Include(z=>z.UserCourses).ThenInclude(u=>u.User)
+                .Include(t=>t.User)
+                .Include(x=>x.Room)
+                .Include(y=>y.Subject)
+                .Select(q=> new CoursesPopUp() { 
+            Id=q.Id,
+            Subject=q.Subject,
+            Room=q.Room,
+            //TODO: Member need here
+            User=new UserSelect() { Id=q.User.Id,Name=q.User.FirstName + " " + q.User.LastName}
+            }).ToListAsync();
+        }
 
-            }
-            catch (ArgumentNullException) { }
-
-            return await Task.FromResult(courses);
+        public async Task<IEnumerable<CourseSelect>> listCoursesSelect(int userId)
+        {
+            return await _context.Courses.Where(c => !c.IsDeleted).Select(y => new CourseSelect() { Id = y.Id, Name = y.Name }).ToListAsync();
         }
     }
 }

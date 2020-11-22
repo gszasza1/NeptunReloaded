@@ -28,7 +28,7 @@ namespace NeptunReloaded.API.Controllers
             var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-                var userResult = await _courseService.createCourse(userId, course);
+                await _courseService.createCourse(userId, course);
                 return Ok();
             }
             catch (InvalidOperationException e)
@@ -47,8 +47,8 @@ namespace NeptunReloaded.API.Controllers
         {
             try
             {
-                var userResult = await _courseService.editCourse(course);
-                return Ok(userResult);
+                await _courseService.editCourse(course);
+                return Ok();
             }
             catch (InvalidOperationException e)
             {
@@ -67,8 +67,8 @@ namespace NeptunReloaded.API.Controllers
             var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-                var userResult = await _courseService.joinCourse(userId, course);
-                return Ok(userResult);
+                await _courseService.joinCourse(userId, course);
+                return Ok();
             }
             catch (InvalidOperationException e)
             {
