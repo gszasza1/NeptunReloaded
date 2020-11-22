@@ -1,15 +1,12 @@
-﻿using AutoMapper;
-using NeprunReloaded.DAL.Entities;
+﻿using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL;
-using NeptunReloaded.DAL.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using NeprunReloaded.DAL.Additional;
+using Microsoft.EntityFrameworkCore;
 
 namespace NeptunReloaded.BLL.Services.Classes
 {
@@ -22,60 +19,49 @@ namespace NeptunReloaded.BLL.Services.Classes
             _context = context;
         }
 
-        public async Task<Room> createRoom(User user ,CreateRoom room)
+        public async Task createRoom(CreateRoom room)
         {
-            Room dbRoom = null;
-
-            try
+            if (room.Name == null)
             {
-               List<Room> matches =  _context.Rooms.ToList().FindAll(r => r.Name == room.Name);
-
-                if(matches.Count > 0 || user.Role == Role.Student)
-                    return await Task.FromResult(dbRoom);
-
-                dbRoom = room.mapToDBRoom();
-
-                _context.Rooms.Add(dbRoom);
-                _context.SaveChanges();
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var dbRoom = new Room()
+            {
+                Name = room.Name
+            };
 
-            return await Task.FromResult(dbRoom);
+            _context.Rooms.Add(dbRoom);
+
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
-        public async Task<Room> editRoom(User user, Room room)
+        public async Task editRoom(EditRoom room)
         {
-            Room dbRoom = null;
-
-            try
+            if (room.Id == null || room.newName == null)
             {
-              Room match = _context.Rooms.ToList().Find(r => r.Id == room.Id);
-
-                if (match == null || user.Role == Role.Student)
-                    return await Task.FromResult(dbRoom);
-
-                dbRoom = match;
-                dbRoom.Name = room.Name;
-
-                _context.Rooms.Update(dbRoom);
-                _context.SaveChanges();
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
 
-            return await Task.FromResult(dbRoom);
+            var editRoom = _context.Rooms.FirstOrDefault(x => x.Id == room.Id);
+
+            if (editRoom == null)
+            {
+                throw new InvalidOperationException("Nem létező szoba");
+            }
+            editRoom.Name = room.newName;
+
+            _context.Rooms.Update(editRoom);
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
-        public async Task<List<Room>> listRooms()
+        public async Task<IEnumerable<Room>> listRooms() => await _context.Rooms.ToListAsync();
+        public async Task<IEnumerable<Room>> listAvailableRooms()
         {
-            List<Room> rooms = new List<Room>();
-
-            try
-            {
-                rooms.AddRange(_context.Rooms.ToList());
-            }
-            catch (ArgumentNullException) { }
-
-            return await Task.FromResult(rooms);
+            return await _context.Rooms.Where(c => !c.IsDeleted && !_context.Courses.Select(b => b.RoomId).Contains(c.Id)).ToListAsync();
         }
     }
 }

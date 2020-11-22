@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using NeprunReloaded.DAL.Additional;
-using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
-using NeptunReloaded.BLL.Services.Classes;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL.Entities;
 
@@ -21,30 +15,11 @@ namespace NeptunReloaded.API.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
-        private readonly ISubjectService _subjectService;
-        private readonly ICourseService _courseService;
-        private readonly IRoomService _roomService;
-        private readonly IExamService _examService;
-        private readonly IExamResultService _examResultService;
-        private readonly IConfiguration _config;
 
-        public UserController(IConfiguration config, ILogger<UserController> logger, IUserService userService, ISubjectService subjectService, ICourseService courseService, IRoomService roomService, IExamService examService, IExamResultService examResultService)
+        public UserController(IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
-            _subjectService = subjectService;
-            _courseService = courseService;
-            _roomService = roomService;
-            _examService = examService;
-            _examResultService = examResultService;
-            _config = config;
         }
 
         [HttpPost("register")]
@@ -66,6 +41,7 @@ namespace NeptunReloaded.API.Controllers
             }
 
         }
+
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult> Login([FromBody] LoginUser user)
@@ -86,7 +62,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
 
-
         [HttpPost("username")]
         [Authorize]
         public async Task<ActionResult> ChangeUsername([FromBody] ChangeUsername newName)
@@ -106,8 +81,6 @@ namespace NeptunReloaded.API.Controllers
                 return BadRequest(e);
             }
         }
-
-
 
         [HttpPost("password")]
         [Authorize]
@@ -130,7 +103,7 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost("role")]
-        [Authorize(Roles =Role.Teacher)]
+        [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ChangeUserRole([FromBody] ChangeUserRole changeUser)
         {
             try
@@ -154,16 +127,17 @@ namespace NeptunReloaded.API.Controllers
             var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-               var user = await _userService.viewProfile(userId);
-                return Ok(new User() {
+                var user = await _userService.viewProfile(userId);
+                return Ok(new User()
+                {
                     Id = user.Id,
-                Role = user.Role,
-                Neptun = user.Neptun,
-                CreatedAt = user.CreatedAt,
-                LastName = user.LastName,
-                FirstName = user.FirstName,
-                Username = user.Username
-                }) ;
+                    Role = user.Role,
+                    Neptun = user.Neptun,
+                    CreatedAt = user.CreatedAt,
+                    LastName = user.LastName,
+                    FirstName = user.FirstName,
+                    Username = user.Username
+                });
             }
             catch (InvalidOperationException e)
             {
@@ -175,11 +149,12 @@ namespace NeptunReloaded.API.Controllers
             }
 
         }
+
         [HttpGet]
         [Authorize(Roles = Role.Teacher)]
         public async Task<IActionResult> GetUsers()
         {
-          
+
             try
             {
                 return Ok(await _userService.GetAllUser());

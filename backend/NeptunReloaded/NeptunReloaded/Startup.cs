@@ -89,12 +89,6 @@ namespace NeptunReloaded.API
             services.AddTransient<IExamService, ExamService>();
             services.AddTransient<IExamResultService, ExamResultService>();
 
-
-            services.AddAuthorization(config =>
-            {
-                config.AddPolicy(Policies.Student, Policies.StudentPolicy());
-                config.AddPolicy(Policies.Teacher, Policies.TeacherPolicy());
-            });
             services.AddControllersWithViews()
              .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

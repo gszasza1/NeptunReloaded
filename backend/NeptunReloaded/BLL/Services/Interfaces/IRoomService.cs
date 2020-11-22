@@ -10,9 +10,10 @@ namespace NeptunReloaded.BLL.Services.Interfaces
 {
     public interface IRoomService
     {
-        public Task<List<Room>> listRooms();
-        public Task<Room> createRoom(User user, CreateRoom room);
-        public Task<Room> editRoom(User user, Room room);
+        public Task<IEnumerable<Room>> listRooms();
+        public Task createRoom(CreateRoom room);
+        public Task editRoom(EditRoom room);
+        public Task<IEnumerable<Room>> listAvailableRooms();
 
     }
 }
