@@ -107,3 +107,10 @@ export interface SubjectSelect {
   id: number;
   name: string;
 }
+export interface EditRoom {
+  id: number;
+  newName: string;
+}
+export interface CreateRoom {
+  name: string;
+}
