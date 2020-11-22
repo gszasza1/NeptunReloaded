@@ -71,10 +71,19 @@ namespace NeptunReloaded.BLL.Services.Classes
             return await _context.Users.Select(x => new MinimalUser() { Id = x.Id, Username = x.Username,Role=x.Role }).ToListAsync();
         }
 
-        public Task<IEnumerable<MinimalUser>> GetAllUserInCourse(int courseId)
+        public async Task<IEnumerable<MinimalUser>> GetAllUserInCourse(int courseId)
         {
-            //TODO:
-            throw new NotImplementedException();
+           
+            return await _context.Users
+                .Include(t=>t.UserCourses)
+                .Where(s=>s.UserCourses
+                    .Any(q=>q.CourseId==courseId))
+                .Select(m=>new MinimalUser() {
+                    Id=m.Id,
+                    Role=m.Role,
+                    Username=m.Username
+                })
+                .ToListAsync();
         }
 
         public async Task<string> loginUser(LoginUser loginCredentials)

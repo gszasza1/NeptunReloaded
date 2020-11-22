@@ -79,11 +79,13 @@ namespace NeptunReloaded.BLL.Services.Classes
 
         public Task joinExam(int userId, JoinExam exam)
         {
+            //TODO
             throw new NotImplementedException();
         }
 
         public Task leaveExam(int userId, LeaveExam exam)
         {
+            //TODO
             throw new NotImplementedException();
         }
 
