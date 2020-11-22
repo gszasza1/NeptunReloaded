@@ -21,10 +21,18 @@ import {
 import { CourseSelectComponent } from './course-select/course-select.component';
 import { DropdownService } from './dropdown.service';
 import { ExamSelectEffects } from './exam-select/+state/exam-select.effects';
-import { EXAMSELECT_FEATURE_KEY, ExamSelectInitialState, ExamSelectReducer } from './exam-select/+state/exam-select.reducer';
+import {
+  EXAMSELECT_FEATURE_KEY,
+  ExamSelectInitialState,
+  ExamSelectReducer,
+} from './exam-select/+state/exam-select.reducer';
 import { ExamSelectComponent } from './exam-select/exam-select.component';
 import { RoomSelectEffects } from './room-select/+state/room-select.effects';
-import { ROOMSELECT_FEATURE_KEY, RoomSelectInitialState, RoomSelectReducer } from './room-select/+state/room-select.reducer';
+import {
+  ROOMSELECT_FEATURE_KEY,
+  RoomSelectInitialState,
+  RoomSelectReducer,
+} from './room-select/+state/room-select.reducer';
 import { RoomSelectComponent } from './room-select/room-select.component';
 import {
   STUDENT_FOR_EXAM_SELECT_FEATURE_KEY,

@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using NeptunReloaded.BLL.Models.Received;
+using NeptunReloaded.BLL.Models.Send;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL;
 using NeptunReloaded.DAL.Entities;
@@ -52,6 +52,23 @@ namespace NeptunReloaded.BLL.Services.Classes
             _context.Update(currentUser);
             await _context.SaveChangesAsync();
             return;
+        }
+        public async Task changeUserRole(int? userId, string role)
+        {
+            var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (userId == null || currentUser == null)
+            {
+                throw new InvalidOperationException("Nem létezik a felhasználó");
+            }
+            currentUser.Role = role;
+            _context.Update(currentUser);
+            await _context.SaveChangesAsync();
+            return;
+        }
+
+        public async Task<IEnumerable<MinimalUser>> GetAllUser()
+        {
+            return await _context.Users.Select(x => new MinimalUser() { Id = x.Id, Username = x.Username,Role=x.Role }).ToListAsync();
         }
 
         public async Task<string> loginUser(LoginUser loginCredentials)

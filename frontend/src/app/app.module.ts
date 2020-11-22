@@ -16,7 +16,11 @@ import { LoginComponent } from './login/login.component';
 import { LoginService } from './login/login.service';
 import { MainPageComponent } from './main-page/main-page.component';
 import { RegisterFormEffects } from './register/+state/register.effects';
-import { REGISTERFORM_FEATURE_KEY, registerFormInitialState, RegisterFormReducer } from './register/+state/register.reducer';
+import {
+  REGISTERFORM_FEATURE_KEY,
+  registerFormInitialState,
+  RegisterFormReducer,
+} from './register/+state/register.reducer';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from './register/register.service';
 import { DefaultSendInterceptor } from './shared/interceptors/default-send.interceptor';

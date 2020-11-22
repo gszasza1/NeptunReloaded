@@ -128,7 +128,26 @@ namespace NeptunReloaded.API.Controllers
                 return BadRequest(e);
             }
         }
-        [HttpGet]
+
+        [HttpPost("role")]
+        [Authorize(Roles =Role.Teacher)]
+        public async Task<ActionResult> ChangeUserRole([FromBody] ChangeUserRole changeUser)
+        {
+            try
+            {
+                await _userService.changeUserRole(changeUser.userId, changeUser.newRole);
+                return Ok();
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+        [HttpGet("profil")]
         [Authorize]
         public async Task<IActionResult> GetUser()
         {
@@ -145,6 +164,25 @@ namespace NeptunReloaded.API.Controllers
                 FirstName = user.FirstName,
                 Username = user.Username
                 }) ;
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
+        }
+        [HttpGet]
+        [Authorize(Roles = Role.Teacher)]
+        public async Task<IActionResult> GetUsers()
+        {
+          
+            try
+            {
+                return Ok(await _userService.GetAllUser());
             }
             catch (InvalidOperationException e)
             {

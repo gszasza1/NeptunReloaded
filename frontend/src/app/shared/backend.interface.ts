@@ -39,7 +39,15 @@ export interface CreateCourse {
   subjectId: number;
   roomId: string;
 }
-
+export interface MinimalUser {
+  id: number;
+  role: string;
+  username: string;
+}
+export interface ChangeUserRole {
+  userId: number;
+  newRole: string;
+}
 export interface CoursesPopUp {
   id: number;
   subject: Subject;

@@ -8,7 +8,7 @@ import { ChangePassword, ChangeUsername, UserProfil } from 'src/app/shared/backe
 export class ProfilService {
   constructor(private httpClient: HttpClient) {}
   getUser() {
-    return this.httpClient.get<UserProfil>('User');
+    return this.httpClient.get<UserProfil>('User/profil');
   }
 
   changePass(password: ChangePassword) {

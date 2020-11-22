@@ -8,6 +8,7 @@ import { ExamComponent } from './exam/exam.component';
 import { ProfilComponent } from './profil/profil.component';
 import { RoomComponent } from './room/rooms.component';
 import { SubjectComponent } from './subject/subject.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,13 @@ const routes: Routes = [
         component: ProfilComponent,
         data: {
           title: 'Fiók',
+        },
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        data: {
+          title: 'Felhasználók',
         },
       },
       {
