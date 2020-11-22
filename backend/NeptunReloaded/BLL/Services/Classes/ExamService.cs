@@ -10,6 +10,8 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using NeprunReloaded.DAL.Additional;
+using NeptunReloaded.BLL.Models.Send;
+using Microsoft.EntityFrameworkCore;
 
 namespace NeptunReloaded.BLL.Services.Classes
 {
@@ -22,177 +24,77 @@ namespace NeptunReloaded.BLL.Services.Classes
             _context = context;
         }
 
-        public async Task<Exam> createExam(User user, CreateExam exam)
+        public async Task createExam(CreateExam exam)
         {
-            Exam dbExam = null;
-
-            try
+            if (exam.Name == null || exam.CourseId == null)
             {
-                //Check if user is teacher
-                if (user.Role == Role.Student)
-                    return await Task.FromResult(dbExam); 
-                
-                //return null if same 
-                List<Exam> exams = getExams().FindAll(s => s.Name == exam.Name);
-
-                //Check if name is already in use
-                if (exams.Count > 0)
-                    return await Task.FromResult(dbExam); //return null if same task 
-
-                dbExam = exam.mapToDBExam();
-
-                _context.Exams.Add(dbExam);
-                _context.SaveChanges();
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
-
-
-            return await Task.FromResult(dbExam);
-        }
-
-        public async Task<Exam> deleteExam(User user, Exam exam)
-        {
-            Exam dbExam = null;
-
-            if (user.Role == Role.Student)
-                await Task.FromResult(dbExam);
-
-            try
+            var dbExam = new Exam()
             {
-                dbExam = getExams().Find(e => e.Id == exam.Id);
+                Name = exam.Name,
+                CourseId=exam.CourseId
+            };
 
-                if (dbExam != null)
-                {
+            _context.Exams.Add(dbExam);
+            await _context.SaveChangesAsync();
 
-                    dbExam.IsDeleted = true;
-
-                    //delete ExamResults for deleted exam
-                    List<ExamResult> toBeDeletedERs = _context.ExamResults.ToList().FindAll(er => er.ExamId == dbExam.Id);
-
-                    foreach(ExamResult er in toBeDeletedERs) {
-                        er.IsDeleted = true;
-                        _context.Update(er);
-                    }
-
-                    _context.Update(dbExam);
-                    _context.SaveChanges();
-                }
-            }
-            catch (ArgumentNullException ) { }
-
-            return await Task.FromResult(dbExam);
+            return;
         }
 
-        public async Task<Exam> editExam(User user, Exam exam)
+        public async Task deleteExam(DeleteExam exam)
         {
-            Exam dbExam = null;
-
-            if (user.Role == Role.Student)
-                await Task.FromResult(dbExam);
-
-            try
+            if ( exam.ExamId == null)
             {
-                dbExam = getExams().Find(e => e.Id == exam.Id);
-
-                if (dbExam != null)
-                {
-
-                    dbExam.Name = exam.Name;
-
-                   
-
-                    _context.Update(dbExam);
-                    _context.SaveChanges();
-                }
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var deleteExam = _context.Exams.FirstOrDefault(x => x.Id == exam.ExamId);
 
-            return await Task.FromResult(dbExam);
+            _context.Exams.Remove(deleteExam);
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
-        public async Task<ExamResult> joinExam(User user, Exam exam)
+        public async Task editExam(EditExam exam)
         {
-            ExamResult dbExamResult = null;
-
-            try
+            if (exam.newName == null || exam.Id == null)
             {
-                //Check if user is student
-                if (user.Role == Role.Teacher)
-                    return await Task.FromResult(dbExamResult);
-
-                //return null if user is already applied for exam 
-                List<ExamResult> examResults = getExamResults().FindAll(er => er.UserId == user.Id && er.ExamId == exam.Id);
-
-                //Check if name is already in use
-                if (examResults.Count > 0)
-                    return await Task.FromResult(dbExamResult); //return null if same task 
-
-                CreateExamResult examResult = new CreateExamResult { User = user, Exam = exam };
-                dbExamResult = examResult.mapToDBExamResult();
-
-                _context.ExamResults.Add(dbExamResult);
-                _context.SaveChanges();
+                throw new InvalidOperationException("Hibás adatok");
             }
-            catch (ArgumentNullException) { }
+            var editExam= _context.Exams.FirstOrDefault(x => x.Id == exam.Id);
 
-
-            return await Task.FromResult(dbExamResult);
-        }
-
-        public async Task<ExamResult> leaveExam(User user, Exam exam)
-        {
-            ExamResult dbExamResult = null;
-
-            try
+            if (editExam == null)
             {
-                //Find ExamResult that has not been evaluated yet <==> score  == -1
-                ExamResult examResults = getExamResults().Find(er => er.UserId == user.Id && er.ExamId == exam.Id && er.Score == -1);
-
-                if (examResults == null) {
-                    return await Task.FromResult(dbExamResult);
-                }
-
-                examResults.IsDeleted = true;
-                dbExamResult = examResults;
-
-                _context.ExamResults.Update(dbExamResult);
-                _context.SaveChanges();
+                throw new InvalidOperationException("Nem létező szoba");
             }
-            catch (ArgumentNullException) { }
+            editExam.Name = exam.newName;
 
+            _context.Exams.Update(editExam);
+            await _context.SaveChangesAsync();
 
-            return await Task.FromResult(dbExamResult);
+            return;
+
         }
 
-        public async Task<List<Exam>> listExams(string filterName = "")
+        public Task joinExam(int userId, JoinExam exam)
         {
-            List<Exam> exams = new List<Exam>();
-            try
-            {
-                if (filterName.Length == 0)
-                {
-                    exams.AddRange(getExams());
-                }
-                else
-                {
-                    exams.AddRange(getExams().FindAll(e => e.Name.Contains(filterName)));
-                }
-
-            }
-            catch (ArgumentNullException) { }
-
-            return await Task.FromResult(exams);
+            throw new NotImplementedException();
         }
 
-        //Return only non-deleted exams
-        private List<Exam> getExams() {
-
-            return _context.Exams.ToList().FindAll(e => e.IsDeleted == false);
-        }
-
-        private List<ExamResult> getExamResults()
+        public Task leaveExam(int userId, LeaveExam exam)
         {
-            return _context.ExamResults.ToList().FindAll(er => er.IsDeleted == false);
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Exam>> listExams(int userId)
+        {
+            return await _context.Exams.ToListAsync();
+        }
+
+        public async Task<IEnumerable<ExamSelect>> listExamsSelect(int userId)
+        {
+            return await _context.Exams.Where(c => !c.IsDeleted).Select(y => new ExamSelect() { Id = y.Id, Name = y.Name }).ToListAsync();
         }
     }
 }

@@ -18,9 +18,6 @@ namespace NeptunReloaded.BLL.Services.Classes
     {
         private readonly NeptunReloadedDatabaseContext _context;
 
-        public SubjectService()
-        {
-        }
 
         public SubjectService(NeptunReloadedDatabaseContext context)
         {
