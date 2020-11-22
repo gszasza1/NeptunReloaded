@@ -1,5 +1,6 @@
 ﻿using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
+using NeptunReloaded.BLL.Models.Send;
 using NeptunReloaded.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,13 @@ namespace NeptunReloaded.BLL.Services.Interfaces
 {
     public interface IExamService
     {
-        public Task<Exam> createExam(User user, CreateExam exam);
-        public Task<List<Exam>> listExams(String filterName = "");
-        public Task<Exam> editExam(User user, Exam exam);
-        public Task<Exam> deleteExam(User user, Exam exam);
-        public Task<ExamResult> joinExam(User user, Exam exam);
-        public Task<ExamResult> leaveExam(User user, Exam exam);
+        public Task createExam(CreateExam exam);
+        public Task<IEnumerable<Exam>> listExams(int userId);
+        public Task<IEnumerable<ExamSelect>> listExamsSelect(int userId);
+        public Task editExam(EditExam exam);
+        public Task deleteExam(DeleteExam exam);
+        public Task joinExam(int userId, JoinExam exam);
+        public Task leaveExam(int userId, LeaveExam exam);
 
     }
 }

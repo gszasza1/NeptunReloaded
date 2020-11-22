@@ -16,7 +16,8 @@ namespace NeptunReloaded.BLL.Services.Interfaces
         public Task changeName(int? userId, string newName);
         public Task changeUserRole(int? userId, string role);
         public Task<IEnumerable<MinimalUser>> GetAllUser();
-        public Task<User> viewProfile(int? userId);  
+        public Task<User> viewProfile(int? userId);
+        public Task<IEnumerable<MinimalUser>> GetAllUserInCourse(int courseId);
     }
 
 }

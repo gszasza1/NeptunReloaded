@@ -1,5 +1,6 @@
 ﻿using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
+using NeptunReloaded.BLL.Models.Send;
 using NeptunReloaded.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,15 @@ namespace NeptunReloaded.BLL.Services.Interfaces
 {
     public interface ICourseService
     {
-        public Task< List<Course> > listCourses(String filterName = "");
+        public Task<IEnumerable<Course>> listCourses();
 
-        public Task<Course> createCourse(User user, CreateCourse course);
+        public Task createCourse(int userId, CreateCourse course);
 
-        public Task<Course> editCourse(User user, Course course);
+        public Task editCourse(EditCourse course);
 
-        public Task<UserCourse> joinCourse(User user, Course course);
+        public Task joinCourse(int userId, JoinCourse course);
 
-        public Task<List<Course>> listCoursesForUser(User user);
+        public Task<IEnumerable<CoursesPopUp>> listCoursesBySubject(CoursesBySubject subject);
+        public Task<IEnumerable<CourseSelect>> listCoursesSelect(int userId);
     }
 }
