@@ -4,7 +4,7 @@ import { MatSelect } from '@angular/material/select';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { StudentForExamSelect } from '../../backend.interface';
+import { MinimalUser } from '../../backend.interface';
 import { UnsubscribeOnDestroyBaseComponent } from '../../UnSubOnDestroy';
 import { StudentForExamSelectRequest } from './+state/student-for-exam-select.actions';
 import { StudentForExamSelectQuery } from './+state/student-for-exam-select.selector';
@@ -33,14 +33,14 @@ export class StudentForExamSelectComponent
   }
   @ViewChild(MatSelect, { static: true })
   input: MatSelect;
-  studentList$: Observable<StudentForExamSelect[]>;
+  studentList$: Observable<MinimalUser[]>;
   @Input() disabled = false;
-  @Input() examId: number;
+  @Input() courseId: number;
   ngOnInit() {
-    if (this.examId) {
-      this.store.dispatch(new StudentForExamSelectRequest(this.examId));
+    if (this.courseId) {
+      this.store.dispatch(new StudentForExamSelectRequest(this.courseId));
     } else {
-      console.error('Nincs examId megadva');
+      console.error('Nincs courseId megadva');
     }
     this.studentList$ = this.store.pipe(select(StudentForExamSelectQuery.getStudentForExamSelectList));
     this.subscriptions.push(this.input.valueChange.subscribe((x) => this.onChange(x)));

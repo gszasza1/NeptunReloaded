@@ -4,7 +4,7 @@
       <mat-label>Neptun alapú szűrő</mat-label>
       <input matInput [formControl]="filter" placeholder="Írja be a szűrni való szöveget" />
     </mat-form-field>
-    <button mat-raised-button (click)="newExamResult()">Új eredmény</button>
+    <button *auth="'Teacher'" mat-raised-button (click)="newExamResult()">Új eredmény</button>
   </div>
   <table mat-table [dataSource]="ExamResultList$" class="mat-elevation-z8">
     <ng-container matColumnDef="id">

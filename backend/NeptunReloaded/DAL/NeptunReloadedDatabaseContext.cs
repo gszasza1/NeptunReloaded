@@ -15,6 +15,7 @@ namespace NeptunReloaded.DAL
         public DbSet<Room> Rooms { get; }
         public DbSet<Exam> Exams { get; }
         public DbSet<ExamResult> ExamResults { get; }
+        public DbSet<UserExam> UserExams { get; }
 
         public NeptunReloadedDatabaseContext(DbContextOptions<NeptunReloadedDatabaseContext> options)
            : base(options)
@@ -26,6 +27,7 @@ namespace NeptunReloaded.DAL
             Rooms = Set<Room>();
             Exams = Set<Exam>();
             ExamResults = Set<ExamResult>();
+            UserExams = Set<UserExam>();
         }
 
         public override int SaveChanges()
@@ -112,6 +114,23 @@ namespace NeptunReloaded.DAL
                 .HasOne(bc => bc.Course)
                 .WithMany(c => c.UserCourses)
                 .HasForeignKey(bc => bc.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
+            #endregion
+
+            #region UserExam
+            builder.Entity<UserExam>()
+                  .HasKey(bc => new { bc.UserId, bc.ExamId });
+
+            builder.Entity<UserExam>()
+                .HasOne(bc => bc.User)
+                .WithMany(b => b.UserExams)
+                .HasForeignKey(bc => bc.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<UserExam>()
+                .HasOne(bc => bc.Exam)
+                .WithMany(c => c.UserExams)
+                .HasForeignKey(bc => bc.ExamId)
                 .OnDelete(DeleteBehavior.NoAction);
             #endregion
 

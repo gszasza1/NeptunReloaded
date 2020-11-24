@@ -35,14 +35,14 @@ namespace NeptunReloaded.API
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder =>
                      {
-                       builder.WithOrigins(
-                           "localhost:4200",
-                           "http://localhost:4200",
-                           "https://localhost:4200",
-                           "*")
-                         .AllowAnyHeader()
-                         .AllowAnyMethod()
-                         .AllowAnyOrigin();
+                         builder.WithOrigins(
+                             "localhost:4200",
+                             "http://localhost:4200",
+                             "https://localhost:4200",
+                             "*")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                     });
             });
 
@@ -119,13 +119,14 @@ namespace NeptunReloaded.API
           
             app.UseHttpsRedirection();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {

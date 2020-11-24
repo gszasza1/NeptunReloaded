@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { StudentForExamSelect } from 'src/app/shared/backend.interface';
+import { MinimalUser } from 'src/app/shared/backend.interface';
 
 export enum StudentForExamSelectActionTypes {
   StudentForExamSelectRequest = '[StudentForExamSelect] StudentForExamSelect Request',
@@ -13,7 +13,7 @@ export class StudentForExamSelectRequest implements Action {
 }
 export class StudentForExamSelectResponse implements Action {
   readonly type = StudentForExamSelectActionTypes.StudentForExamSelectResponse;
-  constructor(public payload: StudentForExamSelect[]) {}
+  constructor(public payload: MinimalUser[]) {}
 }
 export class StudentForExamSelectError implements Action {
   readonly type = StudentForExamSelectActionTypes.StudentForExamSelectError;

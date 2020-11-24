@@ -12,18 +12,21 @@
       <mat-list-item>
         <button (click)="drawer.close()" [routerLink]="'/auth/exam-result'" mat-button>Vizsgaeredmény</button>
       </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <button (click)="drawer.close()" [routerLink]="'/auth/room'" mat-button>Termek</button>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <button (click)="drawer.close()" [routerLink]="'/auth/course'" mat-button>Kurzusok</button>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-        <button (click)="drawer.close()" [routerLink]="'/auth/users'" mat-button>Felhasználók</button>
-      </mat-list-item>
+
+      <ng-container *auth="'Teacher'">
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <button (click)="drawer.close()" [routerLink]="'/auth/room'" mat-button>Termek</button>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <button (click)="drawer.close()" [routerLink]="'/auth/course'" mat-button>Kurzusok</button>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <button (click)="drawer.close()" [routerLink]="'/auth/users'" mat-button>Felhasználók</button>
+        </mat-list-item>
+      </ng-container>
     </mat-list>
   </mat-drawer>
   <mat-drawer-content>

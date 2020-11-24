@@ -1,27 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { CoursesPopUp } from 'src/app/shared/backend.interface';
+import { CoursesPopUp, JoinCourse } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseDialogService {
-  getCoursesForSubject() {
-    return new BehaviorSubject<CoursesPopUp[]>(
-      [...Array(20)].map((_, i) => ({
-        id: i,
-        member: i % 2 === 0,
-        room: { id: i, name: 'Terem ' + i },
-        subject: { id: i, name: 'Tárgy ' + i },
-        user: { id: i, name: 'Előadó' },
-        name: 'Tantárgy ' + i,
-      }))
-    )
-      .asObservable()
-      .pipe(delay(300));
+  constructor(private httpClient: HttpClient) {}
+  getCoursesForSubject(subjectId: number) {
+    return this.httpClient.get<CoursesPopUp[]>('Course/subject/' + subjectId);
   }
-  join(courseId: number) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  join(course: JoinCourse) {
+    return this.httpClient.post<JoinCourse[]>('Course/join', course);
   }
+ 
 }

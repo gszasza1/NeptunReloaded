@@ -22,7 +22,7 @@ export class LoginFormEffects {
   );
   @Effect({ dispatch: false }) LoggedIn$ = this.actions$.pipe(
     ofType(LoginFormActionTypes.LoginFormResponse),
-    tap(() => this.router.navigateByUrl('auth'))
+    tap(() => this.router.navigateByUrl('/auth'))
   );
 
   constructor(

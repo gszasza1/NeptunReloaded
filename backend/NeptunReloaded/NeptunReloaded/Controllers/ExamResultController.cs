@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NeprunReloaded.DAL.Additional;
 using NeptunReloaded.BLL.Models.Received;
 using NeptunReloaded.BLL.Services.Classes;
+using NeptunReloaded.BLL.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace NeptunReloaded.API.Controllers
     [Route("[controller]")]
     public class ExamResultController : ControllerBase
     {
-        private readonly ExamResultService _examResultService;
+        private readonly IExamResultService _examResultService;
 
-        public ExamResultController(ExamResultService examResultService)
+        public ExamResultController(IExamResultService examResultService)
         {
             _examResultService = examResultService;
         }

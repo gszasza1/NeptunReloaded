@@ -35,7 +35,7 @@ export class CourseDialogComponent extends UnsubscribeOnDestroyBaseComponent imp
   displayedColumns = ['id', 'name', 'operations'];
   isRequesting$: Observable<boolean>;
   ngOnInit(): void {
-    this.store.dispatch(new GetSubjectCourseRequest());
+    this.store.dispatch(new GetSubjectCourseRequest(this.data.id));
 
     this.courseList$ = this.store.pipe(select(SubjectCourseQuery.getSubjectCourselist));
 

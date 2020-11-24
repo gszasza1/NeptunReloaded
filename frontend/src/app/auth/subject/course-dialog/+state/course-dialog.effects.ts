@@ -13,13 +13,14 @@ import {
   JoinSubjectCourseResponse,
   SubjectCourseActionTypes,
 } from './course-dialog.actions';
+import { SubjectCourseQuery } from './course-dialog.selector';
 
 @Injectable()
 export class SubjectCourseEffects {
   @Effect() GetSubjectCourseCourse$ = this.actions$.pipe(
     ofType(SubjectCourseActionTypes.GetSubjectCourseRequest),
-    mergeMap(() =>
-      this.service.getCoursesForSubject().pipe(
+    mergeMap((action) =>
+      this.service.getCoursesForSubject((action as GetSubjectCourseRequest).payload).pipe(
         map((x) => new GetSubjectCourseResponse(x)),
         catchError(async () => new GetSubjectCourseError())
       )
@@ -30,7 +31,7 @@ export class SubjectCourseEffects {
     ofType(SubjectCourseActionTypes.JoinSubjectCourseRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.join((action as JoinSubjectCourseRequest).payload).pipe(
+      this.service.join({courseId: (action as JoinSubjectCourseRequest).payload}).pipe(
         map(() => new JoinSubjectCourseResponse()),
         catchError(async () => new JoinSubjectCourseError())
       )
@@ -39,7 +40,8 @@ export class SubjectCourseEffects {
 
   @Effect() refreshList$ = this.actions$.pipe(
     ofType(SubjectCourseActionTypes.JoinSubjectCourseResponse),
-    map(() => new GetSubjectCourseRequest())
+    withLatestFrom(this.store),
+    mergeMap(async ([action, storeState]) => new GetSubjectCourseRequest(SubjectCourseQuery.getCurrentSubject(storeState)))
   );
 
   constructor(private service: CourseDialogService, private actions$: Actions, private store: Store<{}>) {}

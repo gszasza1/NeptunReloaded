@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NeprunReloaded.DAL.Additional;
 using NeptunReloaded.BLL.Models.Received;
@@ -12,6 +13,7 @@ namespace NeptunReloaded.API.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
+    [EnableCors]
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
@@ -22,6 +24,7 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Create([FromBody] CreateCourse course)
         {
@@ -42,6 +45,7 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPut]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Edit([FromBody] EditCourse course)
         {
@@ -61,6 +65,7 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPost("join")]
+        [EnableCors]
         [Authorize(Roles = Role.Student)]
         public async Task<ActionResult> JoinCourse([FromBody] JoinCourse course)
         {
@@ -80,14 +85,16 @@ namespace NeptunReloaded.API.Controllers
             }
 
         }
-        [HttpGet("subject")]
+
+        [HttpGet("subject/{subjectId}")]
+        [EnableCors]
         [Authorize]
-        public async Task<ActionResult> GetAllCourseBySubject([FromBody] CoursesBySubject subject)
+        public async Task<ActionResult> GetAllCourseBySubject(int subjectId)
         {
             var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-                var userResult = await _courseService.listCoursesBySubject(userId,subject);
+                var userResult = await _courseService.listCoursesBySubject(userId, subjectId);
                 return Ok(userResult);
             }
             catch (InvalidOperationException e)
@@ -102,6 +109,7 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpGet]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> GetAll()
         {
@@ -121,13 +129,34 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpGet("select")]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ListCoursesSelect()
+        {
+            try
+            {
+                var userResult = await _courseService.listCoursesSelect();
+                return Ok(userResult);
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch
+            {
+                return BadRequest("Hiba történt");
+            }
+
+        }
+        [HttpGet("select/self")]
+        [EnableCors]
+        [Authorize(Roles = Role.Teacher)]
+        public async Task<ActionResult> ListTeacherAllCourses()
         {
             var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
             {
-                var userResult = await _courseService.listCoursesSelect(userId);
+                var userResult = await _courseService.listTeacherAllCourses(userId);
                 return Ok(userResult);
             }
             catch (InvalidOperationException e)

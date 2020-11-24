@@ -17,6 +17,7 @@ const getCreateForm = createSelector(getSubjectCourseState, (state: SubjectCours
 const getEditForm = createSelector(getSubjectCourseState, (state: SubjectCourseState) => state.editForm);
 
 const getFilterForm = createSelector(getSubjectCourseState, (state: SubjectCourseState) => state.filterForm);
+const getCurrentSubject = createSelector(getSubjectCourseState, (state: SubjectCourseState) => state.currentSubject);
 
 export const SubjectCourseQuery = {
   getSubjectCourselist,
@@ -24,4 +25,5 @@ export const SubjectCourseQuery = {
   getCreateForm,
   getFilterForm,
   getEditForm,
+  getCurrentSubject,
 };

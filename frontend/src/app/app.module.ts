@@ -16,16 +16,14 @@ import { LoginComponent } from './login/login.component';
 import { LoginService } from './login/login.service';
 import { MainPageComponent } from './main-page/main-page.component';
 import { RegisterFormEffects } from './register/+state/register.effects';
-import {
-  REGISTERFORM_FEATURE_KEY,
-  registerFormInitialState,
-  RegisterFormReducer,
-} from './register/+state/register.reducer';
+import { REGISTERFORM_FEATURE_KEY, registerFormInitialState, RegisterFormReducer } from './register/+state/register.reducer';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from './register/register.service';
+import { AuthDirectiveModule } from './shared/directive/auth-directive.module';
 import { DefaultSendInterceptor } from './shared/interceptors/default-send.interceptor';
 import { SnackbarInterceptor } from './shared/interceptors/snackbar.interceptor';
 import { SuccessInterceptor } from './shared/interceptors/success.interceptor';
+import { UnAuthInterceptor } from './shared/interceptors/unauth.interceptor';
 import { SharedUiModule } from './shared/shared-ui/shared-ui.module';
 
 // tslint:disable-next-line: no-any
@@ -74,10 +72,12 @@ export const metaReducers: MetaReducer<{}, Action>[] = [stateSetter];
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([]),
     SharedUiModule,
+    AuthDirectiveModule,
   ],
   providers: [
     RegisterService,
     LoginService,
+    { provide: HTTP_INTERCEPTORS, useClass: UnAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: DefaultSendInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SnackbarInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SuccessInterceptor, multi: true },

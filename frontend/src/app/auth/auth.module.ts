@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { AuthDirectiveModule } from '../shared/directive/auth-directive.module';
 import { DropdownModule } from '../shared/dropdown/dropdown.module';
 import { SharedUiModule } from '../shared/shared-ui/shared-ui.module';
 import { AuthRoutingModule } from './auth-routing.module';
@@ -15,11 +16,7 @@ import { CourseService } from './course/course.service';
 import { CreateCourseComponent } from './course/create-course/create-course.component';
 import { EditCourseComponent } from './course/edit-course/edit-course.component';
 import { ExamResultEffects } from './exam-result/+state/exam-result.effects';
-import {
-  EXAMRESULT_FEATURE_KEY,
-  ExamResultInitialState,
-  ExamResultReducer,
-} from './exam-result/+state/exam-result.reducer';
+import { EXAMRESULT_FEATURE_KEY, ExamResultInitialState, ExamResultReducer } from './exam-result/+state/exam-result.reducer';
 import { CreateExamResultComponent } from './exam-result/create-exam-result/create-exam-result.component';
 import { ExamResultComponent } from './exam-result/exam-result.component';
 import { ExamsEffects } from './exam/+state/exam.effects';
@@ -88,6 +85,7 @@ import { UserService } from './users/users.service';
     AuthRoutingModule,
     SharedUiModule,
     DropdownModule,
+    AuthDirectiveModule,
     EffectsModule.forFeature([ProfilEffects]),
     StoreModule.forFeature(PROFIL_FEATURE_KEY, ProfilReducer, {
       initialState: ProfilInitialState,

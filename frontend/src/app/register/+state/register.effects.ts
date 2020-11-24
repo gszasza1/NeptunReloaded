@@ -22,7 +22,7 @@ export class RegisterFormEffects {
   );
   @Effect({ dispatch: false }) registered$ = this.actions$.pipe(
     ofType(RegisterFormActionTypes.RegisterFormResponse),
-    map(() => this.router.navigateByUrl('public/login'))
+    map(() => this.router.navigateByUrl('/login'))
   );
 
   constructor(

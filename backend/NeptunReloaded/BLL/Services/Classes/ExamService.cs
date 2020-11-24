@@ -1,15 +1,11 @@
-﻿using AutoMapper;
-using NeprunReloaded.DAL.Entities;
+﻿using NeprunReloaded.DAL.Entities;
 using NeptunReloaded.BLL.Models.Received;
 using NeptunReloaded.BLL.Services.Interfaces;
 using NeptunReloaded.DAL;
-using NeptunReloaded.DAL.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using NeprunReloaded.DAL.Additional;
 using NeptunReloaded.BLL.Models.Send;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,13 +38,13 @@ namespace NeptunReloaded.BLL.Services.Classes
             return;
         }
 
-        public async Task deleteExam(DeleteExam exam)
+        public async Task deleteExam(int examId)
         {
-            if ( exam.ExamId == null)
+            if (examId == null)
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            var deleteExam = _context.Exams.FirstOrDefault(x => x.Id == exam.ExamId);
+            var deleteExam = _context.Exams.FirstOrDefault(x => x.Id == examId);
 
             _context.Exams.Remove(deleteExam);
             await _context.SaveChangesAsync();
@@ -77,16 +73,49 @@ namespace NeptunReloaded.BLL.Services.Classes
 
         }
 
-        public Task joinExam(int userId, JoinExam exam)
+        public async Task joinExam(int userId, JoinExam exam)
         {
-            //TODO
-            throw new NotImplementedException();
+            if (exam.ExamId == null || userId == null)
+            {
+                throw new InvalidOperationException("Hibás adatok");
+            }
+            var joinExam =  await _context.UserExams.FirstOrDefaultAsync(x => x.ExamId == exam.ExamId && x.UserId==userId);
+            if (joinExam != null)
+            {
+                throw new InvalidOperationException("Már jelentkezett vizsgára");
+            }
+            await _context.UserExams.AddAsync(new UserExam() { ExamId=exam.ExamId,UserId=userId});
+            await _context.SaveChangesAsync();
+
+            return;
         }
 
-        public Task leaveExam(int userId, LeaveExam exam)
+        public async Task leaveExam(int userId, LeaveExam exam)
         {
-            //TODO
-            throw new NotImplementedException();
+            if (exam.ExamId == null || userId == null)
+            {
+                throw new InvalidOperationException("Hibás adatok");
+            }
+            var leaveExam = await _context.UserExams.FirstOrDefaultAsync(x => x.ExamId == exam.ExamId && x.UserId == userId);
+            if (leaveExam == null)
+            {
+                throw new InvalidOperationException("Még nem jelentkezett vizsgára");
+            }
+             _context.UserExams.Remove(leaveExam);
+            await _context.SaveChangesAsync();
+
+            return;
+        }
+
+        public async Task<IEnumerable<Exam>> listAllUserJoinedExams(int userId)
+        {
+            if (userId == null)
+            {
+                throw new InvalidOperationException("Hibás adatok");
+            }
+            var userExam = await _context.UserExams.Where(x => x.UserId == userId).Select(y=> y.ExamId).ToListAsync();
+
+            return await _context.Exams.Where(x=> userExam.Contains(x.Id)).ToListAsync();
         }
 
         public async Task<IEnumerable<Exam>> listExams(int userId)

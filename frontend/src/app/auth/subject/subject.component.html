@@ -4,7 +4,7 @@
       <mat-label>Név alapú szűrő</mat-label>
       <input matInput [formControl]="filter" placeholder="Írja be a szűrni való szöveget" />
     </mat-form-field>
-    <button mat-raised-button (click)="newSubject()">Új tantárgy</button>
+    <button *auth="'Teacher'" mat-raised-button (click)="newSubject()">Új tantárgy</button>
   </div>
   <table mat-table [dataSource]="subjectList$" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
@@ -21,7 +21,7 @@
         <button mat-icon-button (click)="lookCourseForSubject(element)">
           <mat-icon>visibility</mat-icon>
         </button>
-        <button mat-icon-button (click)="editSubject(element)">
+        <button *auth="'Teacher'" mat-icon-button (click)="editSubject(element)">
           <mat-icon>edit</mat-icon>
         </button>
       </td>

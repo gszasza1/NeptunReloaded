@@ -34,7 +34,8 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                 Name = course.Name,
                 SubjectId = course.SubjectId,
-                RoomId = course.RoomId
+                RoomId = course.RoomId,
+                UserId=userId
             };
 
             _context.Courses.Add(dbCourse);
@@ -93,9 +94,9 @@ namespace NeptunReloaded.BLL.Services.Classes
             return await _context.Courses.ToListAsync();
         }
 
-        public async Task<IEnumerable<CoursesPopUp>> listCoursesBySubject(int userId,CoursesBySubject subject)
+        public async Task<IEnumerable<CoursesPopUp>> listCoursesBySubject(int userId, int subjectId)
         {
-           return await _context.Courses.Where(x=>x.SubjectId==subject.SubjectId)
+           return await _context.Courses.Where(x=>x.SubjectId== subjectId)
                 .Include(z=>z.UserCourses).ThenInclude(u=>u.User)
                 .Include(t=>t.User)
                 .Include(x=>x.Room)
@@ -104,14 +105,19 @@ namespace NeptunReloaded.BLL.Services.Classes
             Id=q.Id,
             Subject=q.Subject,
             Room=q.Room,
-            //TODO: Member need here
+            Member=q.UserCourses.Where(l=>l.UserId==userId)!=null,
             User=new UserSelect() { Id=q.User.Id,Name=q.User.FirstName + " " + q.User.LastName}
             }).ToListAsync();
         }
 
-        public async Task<IEnumerable<CourseSelect>> listCoursesSelect(int userId)
+        public async Task<IEnumerable<CourseSelect>> listCoursesSelect()
         {
             return await _context.Courses.Where(c => !c.IsDeleted).Select(y => new CourseSelect() { Id = y.Id, Name = y.Name }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<CourseSelect>> listTeacherAllCourses(int userId)
+        {
+            return await _context.Courses.Where(c => !c.IsDeleted && c.UserId==userId).Select(y => new CourseSelect() { Id = y.Id, Name = y.Name }).ToListAsync();
         }
     }
 }

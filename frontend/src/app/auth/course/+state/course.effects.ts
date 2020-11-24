@@ -43,7 +43,7 @@ export class CourseEffects {
     ofType(CourseActionTypes.EditCourseRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.editCourse((action as EditCourseRequest).payload, CourseQuery.getEditForm(storeState)).pipe(
+      this.service.editCourse({id:(action as EditCourseRequest).payload,newName: CourseQuery.getEditForm(storeState)}).pipe(
         map(() => new EditCourseResponse()),
         catchError(async () => new EditCourseError())
       )

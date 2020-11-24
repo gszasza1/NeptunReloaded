@@ -1,25 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { CreateExamResult, ExamResults } from 'src/app/shared/backend.interface';
+import { CreateExamResult, EditExamResult, ExamResults } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExamResultService {
+  
+  constructor(private httpClient: HttpClient) {}
   getExamResults() {
-    // tslint:disable-next-line: variable-name
-    return new BehaviorSubject<ExamResults[]>(
-      [...Array(20)].map((_, i) => ({ id: i, examName: 'Viszga ' + i, neptun: 'NEPTUN', score: i * 7 + i / 2 }))
-    )
-      .asObservable()
-      .pipe(delay(300));
+    return this.httpClient.get<ExamResults[]>('Examresult');
   }
 
   createExamResult(result: CreateExamResult) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+     return this.httpClient.post('Examresult', result);
   }
-  editExamResult(id: number, name: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  editExamResult(result: EditExamResult) {
+    return this.httpClient.post('Examresult', result);
   }
 }

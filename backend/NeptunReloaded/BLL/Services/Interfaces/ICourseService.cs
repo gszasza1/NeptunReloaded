@@ -19,7 +19,8 @@ namespace NeptunReloaded.BLL.Services.Interfaces
 
         public Task joinCourse(int userId, JoinCourse course);
 
-        public Task<IEnumerable<CoursesPopUp>> listCoursesBySubject(int userId,CoursesBySubject subject);
-        public Task<IEnumerable<CourseSelect>> listCoursesSelect(int userId);
+        public Task<IEnumerable<CoursesPopUp>> listCoursesBySubject(int userId, int subjectId);
+        public Task<IEnumerable<CourseSelect>> listCoursesSelect();
+        public Task<IEnumerable<CourseSelect>> listTeacherAllCourses(int userId);
     }
 }

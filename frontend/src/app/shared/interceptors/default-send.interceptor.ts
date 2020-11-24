@@ -7,7 +7,6 @@ export class DefaultSendInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = localStorage.getItem('token');
     let newRequest = request.clone();
-    console.log(token);
     if (token) {
       newRequest = newRequest.clone({
         headers: newRequest.headers.append('Authorization', `Bearer ${token}`),

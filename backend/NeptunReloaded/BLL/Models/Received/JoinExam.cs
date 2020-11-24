@@ -6,6 +6,6 @@ namespace NeptunReloaded.BLL.Models.Received
 {
     public  class JoinExam
     {
-        public int CourseId { get; set; }
+        public int ExamId { get; set; }
     }
 }

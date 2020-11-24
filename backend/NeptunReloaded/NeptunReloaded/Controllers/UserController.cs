@@ -35,9 +35,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -57,7 +57,7 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -78,7 +78,7 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
             }
         }
 
@@ -98,7 +98,7 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
             }
         }
 
@@ -117,7 +117,7 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
             }
         }
         [HttpGet("profil")]
@@ -145,7 +145,7 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -165,9 +165,28 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
             }
         }
+        [HttpGet("select/on-course/{courseId}")]
+        [Authorize(Roles = Role.Teacher)]
+        public async Task<IActionResult> GetAllStudentsOCourse(int courseId)
+        {
+
+            try
+            {
+                return Ok(await _userService.GetAllUserInCourse(courseId));
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Hiba történt: " +e.Message);
+            }
+        }
+        
 
 
     }

@@ -1,11 +1,11 @@
-import { StudentForExamSelect } from 'src/app/shared/backend.interface';
+import { MinimalUser } from 'src/app/shared/backend.interface';
 
 import { StudentForExamSelectAction, StudentForExamSelectActionTypes } from './student-for-exam-select.actions';
 
 export const STUDENT_FOR_EXAM_SELECT_FEATURE_KEY = 'StudentForExamSelect';
 
 export interface StudentForExamSelectState {
-  list: StudentForExamSelect[];
+  list: MinimalUser[];
   isRequesting: boolean;
 }
 

@@ -15,9 +15,10 @@ namespace NeptunReloaded.BLL.Services.Interfaces
         public Task<IEnumerable<Exam>> listExams(int userId);
         public Task<IEnumerable<ExamSelect>> listExamsSelect(int userId);
         public Task editExam(EditExam exam);
-        public Task deleteExam(DeleteExam exam);
+        public Task deleteExam(int examId);
         public Task joinExam(int userId, JoinExam exam);
         public Task leaveExam(int userId, LeaveExam exam);
+        public Task<IEnumerable<Exam>> listAllUserJoinedExams(int userId);
 
     }
 }

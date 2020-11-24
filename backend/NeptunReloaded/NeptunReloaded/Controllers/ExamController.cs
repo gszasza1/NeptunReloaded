@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NeprunReloaded.DAL.Additional;
 using NeptunReloaded.BLL.Models.Received;
@@ -22,6 +23,7 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Create([FromBody] CreateExam exam)
         {
@@ -41,6 +43,7 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPut]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Edit([FromBody] EditExam exam)
         {
@@ -59,13 +62,14 @@ namespace NeptunReloaded.API.Controllers
             }
 
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
-        public async Task<ActionResult> Delete([FromBody] DeleteExam exam)
+        public async Task<ActionResult> Delete(int examId)
         {
             try
             {
-                 await _examService.deleteExam(exam);
+                 await _examService.deleteExam(examId);
                 return Ok();
             }
             catch (InvalidOperationException e)
@@ -80,6 +84,7 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost("join")]
+        [EnableCors]
         [Authorize(Roles = Role.Student)]
         public async Task<ActionResult> JoinExam([FromBody] JoinExam exam)
         {
@@ -100,8 +105,9 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPost("leave")]
+        [EnableCors]
         [Authorize(Roles = Role.Student)]
-        public async Task<ActionResult> JoinExam([FromBody] LeaveExam exam)
+        public async Task<ActionResult> LeaveExam([FromBody] LeaveExam exam)
         {
             var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
             try
@@ -120,6 +126,7 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpGet]
+        [EnableCors]
         [Authorize]
         public async Task<ActionResult> GetAllExamForUser()
         {
@@ -140,7 +147,30 @@ namespace NeptunReloaded.API.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("joined")]
+        [EnableCors]
+        [Authorize]
+        public async Task<ActionResult> GetAllJoinedExamForUser()
+        {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
+            try
+            {
+                var userResult = await _examService.listAllUserJoinedExams(userId);
+                return Ok(userResult);
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch
+            {
+                return BadRequest("Hiba történt");
+            }
+
+        }
+
+        [HttpGet("select")]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ListExamsSelect()
         {
@@ -160,7 +190,8 @@ namespace NeptunReloaded.API.Controllers
             }
 
         }
-        [HttpGet("select")]
+        [HttpGet("select/courses")]
+        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ListCoursesSelect()
         {

@@ -5,13 +5,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { SharedUiModule } from '../shared-ui/shared-ui.module';
-import { SubjectSelectEffects } from './course-select copy/+state/subject-select.effects';
-import {
-  SUBJECT_SELECT_FEATURE_KEY,
-  SubjectSelectInitialState,
-  SubjectSelectReducer,
-} from './course-select copy/+state/subject-select.reducer';
-import { SubjectSelectComponent } from './course-select copy/subject-select.component';
 import { CourseSelectEffects } from './course-select/+state/course-select.effects';
 import {
   COURSESELECT_FEATURE_KEY,
@@ -21,26 +14,25 @@ import {
 import { CourseSelectComponent } from './course-select/course-select.component';
 import { DropdownService } from './dropdown.service';
 import { ExamSelectEffects } from './exam-select/+state/exam-select.effects';
-import {
-  EXAMSELECT_FEATURE_KEY,
-  ExamSelectInitialState,
-  ExamSelectReducer,
-} from './exam-select/+state/exam-select.reducer';
+import { EXAMSELECT_FEATURE_KEY, ExamSelectInitialState, ExamSelectReducer } from './exam-select/+state/exam-select.reducer';
 import { ExamSelectComponent } from './exam-select/exam-select.component';
 import { RoomSelectEffects } from './room-select/+state/room-select.effects';
-import {
-  ROOMSELECT_FEATURE_KEY,
-  RoomSelectInitialState,
-  RoomSelectReducer,
-} from './room-select/+state/room-select.reducer';
+import { ROOMSELECT_FEATURE_KEY, RoomSelectInitialState, RoomSelectReducer } from './room-select/+state/room-select.reducer';
 import { RoomSelectComponent } from './room-select/room-select.component';
+import { StudentForExamSelectEffects } from './student-for-exam-select/+state/student-for-exam-select.effects';
 import {
   STUDENT_FOR_EXAM_SELECT_FEATURE_KEY,
   StudentForExamSelectInitialState,
   StudentForExamSelectReducer,
 } from './student-for-exam-select/+state/student-for-exam-select.reducer';
-import { StudentForExamSelectEffects } from './student-for-exam-select/+state/student-for-exam-selecteffects';
 import { StudentForExamSelectComponent } from './student-for-exam-select/student-for-exam-selectcomponent';
+import { SubjectSelectEffects } from './subject-select/+state/subject-select.effects';
+import {
+  SUBJECT_SELECT_FEATURE_KEY,
+  SubjectSelectInitialState,
+  SubjectSelectReducer,
+} from './subject-select/+state/subject-select.reducer';
+import { SubjectSelectComponent } from './subject-select/subject-select.component';
 
 @NgModule({
   declarations: [

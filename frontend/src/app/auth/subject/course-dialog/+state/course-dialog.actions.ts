@@ -20,6 +20,7 @@ export class ChangeFilterSubjectCourse implements Action {
 
 export class GetSubjectCourseRequest implements Action {
   readonly type = SubjectCourseActionTypes.GetSubjectCourseRequest;
+  constructor(public payload: number) {}
 }
 export class GetSubjectCourseResponse implements Action {
   readonly type = SubjectCourseActionTypes.GetSubjectCourseResponse;

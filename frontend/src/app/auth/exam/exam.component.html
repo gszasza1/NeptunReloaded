@@ -4,7 +4,7 @@
       <mat-label>Név alapú szűrő</mat-label>
       <input matInput [formControl]="filter" placeholder="Írja be a szűrni való szöveget" />
     </mat-form-field>
-    <button mat-raised-button (click)="newExams()">Új vizsga</button>
+    <button *auth="'Teacher'" mat-raised-button (click)="newExams()">Új vizsga</button>
   </div>
   <table mat-table [dataSource]="ExamsList$" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
@@ -18,10 +18,10 @@
     <ng-container matColumnDef="operations">
       <th mat-header-cell *matHeaderCellDef>Műveletek</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="editExams(element)">
+        <button *auth="'Teacher'" mat-icon-button (click)="editExams(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="joinExam(element.id)">
+        <button *auth="'Student'" mat-icon-button (click)="joinExam(element.id)">
           <mat-icon>add</mat-icon>
         </button>
       </td>

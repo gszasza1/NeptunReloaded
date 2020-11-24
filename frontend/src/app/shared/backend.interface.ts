@@ -88,10 +88,24 @@ export interface ExamResults {
   neptun: string;
 }
 
+export interface EditExam{
+  id: number;
+  newName: string;
+}
+export interface JoinExam{
+  examId: number;
+}
+export interface LeaveExam{
+  examId: number;
+}
 export interface CreateExamResult {
   studentId: number;
   examId: number;
   score: number;
+}
+export interface EditExamResult{
+  examResultId: number;
+  newScore: number;
 }
 
 export interface CourseList {
@@ -120,4 +134,19 @@ export interface EditSubject {
 }
 export interface CreateSubject {
   name: string;
+}
+export interface EditCourse {
+  id: number;
+  newName: string;
+}
+
+export interface JoinCourse{
+  courseId: number;
+}
+export interface LeaveCourse{
+  courseId: number;
+}
+export interface CoursesBySubject
+{
+    subjectId: number;
 }

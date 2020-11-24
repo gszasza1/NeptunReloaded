@@ -1,26 +1,29 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { CreateExam, Exams } from 'src/app/shared/backend.interface';
+import { CreateExam, EditExam, Exams, JoinExam, LeaveExam } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExamService {
+  constructor(private httpClient: HttpClient) {}
   getExams() {
-    // tslint:disable-next-line: variable-name
-    return new BehaviorSubject<Exams[]>([...Array(20)].map((_, i) => ({ id: i, name: 'Szoba ' + i })))
-      .asObservable()
-      .pipe(delay(300));
+    return this.httpClient.get<Exams[]>('Exam');
   }
 
   createExams(exam: CreateExam) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+    return this.httpClient.post('Exam', exam);
   }
-  editExams(id: number, name: string) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  editExams(exam: EditExam) {
+    return this.httpClient.put('Exam', exam);
   }
-  joinExam(examId: number) {
-    return new BehaviorSubject({}).asObservable().pipe(delay(300));
+  deleteExam(examId: number) {
+    return this.httpClient.put('Exam', examId);
+  }
+  joinExam(exam: JoinExam) {
+    return this.httpClient.post('Exam/join', exam);
+  }
+  leaveExam(exam: LeaveExam) {
+    return this.httpClient.post('Exam/leave', exam);
   }
 }

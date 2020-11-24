@@ -28,6 +28,8 @@ namespace NeptunReloaded.DAL.Entities
         [JsonIgnore]
         public virtual ICollection<UserCourse> UserCourses { get; set; }
         [JsonIgnore]
+        public virtual ICollection<UserExam> UserExams { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ExamResult> ExamResults { get; set; }
         [JsonIgnore]
         public virtual ICollection<Course> Courses { get; set; }

@@ -1,4 +1,4 @@
-<mat-card *ngIf="!(isRequesting$ | async)">
+<mat-card *ngIf="(isRequesting$ | async) !== (false || null || undefined)">
   <ng-container *ngIf="userProfile$ | async as user">
     <mat-card-header>
       <div></div>

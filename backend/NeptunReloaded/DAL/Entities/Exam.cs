@@ -16,6 +16,9 @@ namespace NeprunReloaded.DAL.Entities
         public string Name { get; set; } = "Default name";
         [JsonIgnore]
         public virtual ICollection<ExamResult> ExamResults { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<UserExam> UserExams { get; set; }
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = new DateTime();
     }

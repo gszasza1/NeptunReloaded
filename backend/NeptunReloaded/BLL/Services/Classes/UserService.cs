@@ -137,6 +137,7 @@ namespace NeptunReloaded.BLL.Services.Classes
         new Claim(ClaimTypes.Name, userInfo.Username),
         new Claim(ClaimTypes.Role, userInfo.Role),
         new Claim("id",  userInfo.Id.ToString()),
+        new Claim("role",  userInfo.Role),
         new Claim("createdAt", userInfo.CreatedAt.ToString()),
         new Claim("firstName", userInfo.FirstName),
         new Claim("lastName", userInfo.LastName),

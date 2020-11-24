@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Exams } from 'src/app/shared/backend.interface';
 import { UnsubscribeOnDestroyBaseComponent } from 'src/app/shared/UnSubOnDestroy';
 
-import { ChangeFilterExam, GetExamRequest } from './+state/exam.actions';
+import { ChangeFilterExam, GetExamRequest, JoinExamRequest } from './+state/exam.actions';
 import { ExamQuery } from './+state/exam.selector';
 import { CreateExamComponent } from './create-exam/create-exam.component';
 import { EditExamComponent } from './edit-exam/edit-exam.component';
@@ -40,6 +40,6 @@ export class ExamComponent extends UnsubscribeOnDestroyBaseComponent implements 
     this.dialog.open(EditExamComponent, { data: { ...exam } });
   }
   joinExam(examId: number) {
-    this.store.dispatch(new GetExamRequest());
+    this.store.dispatch(new JoinExamRequest(examId));
   }
 }

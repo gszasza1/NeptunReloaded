@@ -6,6 +6,6 @@ namespace NeptunReloaded.BLL.Models.Received
 {
     public class LeaveExam
     {
-        public int CourseId { get; set; }
+        public int ExamId { get; set; }
     }
 }

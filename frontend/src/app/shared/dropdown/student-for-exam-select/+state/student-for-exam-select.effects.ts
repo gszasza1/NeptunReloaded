@@ -6,6 +6,7 @@ import { DropdownService } from '../../dropdown.service';
 import {
   StudentForExamSelectActionTypes,
   StudentForExamSelectError,
+  StudentForExamSelectRequest,
   StudentForExamSelectResponse,
 } from './student-for-exam-select.actions';
 
@@ -13,8 +14,8 @@ import {
 export class StudentForExamSelectEffects {
   @Effect() Login$ = this.actions$.pipe(
     ofType(StudentForExamSelectActionTypes.StudentForExamSelectRequest),
-    mergeMap(() =>
-      this.service.getStudentForExams().pipe(
+    mergeMap((action) =>
+      this.service.getStudentForExams((action as StudentForExamSelectRequest).payload).pipe(
         map((x) => new StudentForExamSelectResponse(x)),
         catchError(async () => new StudentForExamSelectError())
       )

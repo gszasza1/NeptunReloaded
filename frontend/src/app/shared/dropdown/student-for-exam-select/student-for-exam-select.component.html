@@ -2,7 +2,8 @@
   <mat-label>Diák</mat-label>
   <mat-select>
     <mat-option *ngFor="let student of studentList$ | async" [value]="student.id">
-      {{ student.name }} <strong>{{ student.neptun }}</strong>
+      {{ student.username }}
+       <!-- <strong>{{ student.neptun }}</strong> -->
     </mat-option>
   </mat-select>
 </mat-form-field>

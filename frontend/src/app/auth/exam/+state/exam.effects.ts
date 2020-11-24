@@ -44,7 +44,7 @@ export class ExamsEffects {
     ofType(ExamActionTypes.EditExamRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.editExams((action as EditExamRequest).payload, ExamQuery.getEditForm(storeState)).pipe(
+      this.service.editExams({id:(action as EditExamRequest).payload, newName: ExamQuery.getEditForm(storeState)}).pipe(
         map(() => new EditExamResponse()),
         catchError(async () => new EditExamError())
       )
@@ -54,7 +54,7 @@ export class ExamsEffects {
   @Effect() joinExam$ = this.actions$.pipe(
     ofType(ExamActionTypes.JoinExamRequest),
     mergeMap((action) =>
-      this.service.joinExam((action as JoinExamRequest).payload).pipe(
+      this.service.joinExam({examId:(action as JoinExamRequest).payload}).pipe(
         map(() => new EditExamResponse()),
         catchError(async () => new EditExamError())
       )
