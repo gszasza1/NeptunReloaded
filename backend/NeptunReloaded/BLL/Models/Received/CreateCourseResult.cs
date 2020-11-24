@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NeptunReloaded.BLL.Models.Received
 {
-    public class CreateExamResult
+    public class CreateCourseResult
     {
         public int UserId { get; set; }
         public int ExamId { get; set; }

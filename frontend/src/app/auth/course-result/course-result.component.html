@@ -1,12 +1,12 @@
-<div class="exam-result">
+<div class="course-result">
   <div>
     <mat-form-field>
       <mat-label>Neptun alapú szűrő</mat-label>
       <input matInput [formControl]="filter" placeholder="Írja be a szűrni való szöveget" />
     </mat-form-field>
-    <button *auth="'Teacher'" mat-raised-button (click)="newExamResult()">Új eredmény</button>
+    <button *auth="'Teacher'" mat-raised-button (click)="newCourseResult()">Új eredmény</button>
   </div>
-  <table mat-table [dataSource]="ExamResultList$" class="mat-elevation-z8">
+  <table mat-table [dataSource]="CourseResultList$" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Azonosító</th>
       <td mat-cell *matCellDef="let element">{{ element.id }}</td>
@@ -15,9 +15,9 @@
       <th mat-header-cell *matHeaderCellDef>Neptun</th>
       <td mat-cell *matCellDef="let element">{{ element.neptun }}</td>
     </ng-container>
-    <ng-container matColumnDef="examName">
-      <th mat-header-cell *matHeaderCellDef>Vizsga neve</th>
-      <td mat-cell *matCellDef="let element">{{ element.examName }}</td>
+    <ng-container matColumnDef="courseName">
+      <th mat-header-cell *matHeaderCellDef>Kurzus neve</th>
+      <td mat-cell *matCellDef="let element">{{ element.courseName }}</td>
     </ng-container>
     <ng-container matColumnDef="score">
       <th mat-header-cell *matHeaderCellDef>Pont</th>
@@ -26,7 +26,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4" *ngIf="(ExamResultList$ | async).length === 0">Nincs találat</td>
+      <td class="mat-cell" colspan="4" *ngIf="(CourseResultList$ | async).length === 0">Nincs találat</td>
     </tr>
   </table>
   <mat-spinner *ngIf="isRequesting$ | async"></mat-spinner>

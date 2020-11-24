@@ -25,6 +25,9 @@ namespace NeprunReloaded.DAL.Entities
         [JsonIgnore]
         public virtual ICollection<Exam> Exams { get; set; }
 
+        [JsonIgnore]
+        public virtual ICollection<CourseResult> CourseResults { get; set; }
+
         public bool IsDeleted { get; set; } = false;
       
         public DateTime CreatedAt { get; set; } = new DateTime();

@@ -71,7 +71,7 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            var alreadyExist = _context.UserCourses.FirstOrDefaultAsync(x => x.UserId == userId && x.CourseId == course.CourseId);
+            var alreadyExist = await _context.UserCourses.FirstOrDefaultAsync(x => x.UserId == userId && x.CourseId == course.CourseId);
 
             if (alreadyExist != null)
             {
@@ -96,18 +96,23 @@ namespace NeptunReloaded.BLL.Services.Classes
 
         public async Task<IEnumerable<CoursesPopUp>> listCoursesBySubject(int userId, int subjectId)
         {
-           return await _context.Courses.Where(x=>x.SubjectId== subjectId)
-                .Include(z=>z.UserCourses).ThenInclude(u=>u.User)
-                .Include(t=>t.User)
-                .Include(x=>x.Room)
-                .Include(y=>y.Subject)
-                .Select(q=> new CoursesPopUp() { 
-            Id=q.Id,
-            Subject=q.Subject,
-            Room=q.Room,
-            Member=q.UserCourses.Where(l=>l.UserId==userId)!=null,
-            User=new UserSelect() { Id=q.User.Id,Name=q.User.FirstName + " " + q.User.LastName}
+            var asd =  _context.Courses.Where(x => x.SubjectId == subjectId)
+                 .Include(z => z.UserCourses).ThenInclude(u => u.User)
+                 .Include(t => t.User)
+                 .Include(x => x.Room)
+                 .Include(y => y.Subject);
+                
+            var sajt= await asd.Select(q => new CoursesPopUp()
+            {
+                Id = q.Id,
+                Name=q.Name,
+                Subject = q.Subject,
+                Room = q.Room,
+                Member = q.UserCourses.Any(l => l.UserId == userId),
+                User = new UserSelect() { Id = q.User.Id, Name = q.User.FirstName + " " + q.User.LastName }
             }).ToListAsync();
+
+            return sajt;
         }
 
         public async Task<IEnumerable<CourseSelect>> listCoursesSelect()

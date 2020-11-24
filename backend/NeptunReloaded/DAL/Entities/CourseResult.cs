@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NeprunReloaded.DAL.Entities
 {
-    public class ExamResult
+    public class CourseResult
     {
         [Key]
         public int Id { get; set; }
-        public int ExamId { get; set; }
-        public Exam Exam { get; set; }
+        public int CourseId { get; set; }
+        public Course Course { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         [Required]

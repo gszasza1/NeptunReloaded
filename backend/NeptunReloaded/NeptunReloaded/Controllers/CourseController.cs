@@ -13,7 +13,6 @@ namespace NeptunReloaded.API.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    [EnableCors]
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
@@ -24,7 +23,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Create([FromBody] CreateCourse course)
         {
@@ -45,7 +43,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPut]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Edit([FromBody] EditCourse course)
         {
@@ -65,7 +62,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPost("join")]
-        [EnableCors]
         [Authorize(Roles = Role.Student)]
         public async Task<ActionResult> JoinCourse([FromBody] JoinCourse course)
         {
@@ -87,7 +83,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpGet("subject/{subjectId}")]
-        [EnableCors]
         [Authorize]
         public async Task<ActionResult> GetAllCourseBySubject(int subjectId)
         {
@@ -109,7 +104,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpGet]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> GetAll()
         {
@@ -129,7 +123,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpGet("select")]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ListCoursesSelect()
         {
@@ -149,7 +142,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpGet("select/self")]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ListTeacherAllCourses()
         {

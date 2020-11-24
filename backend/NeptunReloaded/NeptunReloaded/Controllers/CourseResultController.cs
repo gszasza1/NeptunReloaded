@@ -14,22 +14,22 @@ namespace NeptunReloaded.API.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class ExamResultController : ControllerBase
+    public class CourseResultController : ControllerBase
     {
-        private readonly IExamResultService _examResultService;
+        private readonly ICourseResultService _courseResultService;
 
-        public ExamResultController(IExamResultService examResultService)
+        public CourseResultController(ICourseResultService courseResultService)
         {
-            _examResultService = examResultService;
+            _courseResultService = courseResultService;
         }
 
         [HttpPost]
         [Authorize(Roles = Role.Teacher)]
-        public async Task<ActionResult> Create([FromBody] CreateExamResult result)
+        public async Task<ActionResult> Create([FromBody] CreateCourseResult result)
         {
             try
             {
-                await _examResultService.createExamResult(result);
+                await _courseResultService.CreateCourseResult(result);
                 return Ok();
             }
             catch (InvalidOperationException e)
@@ -45,11 +45,11 @@ namespace NeptunReloaded.API.Controllers
 
         [HttpPut]
         [Authorize(Roles = Role.Teacher)]
-        public async Task<ActionResult> Edit([FromBody] EditExamResult result)
+        public async Task<ActionResult> Edit([FromBody] EditCourseResult result)
         {
             try
             {
-                await _examResultService.editExamResult(result);
+                await _courseResultService.EditCourseResult(result);
                 return Ok();
             }
             catch (InvalidOperationException e)
@@ -69,7 +69,7 @@ namespace NeptunReloaded.API.Controllers
         {
             try
             {
-                var userResult = await _examResultService.ListExamResults();
+                var userResult = await _courseResultService.ListCourseResults();
                 return Ok(userResult);
             }
             catch (InvalidOperationException e)

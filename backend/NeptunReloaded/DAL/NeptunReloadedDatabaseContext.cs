@@ -14,7 +14,7 @@ namespace NeptunReloaded.DAL
         public DbSet<Subject> Subjects { get; }
         public DbSet<Room> Rooms { get; }
         public DbSet<Exam> Exams { get; }
-        public DbSet<ExamResult> ExamResults { get; }
+        public DbSet<CourseResult> CourseResults { get; }
         public DbSet<UserExam> UserExams { get; }
 
         public NeptunReloadedDatabaseContext(DbContextOptions<NeptunReloadedDatabaseContext> options)
@@ -26,7 +26,7 @@ namespace NeptunReloaded.DAL
             Subjects = Set<Subject>();
             Rooms = Set<Room>();
             Exams = Set<Exam>();
-            ExamResults = Set<ExamResult>();
+            CourseResults = Set<CourseResult>();
             UserExams = Set<UserExam>();
         }
 
@@ -162,21 +162,21 @@ namespace NeptunReloaded.DAL
 
             #endregion
 
-            #region ExamResult
+            #region CourseResult
 
-            builder.Entity<ExamResult>()
+            builder.Entity<CourseResult>()
             .Property(f => f.Id)
             .ValueGeneratedOnAdd();
 
-            builder.Entity<ExamResult>()
-            .HasOne(p => p.Exam)
-            .WithMany(b => b.ExamResults)
-            .HasForeignKey(p => p.ExamId)
+            builder.Entity<CourseResult>()
+            .HasOne(p => p.Course)
+            .WithMany(b => b.CourseResults)
+            .HasForeignKey(p => p.CourseId)
             .OnDelete(DeleteBehavior.NoAction);
             
-            builder.Entity<ExamResult>()
+            builder.Entity<CourseResult>()
             .HasOne(p => p.User)
-            .WithMany(b => b.ExamResults)
+            .WithMany(b => b.CourseResults)
             .HasForeignKey(p => p.UserId)
             .OnDelete(DeleteBehavior.NoAction);
             #endregion

@@ -8,6 +8,7 @@ namespace NeptunReloaded.BLL.Models.Send
     public class CoursesPopUp
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public Subject Subject { get; set; }
         public Room Room { get; set; }
         public UserSelect User { get; set; }

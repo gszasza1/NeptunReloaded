@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthComponent } from './auth.component';
+import { CourseResultComponent } from './course-result/course-result.component';
 import { CourseComponent } from './course/course.component';
-import { ExamResultComponent } from './exam-result/exam-result.component';
 import { ExamComponent } from './exam/exam.component';
 import { ProfilComponent } from './profil/profil.component';
 import { RoomComponent } from './room/rooms.component';
@@ -44,8 +44,8 @@ const routes: Routes = [
         },
       },
       {
-        path: 'exam-result',
-        component: ExamResultComponent,
+        path: 'course-result',
+        component: CourseResultComponent,
         data: {
           title: 'Vizsgaeredmény',
         },

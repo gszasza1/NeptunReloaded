@@ -16,7 +16,7 @@ export class DropdownService {
   }
 
   getStudentForExams(courseId: number) {
-     return this.httpClient.get<MinimalUser[]>(`Subject/select/on-course/${courseId}`);
+    return this.httpClient.get<MinimalUser[]>(`User/select/on-course/${courseId}`);
   }
   getRooms() {
     return this.httpClient.get<RoomSelect[]>('Room/available');

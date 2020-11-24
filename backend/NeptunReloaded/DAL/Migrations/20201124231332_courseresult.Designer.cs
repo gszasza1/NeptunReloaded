@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeptunReloaded.DAL;
 
 namespace NeprunReloaded.DAL.Migrations
 {
     [DbContext(typeof(NeptunReloadedDatabaseContext))]
-    partial class NeptunReloadedDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20201124231332_courseresult")]
+    partial class courseresult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -81,30 +81,30 @@ export interface CreateExam {
   name: string;
 }
 
-export interface ExamResults {
+export interface CourseResultsExtended {
   id: number;
   score: number;
-  examName: string;
+  courseName: string;
   neptun: string;
 }
 
-export interface EditExam{
+export interface EditExam {
   id: number;
   newName: string;
 }
-export interface JoinExam{
+export interface JoinExam {
   examId: number;
 }
-export interface LeaveExam{
+export interface LeaveExam {
   examId: number;
 }
-export interface CreateExamResult {
-  studentId: number;
+export interface CreateCourseResult {
+  userId: number;
   examId: number;
   score: number;
 }
-export interface EditExamResult{
-  examResultId: number;
+export interface EditCourseResult {
+  CourseResultId: number;
   newScore: number;
 }
 
@@ -140,13 +140,12 @@ export interface EditCourse {
   newName: string;
 }
 
-export interface JoinCourse{
+export interface JoinCourse {
   courseId: number;
 }
-export interface LeaveCourse{
+export interface LeaveCourse {
   courseId: number;
 }
-export interface CoursesBySubject
-{
-    subjectId: number;
+export interface CoursesBySubject {
+  subjectId: number;
 }

@@ -14,8 +14,6 @@ namespace NeprunReloaded.DAL.Entities
         [Required]
         [MinLength(2)]
         public string Name { get; set; } = "Default name";
-        [JsonIgnore]
-        public virtual ICollection<ExamResult> ExamResults { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<UserExam> UserExams { get; set; }

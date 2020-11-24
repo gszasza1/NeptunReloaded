@@ -1,11 +1,11 @@
 <form [formGroup]="formGroup" (submit)="save()">
   <div>
-    <app-exam-select [formControl]="formControls.examId"></app-exam-select>
+    <app-course-select [formControl]="formControls.examId"></app-course-select>
 
     <app-student-for-exam-select
       *ngIf="formControls.examId.value"
-      [examId]="formControls.examId.value"
-      [formControl]="formControls.studentId"
+      [courseId]="formControls.examId.value"
+      [formControl]="formControls.userId"
     ></app-student-for-exam-select>
     <mat-form-field *ngIf="formControls.examId.value">
       <mat-label>Név </mat-label>

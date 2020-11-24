@@ -11,44 +11,45 @@ using System.Linq;
 using System.Threading.Tasks;
 using NeprunReloaded.DAL.Additional;
 using Microsoft.EntityFrameworkCore;
+using NeptunReloaded.BLL.Models.Send;
 
 namespace NeptunReloaded.BLL.Services.Classes
 {
-    public class ExamResultService : IExamResultService
+    public class CourseResultService : ICourseResultService
     {
         private readonly NeptunReloadedDatabaseContext _context;
 
-        public ExamResultService(NeptunReloadedDatabaseContext context)
+        public CourseResultService(NeptunReloadedDatabaseContext context)
         {
             _context = context;
         }
 
-        public async Task createExamResult(CreateExamResult result)
+        public async Task CreateCourseResult(CreateCourseResult result)
         {
             if (result.ExamId == null || result.Score == null || result.UserId == null)
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            var dbExamResult = new ExamResult()
+            var dbExamResult = new CourseResult()
             {
                 UserId = result.UserId,
-                Score=result.Score,
-                ExamId=result.ExamId
+                Score = result.Score,
+                CourseId = result.ExamId
             };
 
-            _context.ExamResults.Add(dbExamResult);
+            _context.CourseResults.Add(dbExamResult);
             await _context.SaveChangesAsync();
 
             return;
         }
 
-        public async Task editExamResult(EditExamResult examResult)
+        public async Task EditCourseResult(EditCourseResult examResult)
         {
-            if (examResult.NewScore == null || examResult.ExamResultId == null)
+            if (examResult.NewScore == null || examResult.CourseResultId == null)
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            var editExamResult = _context.ExamResults.FirstOrDefault(x => x.Id == examResult.ExamResultId);
+            var editExamResult = _context.CourseResults.FirstOrDefault(x => x.Id == examResult.CourseResultId);
 
             if (editExamResult == null)
             {
@@ -56,17 +57,21 @@ namespace NeptunReloaded.BLL.Services.Classes
             }
             editExamResult.Score = examResult.NewScore;
 
-            _context.ExamResults.Update(editExamResult);
+            _context.CourseResults.Update(editExamResult);
             await _context.SaveChangesAsync();
 
             return;
         }
-        public async Task<IEnumerable<ExamResult>> ListExamResults()
+        public async Task<IEnumerable<CourseResultExtended>> ListCourseResults()
         {
-            return await _context.ExamResults.ToListAsync();
+            return await _context.CourseResults.Include(x => x.Course).Include(y => y.User).Select(z => new CourseResultExtended()
+            {
+                CourseName = z.Course.Name,
+                Id = z.Id,
+                Neptun = z.User.Neptun,
+                Score = z.Score
+            }).ToListAsync();
         }
     }
 
-       
-    
 }

@@ -9,16 +9,20 @@ import { DropdownModule } from '../shared/dropdown/dropdown.module';
 import { SharedUiModule } from '../shared/shared-ui/shared-ui.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
+import { CourseResultEffects } from './course-result/+state/course-result.effects';
+import {
+  CourseResult_FEATURE_KEY,
+  CourseResultInitialState,
+  CourseResultReducer,
+} from './course-result/+state/course-result.reducer';
+import { CourseResultComponent } from './course-result/course-result.component';
+import { CourseCourseResultComponent } from './course-result/create-course-result/create-course-result.component';
 import { CourseEffects } from './course/+state/course.effects';
 import { COURSE_FEATURE_KEY, CourseInitialState, CourseReducer } from './course/+state/course.reducer';
 import { CourseComponent } from './course/course.component';
 import { CourseService } from './course/course.service';
 import { CreateCourseComponent } from './course/create-course/create-course.component';
 import { EditCourseComponent } from './course/edit-course/edit-course.component';
-import { ExamResultEffects } from './exam-result/+state/exam-result.effects';
-import { EXAMRESULT_FEATURE_KEY, ExamResultInitialState, ExamResultReducer } from './exam-result/+state/exam-result.reducer';
-import { CreateExamResultComponent } from './exam-result/create-exam-result/create-exam-result.component';
-import { ExamResultComponent } from './exam-result/exam-result.component';
 import { ExamsEffects } from './exam/+state/exam.effects';
 import { EXAM_FEATURE_KEY, ExamsInitialState, ExamsReducer } from './exam/+state/exam.reducer';
 import { CreateExamComponent } from './exam/create-exam/create-exam.component';
@@ -63,7 +67,7 @@ import { UserService } from './users/users.service';
     ProfilComponent,
     ChangePassDialogComponent,
     ChangeUsernameDialogComponent,
-    ExamResultComponent,
+    CourseResultComponent,
     ExamComponent,
     SubjectComponent,
     CreateSubjectComponent,
@@ -75,7 +79,7 @@ import { UserService } from './users/users.service';
     EditRoomComponent,
     CreateExamComponent,
     EditExamComponent,
-    CreateExamResultComponent,
+    CourseCourseResultComponent,
     CreateCourseComponent,
     UsersComponent,
   ],
@@ -110,9 +114,9 @@ import { UserService } from './users/users.service';
     StoreModule.forFeature(COURSE_FEATURE_KEY, CourseReducer, {
       initialState: CourseInitialState,
     }),
-    EffectsModule.forFeature([ExamResultEffects]),
-    StoreModule.forFeature(EXAMRESULT_FEATURE_KEY, ExamResultReducer, {
-      initialState: ExamResultInitialState,
+    EffectsModule.forFeature([CourseResultEffects]),
+    StoreModule.forFeature(CourseResult_FEATURE_KEY, CourseResultReducer, {
+      initialState: CourseResultInitialState,
     }),
     EffectsModule.forFeature([UserEffects]),
     StoreModule.forFeature(USER_FEATURE_KEY, UserReducer, {

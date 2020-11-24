@@ -4,9 +4,9 @@ using System.Text;
 
 namespace NeptunReloaded.BLL.Models.Received
 {
-    public class EditExamResult
+    public class EditCourseResult
     {
-        public int ExamResultId { get; set; }
+        public int CourseResultId { get; set; }
         public int NewScore { get; set; }
     }
 }

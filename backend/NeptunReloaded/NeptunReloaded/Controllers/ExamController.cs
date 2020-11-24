@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NeprunReloaded.DAL.Additional;
 using NeptunReloaded.BLL.Models.Received;
@@ -23,7 +22,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Create([FromBody] CreateExam exam)
         {
@@ -43,7 +41,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPut]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Edit([FromBody] EditExam exam)
         {
@@ -63,7 +60,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpDelete("{id}")]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Delete(int examId)
         {
@@ -84,7 +80,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpPost("join")]
-        [EnableCors]
         [Authorize(Roles = Role.Student)]
         public async Task<ActionResult> JoinExam([FromBody] JoinExam exam)
         {
@@ -105,7 +100,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpPost("leave")]
-        [EnableCors]
         [Authorize(Roles = Role.Student)]
         public async Task<ActionResult> LeaveExam([FromBody] LeaveExam exam)
         {
@@ -126,7 +120,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpGet]
-        [EnableCors]
         [Authorize]
         public async Task<ActionResult> GetAllExamForUser()
         {
@@ -148,7 +141,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpGet("joined")]
-        [EnableCors]
         [Authorize]
         public async Task<ActionResult> GetAllJoinedExamForUser()
         {
@@ -170,7 +162,6 @@ namespace NeptunReloaded.API.Controllers
         }
 
         [HttpGet("select")]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ListExamsSelect()
         {
@@ -191,7 +182,6 @@ namespace NeptunReloaded.API.Controllers
 
         }
         [HttpGet("select/courses")]
-        [EnableCors]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> ListCoursesSelect()
         {

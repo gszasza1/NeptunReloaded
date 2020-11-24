@@ -30,7 +30,7 @@ namespace NeptunReloaded.DAL.Entities
         [JsonIgnore]
         public virtual ICollection<UserExam> UserExams { get; set; }
         [JsonIgnore]
-        public virtual ICollection<ExamResult> ExamResults { get; set; }
+        public virtual ICollection<CourseResult> CourseResults { get; set; }
         [JsonIgnore]
         public virtual ICollection<Course> Courses { get; set; }
 
