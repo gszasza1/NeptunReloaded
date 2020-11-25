@@ -11,14 +11,15 @@ export class SnackbarInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.error instanceof ErrorEvent) {
-          this.snackbar.open('Hiba történt', '', { duration: 2000 });
-        }
         if (error.status >= 400) {
-          this.snackbar.open(error?.error ? JSON.stringify(error.error) : 'Hiba történt', '', {
-            duration: 2000,
-            panelClass: 'error-snackbar',
-          });
+          this.snackbar.open(
+            error?.error ? JSON.stringify(error.error) : error.status === 401 ? 'Lejárt session' : 'Hiba történt',
+            '',
+            {
+              duration: 2000,
+              panelClass: 'error-snackbar',
+            }
+          );
         }
         return throwError(error);
       })

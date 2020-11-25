@@ -24,6 +24,10 @@
         <button *auth="'Student'" mat-icon-button (click)="joinExam(element.id)">
           <mat-icon>add</mat-icon>
         </button>
+
+        <button *auth="'Student'" mat-icon-button (click)="leaveExam(element.id)">
+          <mat-icon>divide</mat-icon>
+        </button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

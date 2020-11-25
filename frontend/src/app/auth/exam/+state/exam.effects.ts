@@ -15,6 +15,7 @@ import {
   GetExamRequest,
   GetExamResponse,
   JoinExamRequest,
+  LeaveExamRequest,
 } from './exam.actions';
 import { ExamQuery } from './exam.selector';
 
@@ -44,24 +45,41 @@ export class ExamsEffects {
     ofType(ExamActionTypes.EditExamRequest),
     withLatestFrom(this.store),
     mergeMap(([action, storeState]) =>
-      this.service.editExams({id:(action as EditExamRequest).payload, newName: ExamQuery.getEditForm(storeState)}).pipe(
-        map(() => new EditExamResponse()),
-        catchError(async () => new EditExamError())
-      )
+      this.service
+        .editExams({ id: (action as EditExamRequest).payload, newName: ExamQuery.getEditForm(storeState) })
+        .pipe(
+          map(() => new EditExamResponse()),
+          catchError(async () => new EditExamError())
+        )
     )
   );
 
   @Effect() joinExam$ = this.actions$.pipe(
     ofType(ExamActionTypes.JoinExamRequest),
     mergeMap((action) =>
-      this.service.joinExam({examId:(action as JoinExamRequest).payload}).pipe(
+      this.service.joinExam({ examId: (action as JoinExamRequest).payload }).pipe(
+        map(() => new EditExamResponse()),
+        catchError(async () => new EditExamError())
+      )
+    )
+  );
+
+  @Effect() LeaveExam$ = this.actions$.pipe(
+    ofType(ExamActionTypes.LeaveExamRequest),
+    mergeMap((action) =>
+      this.service.leaveExam({ examId: (action as LeaveExamRequest).payload }).pipe(
         map(() => new EditExamResponse()),
         catchError(async () => new EditExamError())
       )
     )
   );
   @Effect() refreshList$ = this.actions$.pipe(
-    ofType(ExamActionTypes.EditExamResponse, ExamActionTypes.CreateExamResponse, ExamActionTypes.JoinExamResponse),
+    ofType(
+      ExamActionTypes.EditExamResponse,
+      ExamActionTypes.CreateExamResponse,
+      ExamActionTypes.LeaveExamResponse,
+      ExamActionTypes.JoinExamResponse
+    ),
     map(() => new GetExamRequest())
   );
 

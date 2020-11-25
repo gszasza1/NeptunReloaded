@@ -21,8 +21,21 @@ export enum ExamActionTypes {
   JoinExamRequest = '[Exam] JoinExam Request',
   JoinExamResponse = '[Exam] JoinExam Response',
   JoinExamError = '[Exam] JoinExam Error',
+  LeaveExamRequest = '[Exam] LeaveExam Request',
+  LeaveExamResponse = '[Exam] LeaveExam Response',
+  LeaveExamError = '[Exam] LeaveExam Error',
 }
 
+export class LeaveExamRequest implements Action {
+  readonly type = ExamActionTypes.LeaveExamRequest;
+  constructor(public payload: number) {}
+}
+export class LeaveExamResponse implements Action {
+  readonly type = ExamActionTypes.LeaveExamResponse;
+}
+export class LeaveExamError implements Action {
+  readonly type = ExamActionTypes.LeaveExamError;
+}
 export class JoinExamRequest implements Action {
   readonly type = ExamActionTypes.JoinExamRequest;
   constructor(public payload: number) {}
@@ -90,7 +103,10 @@ export type ExamAction =
   | ChangeEditExam
   | JoinExamRequest
   | JoinExamResponse
-  | JoinExamError;
+  | JoinExamError
+  | LeaveExamRequest
+  | LeaveExamResponse
+  | LeaveExamError;
 
 export const fromExamActions = {
   GetExamRequest,
@@ -108,4 +124,7 @@ export const fromExamActions = {
   JoinExamRequest,
   JoinExamResponse,
   JoinExamError,
+  LeaveExamRequest,
+  LeaveExamResponse,
+  LeaveExamError,
 };
