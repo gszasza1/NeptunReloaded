@@ -5,6 +5,7 @@ import { AuthComponent } from './auth.component';
 import { CourseResultComponent } from './course-result/course-result.component';
 import { CourseComponent } from './course/course.component';
 import { ExamComponent } from './exam/exam.component';
+import { MyExamsComponent } from './my-exams/my-exams.component';
 import { ProfilComponent } from './profil/profil.component';
 import { RoomComponent } from './room/rooms.component';
 import { SubjectComponent } from './subject/subject.component';
@@ -44,6 +45,13 @@ const routes: Routes = [
         },
       },
       {
+        path: 'my-exams',
+        component: MyExamsComponent,
+        data: {
+          title: 'Saját vizsgáim',
+        },
+      },
+      {
         path: 'course-result',
         component: CourseResultComponent,
         data: {
@@ -69,6 +77,7 @@ const routes: Routes = [
         pathMatch: 'full',
         redirectTo: 'profil',
       },
+      { path: '**', redirectTo: '' },
     ],
   },
 ];

@@ -113,9 +113,8 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            var userExam = await _context.UserExams.Where(x => x.UserId == userId).Select(y=> y.ExamId).ToListAsync();
+            return await _context.UserExams.Where(x => x.UserId == userId).Include(t=>t.Exam).Select(y=> y.Exam).ToListAsync();
 
-            return await _context.Exams.Where(x=> userExam.Contains(x.Id)).ToListAsync();
         }
 
         public async Task<IEnumerable<Exam>> listExams(int userId)

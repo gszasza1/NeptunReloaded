@@ -21,10 +21,16 @@ const routes: Routes = [
     },
   },
   {
+    path: 'auth',
+    // canActivate: [UnAuthGuard],
+    //  canActivateChild: [UnAuthGuard],
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
+
+  {
     path: '',
     component: MainPageComponent,
   },
-  { path: 'auth', loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule) },
   {
     path: '**',
     pathMatch: 'full',

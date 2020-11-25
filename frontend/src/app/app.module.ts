@@ -1,11 +1,13 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { NavigationActionTiming, routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { Action, ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { filter, map } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,7 +33,7 @@ export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
   // tslint:disable-next-line: no-any
   return (state: any, action: any) => {
     if (action.type === 'SET_ROOT_STATE') {
-      return action.payload;
+      state = undefined;
     }
     return reducer(state, action);
   };
@@ -50,7 +52,7 @@ export const metaReducers: MetaReducer<{}, Action>[] = [stateSetter];
         router: routerReducer,
       },
       {
-        metaReducers,
+        metaReducers: [...metaReducers],
         runtimeChecks: {
           strictStateImmutability: true,
           strictActionImmutability: true,
@@ -84,4 +86,27 @@ export const metaReducers: MetaReducer<{}, Action>[] = [stateSetter];
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private title: Title) {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => {
+          let child = this.activatedRoute.firstChild;
+          while (child) {
+            if (child.firstChild) {
+              child = child.firstChild;
+            } else if (child.snapshot.data && child.snapshot.data.title) {
+              return child.snapshot.data.title;
+            } else {
+              return null;
+            }
+          }
+          return null;
+        })
+      )
+      .subscribe((data) => {
+        this.title.setTitle(data ?? 'Neptun újratöltve');
+      });
+  }
+}

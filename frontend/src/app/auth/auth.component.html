@@ -12,6 +12,12 @@
       <mat-list-item>
         <button (click)="drawer.close()" [routerLink]="'/auth/course-result'" mat-button>Vizsgaeredmény</button>
       </mat-list-item>
+      <ng-container *auth="'Student'">
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <button (click)="drawer.close()" [routerLink]="'/auth/my-exams'" mat-button>Saját vizsgáim</button>
+        </mat-list-item>
+      </ng-container>
 
       <ng-container *auth="'Teacher'">
         <mat-divider></mat-divider>
@@ -45,6 +51,7 @@
         >
           <mat-icon>person</mat-icon>
         </button>
+        <button (click)="logout()" [routerLink]="'/login'" mat-button>Kijelentkezés</button>
       </mat-toolbar>
       <div>
         <router-outlet></router-outlet>

@@ -29,6 +29,10 @@ import { CreateExamComponent } from './exam/create-exam/create-exam.component';
 import { EditExamComponent } from './exam/edit-exam/edit-exam.component';
 import { ExamComponent } from './exam/exam.component';
 import { ExamService } from './exam/exam.service';
+import { MyExamsEffects } from './my-exams/+state/my-exams.effects';
+import { MY_EXAMS_FEATURE_KEY, MyExamsInitialState, MyExamsReducer } from './my-exams/+state/my-exams.reducer';
+import { MyExamsComponent } from './my-exams/my-exams.component';
+import { MyExamsService } from './my-exams/my-exams.service';
 import { ProfilEffects } from './profil/+state/profil.effects';
 import { PROFIL_FEATURE_KEY, ProfilInitialState, ProfilReducer } from './profil/+state/profil.reducer';
 import { ChangePassDialogComponent } from './profil/change-pass-dialog/change-pass-dialog.component';
@@ -82,6 +86,7 @@ import { UserService } from './users/users.service';
     CourseCourseResultComponent,
     CreateCourseComponent,
     UsersComponent,
+    MyExamsComponent,
   ],
   imports: [
     CommonModule,
@@ -110,6 +115,10 @@ import { UserService } from './users/users.service';
     StoreModule.forFeature(EXAM_FEATURE_KEY, ExamsReducer, {
       initialState: ExamsInitialState,
     }),
+    EffectsModule.forFeature([MyExamsEffects]),
+    StoreModule.forFeature(MY_EXAMS_FEATURE_KEY, MyExamsReducer, {
+      initialState: MyExamsInitialState,
+    }),
     EffectsModule.forFeature([CourseEffects]),
     StoreModule.forFeature(COURSE_FEATURE_KEY, CourseReducer, {
       initialState: CourseInitialState,
@@ -123,6 +132,15 @@ import { UserService } from './users/users.service';
       initialState: UserInitialState,
     }),
   ],
-  providers: [ProfilService, SubjectService, CourseDialogService, RoomService, ExamService, CourseService, UserService],
+  providers: [
+    ProfilService,
+    SubjectService,
+    CourseDialogService,
+    RoomService,
+    ExamService,
+    CourseService,
+    UserService,
+    MyExamsService,
+  ],
 })
 export class AuthModule {}
