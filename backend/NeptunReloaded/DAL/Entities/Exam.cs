@@ -18,6 +18,6 @@ namespace NeprunReloaded.DAL.Entities
         [JsonIgnore]
         public virtual ICollection<UserExam> UserExams { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

@@ -11,6 +11,7 @@ namespace NeptunReloaded.BLL.Models.Send
 
         public string Neptun { get; set; }
         public string CourseName { get; set; }
-    
+        public DateTime CreatedAt { get; set; }
+
     }
 }

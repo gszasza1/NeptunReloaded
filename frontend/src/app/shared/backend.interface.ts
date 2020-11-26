@@ -91,6 +91,7 @@ export interface CourseResultsExtended {
   score: number;
   courseName: string;
   neptun: string;
+  createdAt: Date;
 }
 
 export interface EditExam {

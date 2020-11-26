@@ -36,9 +36,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -55,9 +55,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -75,9 +75,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -96,9 +96,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -116,9 +116,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -135,9 +135,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -155,9 +155,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }

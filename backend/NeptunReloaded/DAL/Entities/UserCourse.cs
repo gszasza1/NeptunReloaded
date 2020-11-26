@@ -16,6 +16,6 @@ namespace NeprunReloaded.DAL.Entities
         public int? CourseId { get; set; }
         public Course Course { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

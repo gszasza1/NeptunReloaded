@@ -36,9 +36,9 @@ namespace NeptunReloaded.DAL.Entities
 
         public bool IsDeleted { get; set; } = false;
       
-        public DateTime CreatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-       
+
 
     }
    

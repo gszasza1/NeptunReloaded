@@ -17,6 +17,10 @@
         <mat-list-item>
           <button (click)="drawer.close()" [routerLink]="'/auth/my-exams'" mat-button>Saját vizsgáim</button>
         </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <button (click)="drawer.close()" [routerLink]="'/auth/my-result'" mat-button>Saját eredményim</button>
+        </mat-list-item>
       </ng-container>
 
       <ng-container *auth="'Teacher'">

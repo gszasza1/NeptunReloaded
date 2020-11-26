@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NeprunReloaded.DAL.Additional;
 using NeptunReloaded.BLL.Models.Received;
-using NeptunReloaded.BLL.Services.Classes;
 using NeptunReloaded.BLL.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,9 +34,9 @@ namespace NeptunReloaded.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest("Hiba történt");
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -58,7 +56,7 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }
@@ -78,7 +76,27 @@ namespace NeptunReloaded.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest("Hiba történt: " + e.Message);
+            }
+
+        }
+        [HttpGet("self")]
+        [Authorize(Roles = Role.Student)]
+        public async Task<IActionResult> GetUserAll()
+        {
+            var userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id")).Value);
+            try
+            {
+                var userResult = await _courseResultService.ListUserCourseResults(userId);
+                return Ok(userResult);
+            }
+            catch (InvalidOperationException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Hiba történt: " + e.Message);
             }
 
         }

@@ -14,7 +14,7 @@ namespace NeprunReloaded.DAL.Entities
         public int? ExamId { get; set; }
         public Exam Exam { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = new DateTime();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }
 

@@ -6,6 +6,7 @@ import { CourseResultComponent } from './course-result/course-result.component';
 import { CourseComponent } from './course/course.component';
 import { ExamComponent } from './exam/exam.component';
 import { MyExamsComponent } from './my-exams/my-exams.component';
+import { MyResultComponent } from './my-result/my-result.component';
 import { ProfilComponent } from './profil/profil.component';
 import { RoomComponent } from './room/rooms.component';
 import { SubjectComponent } from './subject/subject.component';
@@ -49,6 +50,13 @@ const routes: Routes = [
         component: MyExamsComponent,
         data: {
           title: 'Saját vizsgáim',
+        },
+      },
+      {
+        path: 'my-result',
+        component: MyResultComponent,
+        data: {
+          title: 'Saját eredményeim',
         },
       },
       {

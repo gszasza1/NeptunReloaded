@@ -69,7 +69,24 @@ namespace NeptunReloaded.BLL.Services.Classes
                 CourseName = z.Course.Name,
                 Id = z.Id,
                 Neptun = z.User.Neptun,
-                Score = z.Score
+                Score = z.Score,
+                CreatedAt = z.CreatedAt
+            }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<CourseResultExtended>> ListUserCourseResults(int userId)
+        {
+            if (userId == null)
+            {
+                throw new InvalidOperationException("Nem létező felhasználó");
+            }
+            return await _context.CourseResults.Include(x => x.Course).Include(y => y.User).Where(s=>!s.IsDeleted &&s.UserId==userId).Select(z => new CourseResultExtended()
+            {
+                CourseName = z.Course.Name,
+                Id = z.Id,
+                Neptun = z.User.Neptun,
+                Score = z.Score,
+                CreatedAt=z.CreatedAt,
             }).ToListAsync();
         }
     }
