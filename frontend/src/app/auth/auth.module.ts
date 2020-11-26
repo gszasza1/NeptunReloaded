@@ -11,9 +11,9 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { CourseResultEffects } from './course-result/+state/course-result.effects';
 import {
-    CourseResult_FEATURE_KEY,
-    CourseResultInitialState,
-    CourseResultReducer,
+  CourseResult_FEATURE_KEY,
+  CourseResultInitialState,
+  CourseResultReducer,
 } from './course-result/+state/course-result.reducer';
 import { CourseResultComponent } from './course-result/course-result.component';
 import { CourseCourseResultComponent } from './course-result/create-course-result/create-course-result.component';
@@ -33,6 +33,8 @@ import { MyExamsEffects } from './my-exams/+state/my-exams.effects';
 import { MY_EXAMS_FEATURE_KEY, MyExamsInitialState, MyExamsReducer } from './my-exams/+state/my-exams.reducer';
 import { MyExamsComponent } from './my-exams/my-exams.component';
 import { MyExamsService } from './my-exams/my-exams.service';
+import { MyResultEffects } from './my-result/+state/my-result.effects';
+import { MY_RESULT_FEATURE_KEY, MyResultInitialState, MyResultReducer } from './my-result/+state/my-result.reducer';
 import { MyResultComponent } from './my-result/my-result.component';
 import { MyResultService } from './my-result/my-result.service';
 import { ProfilEffects } from './profil/+state/profil.effects';
@@ -51,9 +53,9 @@ import { SubjectEffects } from './subject/+state/subject.effects';
 import { SUBJECT_FEATURE_KEY, SubjectInitialState, SubjectReducer } from './subject/+state/subject.reducer';
 import { SubjectCourseEffects } from './subject/course-dialog/+state/course-dialog.effects';
 import {
-    SUBJECTCOURSE_FEATURE_KEY,
-    SubjectCourseInitialState,
-    SubjectCourseReducer,
+  SUBJECTCOURSE_FEATURE_KEY,
+  SubjectCourseInitialState,
+  SubjectCourseReducer,
 } from './subject/course-dialog/+state/course-dialog.reducer';
 import { CourseDialogComponent } from './subject/course-dialog/course-dialog.component';
 import { CourseDialogService } from './subject/course-dialog/course-dialog.service';
@@ -133,6 +135,10 @@ import { UserService } from './users/users.service';
     EffectsModule.forFeature([UserEffects]),
     StoreModule.forFeature(USER_FEATURE_KEY, UserReducer, {
       initialState: UserInitialState,
+    }),
+    EffectsModule.forFeature([MyResultEffects]),
+    StoreModule.forFeature(MY_RESULT_FEATURE_KEY, MyResultReducer, {
+      initialState: MyResultInitialState,
     }),
   ],
   providers: [

@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { MyResultService } from '../my-Result.service';
+import { MyResultService } from '../my-result.service';
 import { GetMyResultError, GetMyResultResponse, MyResultActionTypes } from './my-result.actions';
 
 @Injectable()

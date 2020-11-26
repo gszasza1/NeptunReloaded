@@ -2,7 +2,7 @@ import { CourseResultsExtended } from 'src/app/shared/backend.interface';
 
 import { MyResultAction, MyResultActionTypes } from './my-result.actions';
 
-export const MY_Result_FEATURE_KEY = 'MyResults';
+export const MY_RESULT_FEATURE_KEY = 'MyResults';
 
 export interface MyResultState {
   list: CourseResultsExtended[];
@@ -10,7 +10,7 @@ export interface MyResultState {
 }
 
 export interface MyResultsPartialState {
-  readonly [MY_Result_FEATURE_KEY]: MyResultState;
+  readonly [MY_RESULT_FEATURE_KEY]: MyResultState;
 }
 
 export const MyResultInitialState: MyResultState = {

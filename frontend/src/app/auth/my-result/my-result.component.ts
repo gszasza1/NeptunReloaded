@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { CourseResultsExtended } from 'src/app/shared/backend.interface';
 import { UnsubscribeOnDestroyBaseComponent } from 'src/app/shared/UnSubOnDestroy';
 
-import { GetCourseResultRequest } from '../course-result/+state/course-result.actions';
+import { GetMyResultRequest } from './+state/my-result.actions';
 import { MyResultsQuery } from './+state/my-result.selector';
 
 @Component({
@@ -23,10 +23,8 @@ export class MyResultComponent extends UnsubscribeOnDestroyBaseComponent impleme
   displayedColumns = ['id', 'score', 'neptun', 'createdAt', 'courseName'];
   isRequesting$: Observable<boolean>;
   ngOnInit(): void {
-    this.store.dispatch(new GetCourseResultRequest());
-
+    this.store.dispatch(new GetMyResultRequest());
     this.CourseResultList$ = this.store.pipe(select(MyResultsQuery.getMyResultList));
-
     this.isRequesting$ = this.store.pipe(select(MyResultsQuery.getMyResultRequesting));
   }
 }
