@@ -59,7 +59,7 @@ namespace NeptunReloaded.API.Controllers
             }
 
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{examId}")]
         [Authorize(Roles = Role.Teacher)]
         public async Task<ActionResult> Delete(int examId)
         {

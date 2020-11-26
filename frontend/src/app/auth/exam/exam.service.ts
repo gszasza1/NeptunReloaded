@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateExam, EditExam, Exams, JoinExam, LeaveExam } from 'src/app/shared/backend.interface';
+import { CreateExam, EditExam, JoinExam, LeaveExam, UserListExam } from 'src/app/shared/backend.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,7 @@ import { CreateExam, EditExam, Exams, JoinExam, LeaveExam } from 'src/app/shared
 export class ExamService {
   constructor(private httpClient: HttpClient) {}
   getExams() {
-    return this.httpClient.get<Exams[]>('Exam');
+    return this.httpClient.get<UserListExam[]>('Exam');
   }
 
   createExams(exam: CreateExam) {
@@ -18,7 +18,7 @@ export class ExamService {
     return this.httpClient.put('Exam', exam);
   }
   deleteExam(examId: number) {
-    return this.httpClient.put('Exam', examId);
+    return this.httpClient.delete('Exam/' + examId);
   }
   joinExam(exam: JoinExam) {
     return this.httpClient.post('Exam/join', exam);

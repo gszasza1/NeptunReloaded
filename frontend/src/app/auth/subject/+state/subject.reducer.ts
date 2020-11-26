@@ -58,7 +58,14 @@ export function SubjectReducer(state: SubjectState = SubjectInitialState, action
       };
       break;
     }
-    case SubjectActionTypes.CreateSubjectResponse:
+    case SubjectActionTypes.CreateSubjectResponse: {
+      state = {
+        ...state,
+        isPostRequesting: false,
+        createForm: SubjectInitialState.createForm,
+      };
+      break;
+    }
     case SubjectActionTypes.CreateSubjectError: {
       state = {
         ...state,

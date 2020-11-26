@@ -1,9 +1,13 @@
 ﻿using NeptunReloaded.DAL.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace NeprunReloaded.DAL.Entities
 {
    public class UserExam
     {
+        [Key]
+        public int Id { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
 

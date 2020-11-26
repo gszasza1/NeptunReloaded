@@ -12,7 +12,7 @@ namespace NeptunReloaded.BLL.Services.Interfaces
     public interface IExamService
     {
         public Task createExam(CreateExam exam);
-        public Task<IEnumerable<Exam>> listExams(int userId);
+        public Task<IEnumerable<UserListExam>> listExams(int userId);
         public Task<IEnumerable<ExamSelect>> listExamsSelect(int userId);
         public Task editExam(EditExam exam);
         public Task deleteExam(int examId);

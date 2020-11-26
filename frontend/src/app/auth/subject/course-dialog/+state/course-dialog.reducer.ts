@@ -11,7 +11,7 @@ export interface SubjectCourseState {
   isPostRequesting: boolean;
   filterForm: string;
   editForm: string;
-  currentSubject:number
+  currentSubject: number;
 }
 
 export interface SubjectCoursePartialState {
@@ -25,7 +25,7 @@ export const SubjectCourseInitialState: SubjectCourseState = {
   isPostRequesting: false,
   filterForm: '',
   editForm: '',
-  currentSubject:null,
+  currentSubject: null,
 };
 
 export function SubjectCourseReducer(
@@ -37,7 +37,7 @@ export function SubjectCourseReducer(
       state = {
         ...state,
         isRequesting: true,
-        currentSubject:action.payload
+        currentSubject: action.payload,
       };
       break;
     }

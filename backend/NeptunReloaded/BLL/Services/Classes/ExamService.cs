@@ -79,7 +79,7 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            var joinExam =  await _context.UserExams.FirstOrDefaultAsync(x => x.ExamId == exam.ExamId && x.UserId==userId);
+            var joinExam =  await _context.UserExams.FirstOrDefaultAsync(x => x.IsDeleted == false && x.ExamId == exam.ExamId && x.UserId==userId);
             if (joinExam != null)
             {
                 throw new InvalidOperationException("Már jelentkezett vizsgára");
@@ -96,7 +96,7 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            var leaveExam = await _context.UserExams.FirstOrDefaultAsync(x => x.ExamId == exam.ExamId && x.UserId == userId);
+            var leaveExam = await _context.UserExams.FirstOrDefaultAsync(x =>x.IsDeleted==false&& x.ExamId == exam.ExamId && x.UserId == userId);
             if (leaveExam == null)
             {
                 throw new InvalidOperationException("Még nem jelentkezett vizsgára");
@@ -113,13 +113,17 @@ namespace NeptunReloaded.BLL.Services.Classes
             {
                 throw new InvalidOperationException("Hibás adatok");
             }
-            return await _context.UserExams.Where(x => x.UserId == userId).Include(t=>t.Exam).Select(y=> y.Exam).ToListAsync();
+            return await _context.UserExams.Where(c => !c.IsDeleted).Where(x => x.UserId == userId).Include(t=>t.Exam).Select(y=> y.Exam).ToListAsync();
 
         }
 
-        public async Task<IEnumerable<Exam>> listExams(int userId)
+        public async Task<IEnumerable<UserListExam>> listExams(int userId)
         {
-            return await _context.Exams.ToListAsync();
+            if (userId == null)
+            {
+                throw new InvalidOperationException("Hibás adatok");
+            }
+            return await _context.Exams.Where(c => !c.IsDeleted).Include(x=>x.UserExams).Select(t=>new UserListExam() { Id=t.Id,Name=t.Name,Joined=t.UserExams.Any(c=>c.UserId==userId && !c.IsDeleted)}). ToListAsync();
         }
 
         public async Task<IEnumerable<ExamSelect>> listExamsSelect(int userId)

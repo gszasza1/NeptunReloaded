@@ -8,8 +8,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import jwt_decode from 'jwt-decode';
-import { Observable, Subject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,21 +19,26 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return new Subject().asObservable().pipe(
-      take(1),
-      map(() => {
-        if (localStorage.getItem('token') && jwt_decode(localStorage.getItem('token'))) {
-          this.router.navigateByUrl('/auth');
-          return false;
-        }
-        return true;
-      })
-    );
+    if (!this.isAuthenticated()) {
+      this.router.navigateByUrl('/login');
+      return false;
+    } else {
+      return true;
+    }
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.canActivate(childRoute, state);
+  }
+  private isAuthenticated(): boolean {
+    try {
+      const token = localStorage.getItem('token');
+      jwt_decode(token);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

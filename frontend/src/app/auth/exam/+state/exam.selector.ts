@@ -9,6 +9,7 @@ const getExam = createSelector(getExamState, (state: ExamsState) =>
 );
 
 const getExamRequesting = createSelector(getExamState, (state: ExamsState) => state.isRequesting);
+const getExamPostRequesting = createSelector(getExamState, (state: ExamsState) => state.isPostRequesting);
 
 const getCreateForm = createSelector(getExamState, (state: ExamsState) => state.createForm);
 const getEditForm = createSelector(getExamState, (state: ExamsState) => state.editForm);
@@ -20,5 +21,6 @@ export const ExamQuery = {
   getExamRequesting,
   getCreateForm,
   getFilterForm,
+  getExamPostRequesting,
   getEditForm,
 };

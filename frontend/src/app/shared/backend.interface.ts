@@ -76,6 +76,11 @@ export interface Exams {
   id: number;
   name: string;
 }
+export interface UserListExam {
+  id: number;
+  name: string;
+  joined: string;
+}
 export interface CreateExam {
   courseId: number;
   name: string;

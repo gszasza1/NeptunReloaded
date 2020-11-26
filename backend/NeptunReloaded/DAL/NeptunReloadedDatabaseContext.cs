@@ -119,7 +119,8 @@ namespace NeptunReloaded.DAL
 
             #region UserExam
             builder.Entity<UserExam>()
-                  .HasKey(bc => new { bc.UserId, bc.ExamId });
+                   .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
 
             builder.Entity<UserExam>()
                 .HasOne(bc => bc.User)

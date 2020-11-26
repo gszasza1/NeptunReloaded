@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CreateExam, Exams } from 'src/app/shared/backend.interface';
+import { CreateExam, UserListExam } from 'src/app/shared/backend.interface';
 
 export enum ExamActionTypes {
   GetExamRequest = '[Exam] GetExam Request',
@@ -21,11 +21,26 @@ export enum ExamActionTypes {
   JoinExamRequest = '[Exam] JoinExam Request',
   JoinExamResponse = '[Exam] JoinExam Response',
   JoinExamError = '[Exam] JoinExam Error',
+
   LeaveExamRequest = '[Exam] LeaveExam Request',
   LeaveExamResponse = '[Exam] LeaveExam Response',
   LeaveExamError = '[Exam] LeaveExam Error',
+
+  DeleteExamRequest = '[Exam] DeleteExam Request',
+  DeleteExamResponse = '[Exam] DeleteExam Response',
+  DeleteExamError = '[Exam] DeleteExam Error',
 }
 
+export class DeleteExamRequest implements Action {
+  readonly type = ExamActionTypes.DeleteExamRequest;
+  constructor(public payload: number) {}
+}
+export class DeleteExamResponse implements Action {
+  readonly type = ExamActionTypes.DeleteExamResponse;
+}
+export class DeleteExamError implements Action {
+  readonly type = ExamActionTypes.DeleteExamError;
+}
 export class LeaveExamRequest implements Action {
   readonly type = ExamActionTypes.LeaveExamRequest;
   constructor(public payload: number) {}
@@ -82,7 +97,7 @@ export class GetExamRequest implements Action {
 }
 export class GetExamResponse implements Action {
   readonly type = ExamActionTypes.GetExamResponse;
-  constructor(public payload: Exams[]) {}
+  constructor(public payload: UserListExam[]) {}
 }
 export class GetExamError implements Action {
   readonly type = ExamActionTypes.GetExamError;
@@ -106,7 +121,10 @@ export type ExamAction =
   | JoinExamError
   | LeaveExamRequest
   | LeaveExamResponse
-  | LeaveExamError;
+  | LeaveExamError
+  | DeleteExamRequest
+  | DeleteExamResponse
+  | DeleteExamError;
 
 export const fromExamActions = {
   GetExamRequest,
@@ -127,4 +145,7 @@ export const fromExamActions = {
   LeaveExamRequest,
   LeaveExamResponse,
   LeaveExamError,
+  DeleteExamRequest,
+  DeleteExamResponse,
+  DeleteExamError,
 };

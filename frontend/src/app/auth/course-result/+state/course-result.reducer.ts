@@ -75,6 +75,7 @@ export function CourseResultReducer(
       state = {
         ...state,
         isPostRequesting: false,
+        createForm: CourseResultInitialState.createForm,
       };
       break;
     }

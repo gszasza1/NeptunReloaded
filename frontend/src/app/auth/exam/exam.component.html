@@ -4,7 +4,7 @@
       <mat-label>Név alapú szűrő</mat-label>
       <input matInput [formControl]="filter" placeholder="Írja be a szűrni való szöveget" />
     </mat-form-field>
-    <button *auth="'Teacher'" mat-raised-button (click)="newExams()">Új vizsga</button>
+    <button *auth="'Teacher'" mat-raised-button (click)="newExam()">Új vizsga</button>
   </div>
   <table mat-table [dataSource]="ExamsList$" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
@@ -18,16 +18,36 @@
     <ng-container matColumnDef="operations">
       <th mat-header-cell *matHeaderCellDef>Műveletek</th>
       <td mat-cell *matCellDef="let element">
-        <button *auth="'Teacher'" mat-icon-button (click)="editExams(element)">
+        <button [disabled]="isPostRequesting$ | async" *auth="'Teacher'" mat-icon-button (click)="editExam(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button *auth="'Student'" mat-icon-button (click)="joinExam(element.id)">
-          <mat-icon>add</mat-icon>
+        <button
+          [disabled]="isPostRequesting$ | async"
+          *auth="'Teacher'"
+          mat-icon-button
+          (click)="deleteExam(element.id)"
+        >
+          <mat-icon>delete</mat-icon>
         </button>
+        <ng-container *auth="'Student'">
+          <button
+            [disabled]="isPostRequesting$ | async"
+            *ngIf="!element.joined"
+            mat-icon-button
+            (click)="joinExam(element.id)"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
 
-        <button *auth="'Student'" mat-icon-button (click)="leaveExam(element.id)">
-          <mat-icon>divide</mat-icon>
-        </button>
+          <button
+            [disabled]="isPostRequesting$ | async"
+            *ngIf="element.joined"
+            mat-icon-button
+            (click)="leaveExam(element.id)"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+        </ng-container>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

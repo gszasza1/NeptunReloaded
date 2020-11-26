@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, Input, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { LoginFormQuery } from 'src/app/login/+state/login.selector';
 
@@ -11,9 +11,9 @@ export class AuthDirective extends UnsubscribeOnDestroyBaseComponent implements 
   @Input() auth: string;
 
   constructor(
-    private _templateRef: TemplateRef<any>,
-    private _viewContainer: ViewContainerRef,
-    private renderer: Renderer2,
+    // tslint:disable-next-line: no-any
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef,
     private store: Store
   ) {
     super();
@@ -22,14 +22,11 @@ export class AuthDirective extends UnsubscribeOnDestroyBaseComponent implements 
   ngAfterViewInit(): void {
     this.subscriptions.push(
       this.store.pipe(select(LoginFormQuery.getRole)).subscribe((role) => {
-        console.log(role, this.auth);
-
-        console.log(1, role, this.auth);
         setTimeout(() => {
           if (role === this.auth) {
-            this._viewContainer.createEmbeddedView(this._templateRef);
+            this.viewContainer.createEmbeddedView(this.templateRef);
           } else {
-            this._viewContainer.clear();
+            this.viewContainer.clear();
           }
         });
       })

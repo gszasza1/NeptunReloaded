@@ -1,11 +1,11 @@
-import { CreateExam, Exams } from 'src/app/shared/backend.interface';
+import { CreateExam, UserListExam } from 'src/app/shared/backend.interface';
 
 import { ExamAction, ExamActionTypes } from './exam.actions';
 
 export const EXAM_FEATURE_KEY = 'Exams';
 
 export interface ExamsState {
-  list: Exams[];
+  list: UserListExam[];
   createForm: CreateExam;
   isRequesting: boolean;
   isPostRequesting: boolean;
@@ -54,6 +54,9 @@ export function ExamsReducer(state: ExamsState = ExamsInitialState, action: Exam
       };
       break;
     }
+    case ExamActionTypes.LeaveExamRequest:
+    case ExamActionTypes.JoinExamRequest:
+    case ExamActionTypes.EditExamRequest:
     case ExamActionTypes.CreateExamRequest: {
       state = {
         ...state,
@@ -67,6 +70,16 @@ export function ExamsReducer(state: ExamsState = ExamsInitialState, action: Exam
         ...state,
         isPostRequesting: false,
         createForm: ExamsInitialState.createForm,
+      };
+      break;
+    }
+    case ExamActionTypes.LeaveExamResponse:
+    case ExamActionTypes.LeaveExamError:
+    case ExamActionTypes.JoinExamResponse:
+    case ExamActionTypes.JoinExamError: {
+      state = {
+        ...state,
+        isPostRequesting: false,
       };
       break;
     }

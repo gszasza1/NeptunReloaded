@@ -43,17 +43,19 @@
         </button>
         <span>NeptunReloaded</span>
         <span class="example-spacer"></span>
+        <span class="role">{{ (userType$ | async) === 'Student' ? 'Diák' : 'Tanár' }}</span>
         <button
+          class="profil"
           mat-icon-button
           [routerLink]="'/auth/profil'"
-          class="profil"
           aria-label="Example icon-button with heart icon"
         >
           <mat-icon>person</mat-icon>
         </button>
-        <button (click)="logout()" [routerLink]="'/login'" mat-button>Kijelentkezés</button>
+        <button (click)="logout()" mat-raised-button color="primary">Kijelentkezés</button>
       </mat-toolbar>
       <div>
+        <h3>{{ title$ }}</h3>
         <router-outlet></router-outlet>
       </div>
     </div>

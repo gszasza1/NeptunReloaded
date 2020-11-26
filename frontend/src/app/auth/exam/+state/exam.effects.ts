@@ -7,6 +7,9 @@ import { ExamService } from '../exam.service';
 import {
   CreateExamError,
   CreateExamResponse,
+  DeleteExamError,
+  DeleteExamRequest,
+  DeleteExamResponse,
   EditExamError,
   EditExamRequest,
   EditExamResponse,
@@ -38,6 +41,17 @@ export class ExamsEffects {
       this.service.createExams(ExamQuery.getCreateForm(storeState)).pipe(
         map(() => new CreateExamResponse()),
         catchError(async () => new CreateExamError())
+      )
+    )
+  );
+
+  @Effect() deleteExam$ = this.actions$.pipe(
+    ofType(ExamActionTypes.DeleteExamRequest),
+    withLatestFrom(this.store),
+    mergeMap(([action, storeState]) =>
+      this.service.deleteExam((action as DeleteExamRequest).payload).pipe(
+        map(() => new DeleteExamResponse()),
+        catchError(async () => new DeleteExamError())
       )
     )
   );
@@ -78,7 +92,8 @@ export class ExamsEffects {
       ExamActionTypes.EditExamResponse,
       ExamActionTypes.CreateExamResponse,
       ExamActionTypes.LeaveExamResponse,
-      ExamActionTypes.JoinExamResponse
+      ExamActionTypes.JoinExamResponse,
+      ExamActionTypes.DeleteExamResponse
     ),
     map(() => new GetExamRequest())
   );
